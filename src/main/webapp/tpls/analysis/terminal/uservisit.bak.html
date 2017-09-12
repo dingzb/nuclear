@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+	    <div ng-controller="anaTerminalUserVisitCtrl">
+	       <div id="container" style="width: 800px; height: 475px; margin: 0 auto" ng-init="initChart()"></div>
+	       <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <div class="row" style="padding-top: 18px;padding-left: 15px;">
+                    <form class="form-inline" id="userVisit" name="userVisitForm" novalidate>
+                        <div class="col-sm-3">
+						    <div class="form-group">
+						        <label for="placeCode">场所编码</label>
+						        <input id="placeCode" type="text" class="form-control input-sm" ng-model="datagrid.params.placeCode"/>
+						    </div>
+						</div>
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-info btn-sm" ng-click="search()">查询</button>
+                        </div>
+                    </form>
+                </div>
+	       </ws-datagrid>
+	        <div class="modal fade" id="uselistModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+		        <div class="modal-dialog modal-lg" role="document">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span> 	
+							</button>
+		                    <h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+		                </div>
+		                <div class="modal-body" ng-init="showListDetail()">
+	                         <ws-datagrid configuration="datagridShow" inner-ctrl="innerCtrlQuery">
+	                         </ws-datagrid>
+		                </div>
+		                <div class="modal-footer">
+                    		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    	</div>
+		           </div>
+		        </div>
+		    </div>
+	    </div>
+	</div>
+</div>

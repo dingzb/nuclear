@@ -1,0 +1,208 @@
+<div ng-controller="systemRoleCtrl">
+    <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+        <div class="collapse" id="showOrHide">
+            <form class="form-inline">
+                <div class="ws-search-input-group">
+                    <div class="form-group">
+                        <label for="name">名称</label>
+                        <input class="form-control input-sm" type="text" placeholder="名称" id="name"
+                               ng-model="searchParams.name">
+                    </div>
+                    <div class="ws-search-btn-group ws-inline">
+                        <button class="btn btn-info btn-sm" type="submit" ng-click="searchRole()">查询</button>
+                        <button class="btn btn-info btn-sm" type="button" ng-click="resetSearch()">清空</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <button class="btn btn-info btn-sm" type="button" ng-click="onAdd()"
+                    ws-permcode="system.permission.role.add">添加
+            </button>
+            <button class="btn btn-info btn-sm" type="button" ng-click="showEdit()"
+                    ws-permcode="system.permission.role.edit">编辑
+            </button>
+            <button class="btn btn-info btn-sm" type="button" ng-click="del()" ws-permcode="system.permission.role.del">
+                删除
+            </button>
+            <button class="btn btn-info btn-sm" type="button" ng-click="showAuth()"
+                    ws-permcode="system.permission.state.tree">配置权限
+            </button>
+            <button class="btn btn-info btn-sm pull-right" data-toggle="collapse" data-target="#showOrHide">显示/隐藏表格
+            </button>
+        </div>
+    </ws-datagrid>
+    <div class="modal fade" id="addModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="addRole" name="addRoleForm"
+                          novalidate>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addRoleForm.name.$dirty && addRoleForm.name.$invalid}">
+                            <label class="col-sm-2 control-label" for="add-name">名称</label>
+                            <div class="col-sm-7">
+                                <input id="add-name" name="name" type="text" class="form-control  input-sm"
+                                       ng-model="role.name" placeholder="必填，不可重复"
+                                       ws-unique="app/system/role/exist?name" required maxlength="10"><span
+                                    class="glyphicon glyphicon-remove form-control-feedback"
+                                    aria-hidden="true"
+                                    ng-show="addRoleForm.name.$dirty && addRoleForm.name.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <img ng-show="addRoleForm.name.uniqueAajax" alt="" style="width: 16px;height: 16px;"
+                                     src="resources/image/wait.gif">
+                                <p ng-show="addRoleForm.name.$dirty && addRoleForm.name.$invalid"
+                                   class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;
+                                    <span ng-show="addRoleForm.name.$error.required">不能为空</span>
+                                    <span ng-show="addRoleForm.name.$error.unique">名称重复</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="add-description">角色类型</label>
+                            <div class="col-sm-7">
+                                <select disabled="disabled" id="RoleType" name="type"
+                                        class="form-control input-sm" ng-model="role.type">
+                                    <option value="">-请选择-</option>
+                                    <option ng-selected="type.id == 'NORMAL'"
+                                            ng-repeat="type in types" value="{{type.id}}"
+                                            ng-bind="type.name"></option>
+                                </select>
+                                <!-- 										<input id="add-description" name="description" type="text" -->
+                                <!-- 											class="form-control" ng-model="role.type" -->
+                                <!-- 											placeholder="角色类型"> -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="add-description">描述</label>
+                            <div class="col-sm-7">
+                                <input id="add-description" name="description" type="text"
+                                       class="form-control input-sm" ng-model="role.description"
+                                       placeholder="角色作用简要说明" maxlength="50">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="reset('addRoleForm')">清空
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal" ng-click="reset('addRoleForm')">关闭
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="addRole()">保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">编辑角色</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="editRole" name="editRoleForm"
+                          novalidate>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editRoleForm.name.$dirty && editRoleForm.name.$invalid}">
+                            <label class="col-sm-2 control-label" for="edit-name">名称</label>
+                            <div class="col-sm-7">
+                                <input id="edit-name" name="name" type="text" class="form-control input-sm"
+                                       ng-model="role.name" placeholder="必填，不可重复" disabled="disabled" required><span
+                                    class="glyphicon glyphicon-remove form-control-feedback"
+                                    aria-hidden="true"
+                                    ng-show="editRoleForm.name.$dirty && editRoleForm.name.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <img ng-show="editRoleForm.name.uniqueAajax" alt="" style="width: 16px;height: 16px;"
+                                     src="resources/image/wait.gif">
+                                <p ng-show="editRoleForm.name.$dirty && editRoleForm.name.$invalid"
+                                   class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;
+                                    <span ng-show="editRoleForm.name.$error.required">不能为空</span>
+                                    <span ng-show="editRoleForm.name.$error.unique">名称重复</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="add-description">角色类型</label>
+                            <div class="col-sm-7">
+                                <select disabled="disabled" id="RoleType" name="type"
+                                        class="form-control input-sm" ng-model="role.type" required>
+                                    <option value="">-请选择-</option>
+                                    <option ng-selected="type.id == role.type"
+                                            ng-repeat="type in types" value="{{type.id}}"
+                                            ng-bind="type.name"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="edit-description">描述</label>
+                            <div class="col-sm-7">
+                                <input id="edit-description" name="description" type="text"
+                                       class="form-control input-sm" ng-model="role.description"
+                                       placeholder="角色作用简要说明" maxlength="50">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm"
+                            ng-click="resetEdit('editRoleForm')">清空
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm"
+                            data-dismiss="modal" ng-click="reset('editRoleForm')">关闭
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm"
+                            ng-click="editRole()">保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 编辑角色名称e -->
+    <!-- 配置角色弹出框s -->
+    <div class="modal fade" id="authModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">配置权限</h4>
+                </div>
+                <div class="modal-body" style="padding:5px;">
+                    <div style="height: 350px; width: 230px; overflow-y: auto;margin: 10px; display: inline-block;"
+                         ng-init="initTree()">
+                        <ul id="roleTree" class="ztree"></ul>
+                    </div>
+                    <div style="top:-8px;height: 350px; width: 1px; border-right: 1px solid #ccc; display: inline-block; position: relative"></div>
+                    <div id="action" style="margin: 10px; height: 350px; width:608px; overflow-y: auto;overflow-x:hidden; display: inline-block;">
+                        <ws-datagrid configuration="actionDatagrid" inner-ctrl="actionInnerCtrl"></ws-datagrid>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="saveState()">保存目录</button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="saveAction()">保存访问</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 配置角色弹出框e -->
+</div>

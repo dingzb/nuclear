@@ -1,0 +1,305 @@
+<div ng-controller="taxViewCtrl">
+    <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+        <div class="collapse in" id="showOrHide">
+            <form class="form-inline">
+                <div class="ws-search-input-group">
+                    <div class="form-group">
+                        <label for="taxpayerName" style="width: 103px;">纳税人名称</label>
+                        <input class="form-control input-sm" type="text" placeholder="纳税人名称" id="taxpayerName"
+                               ng-model="searchParams.taxpayerName" style="width: 146px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="taxpayerCode" style="width: 103px;">纳税人识别号</label>
+                        <input class="form-control input-sm" type="text" placeholder="纳税人识别号" id="taxpayerCode"
+                               ng-model="searchParams.taxpayerCode" style="width: 146px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="createUserName" style="width: 103px;">税收管理员</label>
+                        <input class="form-control input-sm" type="text" placeholder="税收管理员" id="createUserName"
+                               ng-model="searchParams.createUserName" style="width: 146px;">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoryType" style="width: 103px;">业务项目类型</label>
+                        <select id="categoryType" class="form-control input-sm" name="categoryType"
+                                ng-model="searchParams.categoryTypeId" ng-change="getCategory()"
+                                style="width: 146px;">
+                            <option value="">请选择</option>
+                            <option ng-selected="categoryType.id == searchParams.categoryTypeId"
+                                    ng-repeat="categoryType in categoryTypes"
+                                    value="{{categoryType.id}}" ng-bind="categoryType.name"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category" style="width: 103px;">业务项目</label>
+                        <select id="category" class="form-control input-sm" name="category"
+                                ng-model="searchParams.categoryId" style="width: 146px;">
+                            <option value="">请选择</option>
+                            <option ng-selected="category.id == searchParams.categoryId"
+                                    ng-repeat="category in categories"
+                                    value="{{category.id}}" ng-bind="category.name"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ws-search-btn-group ws-inline">
+                    <button class="btn btn-info btn-sm" type="submit" ng-click="search()">查询</button>
+                    <button class="btn btn-info btn-sm" type="button" ng-click="resetSearch()">清空</button>
+                    <button class="btn btn-danger btn-sm" type="button" ng-click="del()"
+                            ws-permcode="tax.business.view.del">删除
+                    </button>
+                </div>
+            </form>
+        </div>
+    </ws-datagrid>
+    <!-- 详情 -->
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">业务详情</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="detailForm" novalidate>
+                        <table class="ws-form-table input-long">
+                            <tr>
+                                <th><label for="detail_taxpayer_code">纳税人识别号：</label></th>
+                                <td>
+                                    <input id="detail_taxpayer_code" class="form-control input-sm" type="text"
+                                           name="taxpayerCode"
+                                           placeholder="纳税人识别号" readonly
+                                           ng-model="detailObj.taxpayerCode">
+                                </td>
+                                <th><label for="detail_taxpayer_name">纳税人名称：</label></th>
+                                <td>
+                                    <input id="detail_taxpayer_name" class="form-control input-sm" type="text"
+                                           name="taxpayerName"
+                                           placeholder="纳税人名称" readonly
+                                           ng-model="detailObj.taxpayerName">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="detail_category_type">业务类型：</label></th>
+                                <td>
+                                    <input id="detail_category_type" class="form-control input-sm" name="categoryTypeId"
+                                           ng-model="detailObj.categoryTypeName" readonly>
+                                </td>
+                                <th><label for="detail_category">业务项目：</label></th>
+                                <td>
+                                    <input id="detail_category" class="form-control input-sm" name="categoryId"
+                                           ng-model="detailObj.categoryName" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="detail_time">业务时间：</label></th>
+                                <td>
+                                    <div class="input-group input-group-sm ws-datetimepicker">
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                        <input size="16" type="text" id="detail_time" name="busTime" readonly
+                                               class="form-control input-sm" style="width: 215px;"
+                                               placeholder="年-月-日 时:分" ng-model="detailObj.busTime">
+                                    </div>
+                                </td>
+                                <th><label for="detail_desc">业务描述：</label></th>
+                                <td>
+                                    <textarea id="detail_desc" class="form-control" type="text" name="description"
+                                              readonly
+                                              style="resize: none; height: 100px; width: 250px; margin-top: 10px;"
+                                              placeholder="业务描述" ng-model="detailObj.description" maxlength="500"
+                                              required></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-info btn btn-sm" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 问题详情 -->
+    <div class="modal fade" id="issueDetailModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">业务{{issueDetail.title}}详情</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="ws-form-table input-long">
+                        <tr>
+                            <th><label for="issue_detail_taxpayer_code">纳税人识别号：</label></th>
+                            <td>
+                                <input id="issue_detail_taxpayer_code" class="form-control input-sm" type="text"
+                                       name="taxpayerCode"
+                                       placeholder="纳税人识别号" readonly
+                                       ng-model="detailObj.taxpayerCode">
+                            </td>
+                            <th><label for="issue_detail_taxpayer_name">纳税人名称：</label></th>
+                            <td>
+                                <input id="issue_detail_taxpayer_name" class="form-control input-sm" type="text"
+                                       name="taxpayerName"
+                                       placeholder="纳税人名称" readonly
+                                       ng-model="detailObj.taxpayerName">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label for="issue_detail_category_type">业务类型：</label></th>
+                            <td>
+                                <input id="issue_detail_category_type" class="form-control input-sm"
+                                       name="categoryTypeId"
+                                       ng-model="detailObj.categoryTypeName" readonly>
+                            </td>
+                            <th><label for="issue_detail_category">业务项目：</label></th>
+                            <td>
+                                <input id="issue_detail_category" class="form-control input-sm" name="categoryId"
+                                       ng-model="detailObj.categoryName" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label for="issue_detail_time">业务时间：</label></th>
+                            <td>
+                                <div class="input-group input-group-sm ws-datetimepicker">
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    <input size="16" type="text" id="issue_detail_time" name="busTime" readonly
+                                           class="form-control input-sm" style="width: 215px;"
+                                           placeholder="年-月-日 时:分" ng-model="detailObj.busTime">
+                                </div>
+                            </td>
+                            <th><label for="issue_detail_desc">业务描述：</label></th>
+                            <td>
+                                    <textarea id="issue_detail_desc" class="form-control" type="text" name="description"
+                                              readonly
+                                              style="resize: none; height: 100px; width: 250px; margin-top: 10px;"
+                                              placeholder="业务描述" ng-model="detailObj.description" maxlength="500"
+                                              required></textarea>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <div class="ws-tax-line"></div>
+                    <div>
+                        <div class="ws-tax-form-line">
+                            <span>通过{{issueDetail.title}}是否发现问题：</span>
+                            <span>
+                                <label class="radio-inline">
+                                    <input ng-model="issueDetail.hasIssue" type="radio" name="hasIssue" ng-value="true"
+                                           disabled>是
+                                </label>
+                                <label class="radio-inline">
+                                    <input ng-model="issueDetail.hasIssue" type="radio" name="hasIssue" ng-value="false"
+                                           disabled>否
+                                </label>
+                            </span>
+                        </div>
+                        <div class="collapse" ng-class="{'in': issueDetail.hasIssue}">
+                            <div class="ws-tax-form-line">
+                                <span>问题类型：</span>
+                                <div id="issue_issues" style="display: inline;">
+                                    <label class="checkbox-inline" ng-repeat="issue in issues">
+                                        <input type="checkbox" value="{{issue.id}}" disabled/>{{issue.name}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="ws-tax-form-line">问题描述：</div>
+                                <textarea class="form-control" type="text" name="description"
+                                          ng-model="issueDetail.description"
+                                          style="resize: none; height: 100px; width: 100%; margin-top: 10px;"
+                                          placeholder="问题描述" maxlength="500" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-info btn btn-sm" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 附件详情 -->
+    <div class="modal fade" id="attachmentModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">业务附件详情</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="file-input theme-explorer file-input-ajax-new">
+                        <div class="file-preview ">
+                            <div class=" file-drop-zone">
+                                <div ng-show="attachments.length == 0" class="file-drop-zone-title">没有附件</div>
+                                <table class="table table-bordered table-hover" ng-show="attachments.length > 0">
+                                    <tbody class="file-preview-thumbnails">
+                                    <tr class="file-preview-frame explorer-frame  file-preview-initial file-sortable kv-preview-thumb"
+                                        id="preview-1496380507371-init_0" data-fileindex="init_0" data-template="pdf"
+                                        title="{{attachment.caption}}" ng-repeat="attachment in attachments">
+                                        <td class="kv-file-content" style="height: auto;">
+                                            <div class="kv-preview-data file-preview-other-frame">
+                                                <div class="file-preview-other">
+                                                    <span class="file-other-icon" style="font-size: 2.5em;">
+                                                        <span class="ws-tax-font fa-file-pdf-o text-danger"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="file-details-cell">
+                                            <div class="explorer-caption" title="{{attachment.caption}}">
+                                                {{attachment.caption}}
+                                            </div>
+                                            <samp>({{getSize(attachment.size)}})</samp>
+                                            <div class="file-thumb-progress hide">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-success progress-bar-striped active"
+                                                         role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                                         aria-valuemax="100"
+                                                         style="width:0%;">
+                                                        初始化...
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="file-actions-cell">
+                                            <div class="file-actions">
+                                                <div class="file-footer-buttons">
+                                                    <a title="查看详情" style="cursor: pointer;" target="_blank"
+                                                       href="{{attachment.url}}">
+                                                        <i class="glyphicon glyphicon-zoom-in"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-info btn btn-sm" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

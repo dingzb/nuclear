@@ -1,0 +1,70 @@
+.ws-layout-center {
+    margin-left: 180px;
+    padding: 20px;
+}
+
+/***tab**/
+.ws-layout-tab .active {
+    background-color: white;
+    border-left: 1px solid #e2e2e2;
+    border-right: 1px solid #e2e2e2;
+    border-top: 2px solid #9cc8ff;
+    color: #333;
+}
+
+.ws-layout-tab .active > a {
+    border: none !important;
+}
+
+.ws-layout-tab-content {
+    margin-top: 20px;
+}
+
+/*mask*/
+.ws-layout-mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #777;
+    z-index: 10000;
+    /*filter: alpha(opacity = 60);*/
+    /*-moz-opacity: 0.5;*/
+    opacity: 0.5;
+}
+
+.ws-layout-mask-loading {
+    position: absolute;
+    left: 20%;
+    top: 46%;
+    z-index: 10001;
+    width: 60%;
+    padding: 2px;
+    background-color: #FFFFFF;
+    border-radius: 6px;
+}
+
+.ws-layout-mask.ws-layout-mask-global {
+    position: fixed;
+}
+
+.ws-layout-mask-loading.ws-layout-mask-global {
+    position: fixed;
+}
+
+.ws-layout-mask-loading .progress {
+    margin-bottom: 0;
+}
+
+.ws-layout-mask-cover {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.ws-layout-mask-loading span {
+    font-family: "Microsoft Yahei", Tahoma, Geneva, sans-serif;
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %c %M%n%p: %m%n" />
+		</Console>
+		<RollingFile name="RollingFile" fileName="${sys:webInfPath}/logs/wireless.log"
+			filePattern="${sys:webInfPath}/logs/$${date:yyyy-MM}/wireless_%d{yyyy-MM-dd}_%i.log">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %c %M%n%p: %m%n" />
+			<Policies>
+<!-- 				<OnStartupTriggeringPolicy /> -->
+				<TimeBasedTriggeringPolicy interval="24" modulate="true" />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<root level="info">
+			<appender-ref ref="Console" />
+			<appender-ref ref="RollingFile" />
+		</root>
+	</Loggers>
+</Configuration>  

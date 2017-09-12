@@ -1,0 +1,12 @@
+{
+  "system.name": "Intelligent Wifi Management Platform",
+  "login.error.empty.verify": "verify code can't be empty.",
+  "login.error.empty.password": "password can't be empty",
+  "login.error.empty.username": "username can't be empty",
+  "login.error.invalid.verify": "verify code invalid",
+  "login.page.login": "Login",
+  "login.page.username": "Username",
+  "login.page.password": "Password",
+  "login.page.verify": "Verify",
+  "login.page.verify.alt": "Refresh"
+}

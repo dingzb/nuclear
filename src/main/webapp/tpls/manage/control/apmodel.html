@@ -1,0 +1,162 @@
+<style type="text/css">
+/* .ws-searchform { */
+/*     padding-top: 10px; */
+/*     padding-bottom: 10px; */
+/* } */
+
+/* .ws-searchbutton { */
+/*     margin-top: 10px; */
+/* } */
+</style>
+<div ng-controller="apModelManaCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body" ng-init="initPage()">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form class="ws-searchform ">
+                    <div class="collapse" id="modelSearchInput">
+                        <div class="borderTopf0 noborderTop borderE2" id="search">
+                            <ul class="search">
+                                <li><span >型号名称:</span><input type="text" name="name" placeholder="型号名称" class="Input_search" ng-model="datagrid.params.name">
+                                </li>
+                                <div class="clear"></div>
+                            </ul>
+                            <div class="btn_box mb20">
+                                <button class="btn_blue" type="button" ng-click="innerCtrl.load(datagrid.params)">查询</button>
+                                <button class="btn_blue" type="button" ng-click="onResetSearch()">清空</button>
+                            </div>
+                            <div class="mainTop"></div>
+                        </div>
+                    </div>
+                    <div class="row mlr10">
+                        <div class="mb10 mt20">
+                            <button class="btn_blue" type="button" ng-click="onAdd()" ws-permcode="app.ac.apmanage.addApModelModel">添加</button>
+                            <button class="btn_blue" type="button" ng-click="onEdit()" ws-permcode="app.ac.apmanage.editApModelModel">编辑</button>
+                            <button class="btn_blue" type="button" ng-click="onDelete()" ws-permcode="app.ac.apmanage.removeApModelModel">删除</button>
+                            <button class="btn_blue right" data-toggle="collapse" data-target="#modelSearchInput" aria-expanded="false" aria-controls="modelSearchInput">显示/隐藏搜索</button>
+                        </div>
+                    </div>
+                </form>
+            </ws-datagrid>
+        </div>
+    </div>
+    <!-- 添加模态窗口s -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModalLabel">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body pl10">
+                    <form name="infoForm" novalidate>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                            <tr>
+                                <th>
+                                    <nobr>*</nobr>型号名称：</th>
+                                <td>
+                                    <input type="text" name="name" placeholder="型号名称" class="Input_edit" ng-model="info.name" required ng-maxlength=50>
+                                    <input type="hidden" name="id" ng-model="info.id">
+                                </td>
+                                <th>
+                                    <nobr>*</nobr>型号编码：</th>
+                                <td>
+                                    <input type="text" name="code" placeholder="型号编码" class="Input_edit" ng-model="info.code" required ng-maxlength=50>
+                                </td>
+                                <th>cpu:</th>
+                                <td>
+                                    <input type="text" name="cpu" placeholder="cpu" class="Input_edit" ng-model="info.cpu" ng-maxlength=20>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>ram：</th>
+                                <td>
+                                    <input type="text" name="ram" placeholder="ram" class="Input_edit" ng-model="info.ram" ng-pattern="/^[0-9]{1,5}$/">
+                                </td>
+                                <th>rom：</th>
+                                <td>
+                                    <input type="text" name="rom" placeholder="rom" class="Input_edit" ng-model="info.rom" ng-pattern="/^[0-9]{1,5}$/">
+                                </td>
+                                <th>端口数：</th>
+                                <td>
+                                    <input type="text" name="port" placeholder="端口" class="Input_edit" ng-model="info.port" ng-pattern="/^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="infoForm.name.$error" ng-show="infoForm.name.$dirty&&infoForm.name.$invalid" ng-messages-multiple>
+                            <div ng-message="required">型号名称为必填项</div>
+                            <div ng-message="maxlength">型号名称最大不可以超过50个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.code.$error" ng-show="infoForm.code.$dirty&&infoForm.code.$invalid" ng-messages-multiple>
+                            <div ng-message="required">型号编码为必填项</div>
+                            <div ng-message="maxlength">型号编码最大不可以超过50个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.cpu.$error" ng-show="infoForm.cpu.$dirty&&infoForm.cpu.$invalid" ng-messages-multiple>
+                            <div ng-message="maxlength">cpu最大不可以超过20个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.ram.$error" ng-show="infoForm.ram.$dirty&&infoForm.ram.$invalid" ng-messages-multiple>
+                            <div ng-message="pattern">ram为1到5位数字</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.rom.$error" ng-show="infoForm.rom.$dirty&&infoForm.rom.$invalid" ng-messages-multiple>
+                            <div ng-message="pattern">rom为1到5位数字</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.port.$error" ng-show="infoForm.port.$dirty&&infoForm.port.$invalid" ng-messages-multiple>
+                            <div ng-message="pattern">端口数为0到65535数字</div>
+                        </div>
+                    </div>
+                    <div class="btn_Edit1 mb20">
+                        <button type="button" class="btn_blue" ng-click="reset()">清空</button>
+                        <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn_blue" ng-click="onSave()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加模态窗口e -->
+    <!-- 详情模态窗口s -->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myviewModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myviewModalLabel"><img class="ws-viewImg" src="resources/image/detail_img1.png">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body p10">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_detail">
+                        <tr>
+                            <th width="13.3%" align="left"> 型号名称：</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="name" placeholder="型号名称" ng-model="info.name" readonly>
+                            </td>
+                            <th width="13.3%" align="left">型号编码：</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="code" placeholder="型号编码" ng-model="info.code" readonly>
+                            </td>
+                            <th width="13.3%" align="left">cpu:</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="cpu" placeholder="cpu" ng-model="info.cpu" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">ram：</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="ram" placeholder="ram" ng-model="info.ram" readonly>
+                            </td>
+                            <th width="13.3%" align="left">rom：</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="rom" placeholder="rom" ng-model="info.rom" readonly>
+                            </td>
+                            <th width="13.3%" align="left">端口数：</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="port" placeholder="端口" ng-model="info.port" readonly>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情模态窗口e -->
+</div>

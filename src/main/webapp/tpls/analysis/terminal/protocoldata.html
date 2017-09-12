@@ -1,0 +1,181 @@
+<div class="panel panel-default" ng-controller="anaTerminalProtocolDataCtrl">
+    <div class="panel-body">
+        <div >
+            <div class="row" style="padding-top: 10px;">
+                <form  id="placeCodeForm" name="placeCodeForm" novalidate>
+                    <div id="protocolSearch" class="collapse">
+                    	<div class="row" style="padding-top: 10px;margin-left: 20px;">
+                    		<div class="col-sm-3">
+		                         <div class="form-group">
+		                            <label class="col-sm-4 control-label elabel">场所编码：</label> 
+		                            <div class="col-sm-8 ebody" ng-init="initselect2()">
+		                                <select id="placeCode" class="js-data-example-ajax form-control input-sm" ng-model="datagrid.params.placeCode" >
+		                                    <option value="" selected="selected">请选择</option>
+		                                </select>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <div class="col-sm-3">
+		                        <div class="form-group">
+		                            <label class="col-sm-4 control-label elabel" for="startTime">开始时间：</label> 
+		                            <div class="col-sm-8 ebody" ng-init="initselect2()">
+		                                <input id="startTime" type="text" class="form-control input-sm" ng-model="datagrid.params.startTime"  />
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <div class="col-sm-3">
+		                        <div class="form-group">
+		                            <label class="col-sm-4 control-label elabel" for="endTime">结束时间：</label> 
+		                            <div class="col-sm-8 ebody" ng-init="initselect2()">
+		                                <input id="endTime" type="text" class="form-control input-sm" ng-model="datagrid.params.endTime" required />
+		                            </div>
+		                        </div>
+		                    </div>
+                    	</div>
+	                    <div class="btn_box mb20" style="margin-top: 20px;">
+							<button class="btn_blue" ng-click="search()">查&nbsp;询</button>
+							<button class="btn_blue" ng-click="resetData()">清&nbsp;空</button>
+						</div>
+	                    <div class="mainTop"></div>
+                    </div>
+                    <div class="mb10 mt20" style="margin-left: 20px;">
+						 <div class="btn-group">
+							<button class="btn_blue dropdown-toggle" type="button" data-toggle="dropdown" ws-permcode="main.analysis.terminal.protocoldata.exportExcel,main.analysis.terminal.protocoldata.exportPage">导出Excel<span class="caret"></span></button>
+							<ul class="dropdown-menu" role="menu">
+							    <li><a href="" ng-click="exportPage()" ws-permcode="main.analysis.terminal.protocoldata.exportPage">导出当前页面</a></li>
+                                <li><a ng-click="exportExcel()" href="" ws-permcode="main.analysis.terminal.protocoldata.exportExcel">输入条数导出</a></li>
+						   </ul>
+						</div>
+						<button class="btn_blue right" data-toggle="collapse" data-target="#protocolSearch" aria-expanded="false" aria-controls="protocolSearch" >显示/隐藏搜索 </button>
+					</div>
+                </form>
+            </div>
+            <div id="grid">
+                <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl"></ws-datagrid>
+            </div>
+            <!-- 详情s -->
+            <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content" style="border-radius:10px;">
+                        <div class="detail_top">
+							<div class="detail_top_l pl10"><img src="resources/images/detail_img1.png">协议数据详情</div>
+							<div class="detail_top_r">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+							</div>
+						</div>
+                        <div class="modal-body">
+                            <form novalidate>
+                                <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+							        <tr>
+							          <th width="13.3%" align="left" class="ell">日志记录时间</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.capture_time"></td>
+							          <th width="13.3%" align="left" class="ell">会话ID</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.sessionid"></td>
+							          <th width="13.4%" align="left" class="ell">网络应用服务类型</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.network_app"></td>
+							        </tr>
+							        <tr>
+							          <th width="13.3%" align="left" class="ell">场所内网IP地址</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.ip_address"></td>
+							          <th width="13.3%" align="left" class="ell">场所内网端口号</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.port"></td>
+							          <th width="13.4%" align="left" class="ell">源外网IPv4地址</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.src_ip"></td>
+							        </tr>
+							        <tr>
+							          <th width="13.3%" align="left" class="ell">源外网IPv4/IPv6地址</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.src_ipv6"></td>
+							          <th width="13.3%" align="left" class="ell">源外网IPv4起始端口号</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.src_port_start"></td>
+							          <th width="13.4%" align="left" class="ell">源外网IPv6起始端口号</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.src_port_start_v6"></td>
+							        </tr>
+							        <tr>
+							          <th width="13.3%" align="left" class="ell">源外网IPv4结束端口号</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.src_port_end"></td>
+							          <th width="13.3%" align="left" class="ell">源外网IPv6结束端口号</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.src_port_end_v6"></td>
+							          <th width="13.4%" align="left" class="ell">目的公网IPv4地址</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.dst_ip"></td>
+							        </tr>
+							        <tr>
+							          <th width="13.3%" align="left" class="ell">目的公网IPv6地址</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.dst_ipv6"></td>
+							          <th width="13.3%" align="left" class="ell">目的公网IPv4端口号</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.dst_port"></td>
+							          <th width="13.4%" align="left" class="ell">目的公网IPv6端口号</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.dst_port_v6"></td>
+							        </tr>
+							        <tr>
+							          <th width="13.3%" align="left" class="ell">终端MAC地址</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.mac"></td>
+							          <th width="13.3%" align="left" class="ell">上网服务场所编码</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.netserverport_wacode"></td>
+							          <th width="13.4%" align="left" class="ell">AP编号</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.collection_equipment_id"></td>
+							        </tr>
+							        <tr>
+							          <th width="13.3%" align="left" class="ell">移动AP设备经度</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.longitude"></td>
+							          <th width="13.3%" align="left" class="ell">移动AP设备纬度</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.latitude"></td>
+							          <th width="13.4%" align="left" class="ell">AP MAC</th>
+							          <td width="20%" align="left" class="ell" ng-bind="view.ap_mac"></td>
+							        </tr>
+							
+							        <tr>
+							          <th width="13.3%" align="left" class="ell">其他信息</th>
+							          <td colspan="3" align="left" class="ell" ng-bind="view.reserve"></td>
+							        </tr>
+							      </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 详情e -->
+        </div>
+    </div>
+    <!-- export -->
+    <div class="modal fade" id="exportExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="detail_top">
+					<div class="detail_top_l pl10">{{modalTitle}}</div>
+					<div class="detail_top_r">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+						</button>
+					</div>
+				</div>
+                <div class="modal-body">
+                    <form name="excelForm" novalidate>
+                        <section class="edit_main m10">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th><nobr>*</nobr>导出数据条数:</th>
+                                    <td> 
+                                        <input type="text" name="size" class="Input_edit" ng-model="excel.size" required ng-pattern="/^(?!0)(?:[0-9]{1,3}|1000)$/">
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="excelForm.size.$error" ng-show="excelForm.size.$dirty&&excelForm.size.$invalid" ng-message-multiple>
+                            <div ng-message="required">导出数据条数为必填项</div>
+                            <div ng-message="pattern">导出数据条数为数字并且小于1000</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mlP35 mb20 mt0">
+                    <button type="button" class="btn_blue" ng-click="resetExcel()">清空</button>
+                    <button id="excelSaveBtn" type="button" class="btn_blue" ng-click="exportSize()">导出</button>
+                    <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

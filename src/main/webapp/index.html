@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+    <script type="text/javascript" src="./plugin/jquery/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="./plugin/jquery/jquery.cookie.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-datetimepicker/build/js/moment.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-switch-master/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="./plugin/angular-1.3.16/angular.js"></script>
+    <script type="text/javascript" src="./plugin/angular-translate/angular-translate.min.js"></script>
+    <script type="text/javascript" src="./plugin/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+    <!--<script type="text/javascript" src="./plugin/angular-cookies/angular-cookies.min.js"></script>-->
+    <!--<script type="text/javascript" src="./plugin/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>-->
+    <script type="text/javascript" src="./plugin/angular-1.3.16/angular-messages.min.js"></script>
+    <script type="text/javascript" src="./plugin/angular-ui/angular-ui-router.js"></script>
+    <script type="text/javascript" src="./plugin/ng-grid-2.0.12/ng-grid.js"></script>
+    <script type="text/javascript" src="./plugin/select2/select2.js"></script>
+    <script type="text/javascript" src="./plugin/angular-ui/bootstrap-0.13.0/ui-bootstrap-tpls-0.13.0.js"></script>
+    <script type="text/javascript" src="./plugin/angular-ui/angular-ui-tree/angular-ui-tree.js"></script>
+    <!-- 禁止重复引用，highstock里面已经包含了highcharts了 -->
+    <!-- <script type="text/javascript" src="./plugin/Highcharts-4.1.7/js/highcharts.js"></script> -->
+    <script type="text/javascript" src="./plugin/Highstock-2.1.7/js/highstock.js"></script>
+    <script type="text/javascript" src="./plugin/Highcharts-4.1.7/js/highcharts-more.js"></script>
+    <script type="text/javascript" src="./plugin/Highcharts-4.1.7/js/modules/exporting.js"></script>
+    <script type="text/javascript" src="./plugin/Highcharts-4.1.7/js/modules/solid-gauge.js"></script>
+    <script type="text/javascript" src="./plugin/zTree_v3/js/jquery.ztree.all-3.5.min.js"></script>
+    <script type="text/javascript" src="./plugin/d3-3.1.0/d3.min.js"></script>
+    <script type="text/javascript" src="./plugin/ng-file-upload/ng-file-upload.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-fileinput/js/fileinput.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-fileinput/themes/explorer/theme.min.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-fileinput/js/locales/zh.js"></script>
+    <!-- 公共文件及权限 -->
+    <script type="text/javascript" src="resources/js/app.js"></script>
+    <script type="text/javascript" src="resources/js/basic.js"></script>
+    <script type="text/javascript" src="resources/js/state.js"></script>
+    <script type="text/javascript" src="resources/js/menus.js"></script>
+    <script type="text/javascript" src="resources/js/permission.js"></script>
+    <script type="text/javascript" src="resources/js/datagrid.js"></script>
+    <script type="text/javascript" src="resources/js/login.js"></script>
+
+    <!-- 业务平台 -->
+    <script type="text/javascript" src="resources/js/tax/index.js"></script>
+    <script type="text/javascript" src="resources/js/tax/state.js"></script>
+    <script type="text/javascript" src="resources/js/tax/business/manage.js"></script>
+    <script type="text/javascript" src="resources/js/tax/business/view.js"></script>
+    <script type="text/javascript" src="resources/js/tax/business/amendment.js"></script>
+    <script type="text/javascript" src="resources/js/tax/statistics/xianju.js"></script>
+    <script type="text/javascript" src="resources/js/tax/statistics/fenju.js"></script>
+    <script type="text/javascript" src="resources/js/tax/statistics/person.js"></script>
+    <script type="text/javascript" src="resources/js/tax/examine/first.js"></script>
+    <script type="text/javascript" src="resources/js/tax/examine/second.js"></script>
+    <script type="text/javascript" src="resources/js/tax/examine/third.js"></script>
+
+    <!-- 评审活动 -->
+    <script type="text/javascript" src="resources/js/activity/index.js"></script>
+    <script type="text/javascript" src="resources/js/activity/state.js"></script>
+
+    <!-- 系统配置 -->
+    <script type="text/javascript" src="resources/js/system/index.js"></script>
+    <script type="text/javascript" src="resources/js/system/state.js"></script>
+    <script type="text/javascript" src="resources/js/system/resources/state.js"></script>
+    <script type="text/javascript" src="resources/js/system/resources/action.js"></script>
+
+    <script type="text/javascript" src="resources/js/system/permission/role.js"></script>
+    <script type="text/javascript" src="resources/js/system/permission/user.js"></script>
+    <script type="text/javascript" src="resources/js/system/permission/group.js"></script>
+    <script type="text/javascript" src="resources/js/system/permission/info.js"></script>
+    <script type="text/javascript" src="resources/js/system/log/business.js"></script>
+
+    <!-- 引用样式 -->
+    <link rel="stylesheet" href="plugin/ng-grid-2.0.12/ng-grid.css"/>
+    <link rel="stylesheet" href="plugin/bootstrap-3.3.4-dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="plugin/bootstrap-switch-master/css/bootstrap-switch.min.css"/>
+    <link rel="stylesheet" href="plugin/select2/select2.css"/>
+    <link rel="stylesheet" href="plugin/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="plugin/angular-ui/angular-ui-tree/angular-ui-tree.min.css">
+    <link rel="stylesheet" href="plugin/zTree_v3/css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="plugin/bootstrap-fileinput/css/fileinput.min.css">
+    <link rel="stylesheet" href="plugin/bootstrap-fileinput/themes/explorer/theme.min.css">
+    <link rel="stylesheet" href="resources/css/tax.css">
+
+    <!-- -->
+    <link rel="stylesheet" href="resources/css/login.css">
+    <link rel="stylesheet" href="resources/css/menus.css">
+    <link rel="stylesheet" href="resources/css/layout.css">
+    <link rel="stylesheet" href="resources/css/datagrid.css">
+    <link rel="stylesheet" href="resources/css/msg.css">
+    <link rel="stylesheet" href="resources/css/userinfo.css">
+    <link rel="stylesheet" href="resources/css/form.css">
+    <link rel="stylesheet" href="resources/css/detail.css">
+    <link rel="stylesheet" href="resources/css/statistics.css">
+    <link rel="stylesheet" href="resources/css/tax.css">
+    <link rel="stylesheet" href="resources/css/activity.css">
+
+    <title>中国核能行业协会科学技术奖网络评审系统</title>
+</head>
+<body>
+<div ui-view></div>
+<!--<div id="reversion" style="position: fixed; right: 8px; bottom: 5px;"><span style="font-size: 1em;color: red;">内部版本：${version}</span>-->
+<!--</div>-->
+</body>
+<!--<script type="text/javascript">-->
+    <!--$(function () {-->
+        <!--var reversion = $('#reversion');-->
+        <!--if (reversion.find('> span').text().indexOf('$') != -1) {-->
+            <!--reversion.css('display', 'none');-->
+        <!--}-->
+    <!--});-->
+<!--</script>-->
+</html>

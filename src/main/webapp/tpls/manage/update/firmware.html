@@ -1,0 +1,223 @@
+<style type="text/css">
+.ws-searchbutton {
+    margin-top: 10px;
+}
+.firmwall_tr table thead th:last-child{
+	   min-width:45px;
+}
+</style>
+<!-- 固件管理 -->
+<div ng-controller="apFirmwareManaCtrl" class="firmwall_tr">
+    <div class="panel panel-default">
+        <div class="panel-body" ng-init="initPage()">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form>
+                    <div class="collapse" id="firmSearchInput">
+                        <div class="borderTopf0 noborderTop borderE2">
+                            <ul class="search" ng-init="initdate()">
+                                <li>
+                                	<span>名称：</span>
+                                    <input type="text" name="name" class="Input_search" placeholder="名称" ng-model="datagrid.params.name">
+                                </li>
+                                <li>
+                                	<span>类型:</span>
+									<select name="type" class="Input_search" ng-model="datagrid.params.type">
+	                                     <option value="">--请选择--</option>
+	                                     <option value="wireless">无线接入设备</option>
+	                                     <option value="collect">终端采集设备</option>
+	                                 </select>
+                                </li>
+                                <li>
+                                    <span>版本:</span>
+                                    <input type="text" name="version" class="Input_search" placeholder="版本" ng-model="datagrid.params.version">
+                                </li>
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+                        <div class="btn_box mb20">
+                            <button class="btn_blue" type="button" ng-click="innerCtrl.load(datagrid.params)">查询</button>
+                            <button class="btn_blue" type="button" ng-click="onResetSearch()">清空</button>
+                        </div>
+                        <div class="mainTop"></div>
+                    </div>
+                    <div class="mb10 mt20 ws-mlr10">
+                        <button class="btn_blue" type="button" ng-click="onAdd()" ws-permcode="app.ac.apmanage.addFirmwares">添加</button>
+                        <button class="btn_blue" type="button" ng-click="onEdit()" ws-permcode="app.ac.apmanage.editFirmwares">编辑</button>
+                        <button class="btn_blue" type="button" ng-click="onDelete()" ws-permcode="app.ac.apmanage.removeFirmwares">删除</button>
+                        <button class="btn_blue right" type="button" data-toggle="collapse" data-target="#firmSearchInput" aria-expanded="false" aria-controls="firmSearchInput">显示/隐藏搜索</button>
+                    </div>
+                </form>
+            </ws-datagrid>
+        </div>
+    </div>
+    <!-- 添加模态窗口s -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="infoForm" novalidate>
+                        <section class="edit_main m10" id="edit_main1">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>名称：</th>
+                                    <td>
+                                        <input name="name" type="text" class="Input_edit" placeholder="名称" ng-model="info.name" required ng-maxlength=20>
+                                        <input type="hidden" name="id" ng-model="info.id">
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>固件地址：</th>
+                                    <td colspan="3">
+                                        <input name="path" type="text" class="Input_edit" style="width: 92%;" placeholder="固件地址" ng-model="info.path" required ng-maxlength=200 ng-pattern="/^ftp:\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.]*[\w\-\.]/)+[\w\-\.]*[\w\-\.](\.tar\.gz)$/" >
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<th>
+                                        <nobr>*</nobr>用户名：</th>
+                                    <td>
+                                        <input name="userName" type="text" class="Input_edit" placeholder="请输入用户名" ng-model="info.userName" required ng-maxlength=50>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>密码：</th>
+                                    <td>
+                                        <input name="passWord" type="text" class="Input_edit" placeholder="请输入密码" ng-model="info.passWord" required ng-maxlength=50>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>md5：</th>
+                                    <td>
+                                        <input name="md5" type="text" class="Input_edit" placeholder="固件md5值" ng-model="info.md5" required ng-pattern="/^[0-9a-f]{32}$/">
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<th>
+                                        <nobr>*</nobr>版本：</th>
+                                    <td>
+                                        <input type="text" name="version" class="Input_edit" placeholder="版本" ng-model="info.version" required ng-maxlength=20>
+                                    </td>
+                                    <th>描述：</th>
+                                    <td>
+                                        <input name="description" type="text" class="Input_edit" placeholder="描述" ng-model="info.description" ng-maxlength=500>
+                                    </td>
+                                    <th><nobr>*</nobr>类型：</th>
+									<td>
+										<select name="type" id="type" class="Input_edit" ng-model="info.type" required>
+                                            <option value="">--请选择--</option>
+                                            <option value="wireless">无线接入</option>
+                                            <option value="collect">终端采集</option>
+                                        </select>
+									</td>
+                                </tr>
+                            </table>
+                        </section>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="infoForm.name.$error" ng-show="infoForm.name.$dirty&&infoForm.name.$invalid" ng-messages-multiple>
+                            <div ng-message="required">固件名称为必填项</div>
+                            <div ng-message="maxlength">固件名称最大不可以超过20个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.path.$error" ng-show="infoForm.path.$dirty&&infoForm.path.$invalid" ng-messages-multiple>
+                            <div ng-message="required">固件路径为必填项</div>
+                            <div ng-message="maxlength">固件路径最大不可以超过200个字符</div>
+                            <div ng-message="pattern">固件路径需要使用ftp地址的压缩包，例如ftp://192.168.8.183/upgrade.tar.gz</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.userName.$error" ng-show="infoForm.userName.$dirty&&infoForm.userName.$invalid" ng-messages-multiple>
+                            <div ng-message="required">用户名为必填项</div>
+                            <div ng-message="maxlength">用户名最大不可以超过50个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.passWord.$error" ng-show="infoForm.passWord.$dirty&&infoForm.passWord.$invalid" ng-messages-multiple>
+                            <div ng-message="required">密码为必填项</div>
+                            <div ng-message="maxlength">密码最大不可以超过50个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.md5.$error" ng-show="infoForm.md5.$dirty&&infoForm.md5.$invalid" ng-messages-multiple>
+                            <div ng-message="required">固件MD5值为必填项</div>
+                            <div ng-message="pattern">固件MD5格式不正确,正确格式为只包含a-f0-9长度为32的字符串</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.version.$error" ng-show="infoForm.version.$dirty&&infoForm.version.$invalid" ng-messages-multiple>
+                            <div ng-message="required">版本为必填项</div>
+                            <div ng-message="maxlength">版本最大不可以超过20个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.description.$error" ng-show="infoForm.description.$dirty&&infoForm.description.$invalid">
+                            <div ng-message="maxlength">描述最大不可以超过500个字符</div>
+                        </div> 
+                        <div class="alert alert-danger" ng-messages="infoForm.type.$error" ng-show="infoForm.type.$dirty&&infoForm.type.$invalid">
+                            <div ng-message="required">固件类型为必填项</div>
+                        </div>
+                    </div>
+                    <div class="btn_Edit1 mb20">
+                        <button type="button" class="btn_blue" ng-click="reset()">清空</button>
+                        <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn_blue" ng-click="onSave()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加模态窗口e -->
+    <!-- 详情s -->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myviewModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myviewModalLabel"><img class="ws-viewImg" src="resources/image/detail_img1.png">固件详情</h4>
+                </div>
+                <div class="modal-body ws-modal-body">
+                    <div class="detai_main m10">
+                        <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+                            <tr>
+                                <th width="13.3%" align="left">名称</th>
+                                <td width="20%" align="left">
+                                    <input name="name" type="text" placeholder="名称" ng-model="info.name" readonly>
+                                </td>
+                                <th width="13.3%" align="left">固件地址</th>
+                                <td width="20%" align="left">
+                                    <input name="path" type="text" placeholder="固件地址" ng-model="info.path" readonly>
+                                </td>
+                                <th width="13.4%" align="left">用户名</th>
+                                <td width="20%" align="left">
+                                    <input name="userName" type="text" placeholder="请输入用户名" ng-model="info.userName" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="13.3%" align="left">密码</th>
+                                <td width="20%" align="left">
+                                    <input name="passWord" type="text" placeholder="请输入密码" ng-model="info.passWord" readonly>
+                                </td>
+                                <th width="13.3%" align="left">md5</th>
+                                <td width="20%" align="left">
+                                    <input name="md5" type="text" placeholder="固件md5值" ng-model="info.md5" readonly>
+                                </td>
+                                <th width="13.4%" align="left">版本</th>
+                                <td width="20%" align="left">
+                                    <input type="text" name="version" placeholder="版本" ng-model="info.version" readonly>
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="13.3%" align="left">描述</th>
+                                <td width="20%" align="left">
+                                    <input name="description" type="text" placeholder="描述" ng-model="info.description" readonly>
+                                </td>
+                                <th width="13.3%" align="left">类型</th>
+                                <td width="20%" align="left">
+                                    <select name="type" id="type"  ng-model="info.type" disabled>
+                                        <option value="">--请选择--</option>
+                                        <option value="wireless">无线接入</option>
+                                        <option value="collect">终端采集</option>
+                                    </select>
+                                </td>
+                                <th width="13.4%" align="left"></th>
+                                <td width="20%" align="left"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情e -->
+</div>

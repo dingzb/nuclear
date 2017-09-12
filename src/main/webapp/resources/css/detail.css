@@ -1,0 +1,24 @@
+.ws-table-detail {
+    border: solid 1px #e6e6e6;
+    font: normal 14px "Microsoft Yahei", Tahoma, Geneva, sans-serif;
+    color: #333;
+}
+
+.ws-table-detail th {
+    background-color: #f1f1f1;
+    font: normal 14px "Microsoft Yahei", Tahoma, Geneva, sans-serif;
+    color: #333;
+    padding-left: 10px;
+    height: 40px;
+    border-right: solid 1px #e6e6e6;
+    border-bottom: solid 1px #e6e6e6;
+}
+
+.ws-table-detail td {
+    padding-left: 10px;
+    height: 40px;
+    border-right: solid 1px #e6e6e6;
+    border-bottom: solid 1px #e6e6e6;
+    word-break: break-all;
+    word-wrap: break-word;
+}

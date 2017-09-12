@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<bean id="logAspect" class="cc.idiary.nuclear.aspect.LogAspect">-->
+        <!--<constructor-arg type="cc.idiary.nuclear.service.system.BusinessLogService" ref="businessLogService"/>-->
+    <!--</bean>-->
+
+    <!--<aop:config>-->
+        <!--<aop:aspect id="logAspect" ref="logAspect">-->
+            <!--<aop:pointcut id="logPointcut" expression="execution(* com.tendyron.wifi.web.service..*.*(..)) and  @annotation(businessLog)"/>-->
+            <!--<aop:after-returning method="doAfterReturning" pointcut-ref="logPointcut" arg-names="jp, businessLog, obj" returning="obj"/>-->
+            <!--<aop:after-throwing method="doAfterThrowing" pointcut-ref="logPointcut" arg-names="jp, businessLog, e" throwing="e"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+</beans>

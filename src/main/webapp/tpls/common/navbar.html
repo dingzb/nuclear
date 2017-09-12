@@ -1,0 +1,42 @@
+<nav style="border: 0; min-width: 881px;" class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" ng-controller="navbarCtrl">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div style="position: absolute;">
+                <a ui-sref="main.welcome" class="navbar-brand" href="#" style="background-color: #fff; padding: 0 6px 0 7px;">
+                    <img alt="中国核能行业协会科学技术奖网络评审系统" style="height: 50px;" src="resources/img/logo-top.png">
+                    <div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;"></div>
+                </a>
+                <span class="navbar-brand" style="margin-left: 0; color: #ffffff;">中国核能行业协会科学技术奖网络评审系统</span>
+            </div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-repeat="subSystem in subSystems" ws-on-finish-render-filters active-type="subSys">
+                    <a ui-sref={{subSystem.code}} style="text-decoration: none">{{subSystem.name}}</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span ng-bind="uname"></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="" ng-click="info()">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                <span style="padding-left: 10px;">个人信息</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="logout()">
+                                <span class="glyphicon glyphicon-off"></span>
+                                <span style="padding-left: 10px;">退出</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

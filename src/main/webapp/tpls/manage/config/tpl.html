@@ -1,0 +1,377 @@
+<style type="text/css">
+.ws-searchbutton {
+    margin-top: 10px;
+}
+.select_disabled{
+    background: #fff;
+}
+
+</style>
+<!-- 配置模版管理 -->
+<div ng-controller="apConfTplManageCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body" ng-init="initPage()">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form>
+                    <div class="collapse" id="tplSearchInput">
+                        <div class="borderTopf0 noborderTop borderE2" id="search">
+                            
+                            <div class="row ws-mlr10" style="padding-top: 10px;" ng-init="initdate()">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label elabel" for="onlinePlaceCode">模版名称：</label>
+                                        <div class="col-sm-8 ebody">
+                                            <input type="text" name="name" class="form-control input-sm" placeholder="任务名称" ng-model="datagrid.params.name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label elabel" for="onlineStartTime">创建时间：</label>
+                                        <div class="col-sm-8 ebody">
+                                            <input type="text" id="createTimeStart" name="createTimeStart" class="form-control input-sm" placeholder="开始时间" ng-model="datagrid.params.createTimeStart">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label elabel" for="onlineEndTime">到：</label>
+                                        <div class="col-sm-8 ebody">
+                                            <input type="text" id="createTimeEnd" class="form-control input-sm" placeholder="截止时间" ng-model="datagrid.params.createTimeEnd">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label elabel" for="onlinePlaceCode">模版类型：</label>
+                                        <div class="col-sm-8 ebody">
+                                             <select name="status" id="status" class="select_search" ng-model="datagrid.params.apType">
+                                                <option value="">全部</option>
+                                                <option value="ACCESS">接入设备</option>
+                                                <option value="TERMINAL">采集设备</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_box mb20" style="margin-top:10px">
+                                <button class="btn_blue" type="button" ng-click="searchTpl()">查询</button>
+                                <button class="btn_blue" type="button" ng-click="onResetSearch()">清空</button>
+                            </div>
+                            <div class="mainTop"></div>
+                        </div>
+                    </div>
+                    <div class="mb10 mt20 ws-mlr10">
+                        <button class="btn_blue" type="button" ng-click="onAdd()" ws-permcode="app.ac.apmanage.addApCfgTpl">添加</button>
+                        <button class="btn_blue" type="button" ng-click="onEdit()" ws-permcode="app.ac.apmanage.editApCfgTpl">编辑</button>
+                        <button class="btn_blue" type="button" ng-click="onDelete()" ws-permcode="app.ac.apmanage.removeApCfgTpl">删除</button>
+                        <button class="btn_blue right" data-toggle="collapse" data-target="#tplSearchInput" aria-expanded="false" aria-controls="tplSearchInput">显示/隐藏搜索</button>
+                    </div>
+                </form>
+            </ws-datagrid>
+        </div>
+    </div>
+    <!-- 添加模态窗口s -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body">
+                    <form novalidate>
+                        <div class="edit_main m10">
+                            模板类型：
+                            <div class="btn-group" data-toggle="buttons" >
+                                <label class="btn btn-default btn-sm " ng-class="{'active':config.checked}" ng-click="config.checked=true">
+                                    <input type="radio" name="options" autocomplete="off" ng-checked="config.checked">接入设备
+                                </label>
+                                <label class="btn btn-default btn-sm" ng-class="{'active':!config.checked}" ng-click="config.checked=false">
+                                    <input type="radio" name="options" autocomplete="off" ng-checked="!config.checked">采集设备
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <form name="infoForm" novalidate>
+                        <section class="edit_main m10">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>名称：</th>
+                                    <td>
+                                        <input type="text" name="name" class="Input_edit" placeholder="模板名称" ng-model="config.name" required ng-maxlength=50>
+                                    </td>
+                                    <th>信道：</th>
+                                    <td>
+                                        <select name="channel" class="select_edit" ng-model="config.channel">
+                                            <option value="0">auto</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                        </select>
+                                    </td>
+                                    <th>最大连接数：</th>
+                                    <td>
+                                        <input type="text" name="maxassoc" class="Input_edit" placeholder="最大终端连接数" ng-model="config.maxassoc" ng-pattern="/^[1-9]\d{0,3}$|^[0]$/">
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                        <section class="edit_main m10">
+                            <div class="config_title mt10">主ssid配置</div>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit table_config">
+                                <tr class="ml10">
+                                    <th>
+                                        <nobr>*</nobr>SSID：</th>
+                                    <td>
+                                        <input type="text" name="ssid" class="Input_edit" placeholder="SSID" ng-model="config.ssid" ng-pattern="/^[a-zA-Z]+[a-zA-Z0-9-_\.]*$/" ng-change="validateSsid()" required ng-maxlength=32>
+                                    </td>
+                                    <th>管理地址：</th>
+                                    <td>
+                                        <input type="text" name="brip" class="Input_edit" placeholder="管理地址" ng-model="config.brip" ng-change="validateIp()" ng-maxlength=20 ng-pattern="/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/">
+                                    </td>
+                                    <th>加密方式：</th>
+                                    <td>
+                                        <select name="encryption" class="Input_edit" ng-change="changeEncry()" ng-model="config.encryption">
+                                            <option value="none">none</option>
+                                            <option value="psk">WPA-PSK</option>
+                                            <option value="psk2">WPA2-PSK</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <nobr ng-show="config.encryption!='none'&&config.encryption!=''">*</nobr> 密码：</th>
+                                    <td>
+                                        <input type="text" name="passwd" class="Input_edit" placeholder="密码长度在8-20位" ng-model="config.passwd" ng-disabled="config.encryption=='none'||config.encryption==''" ng-minlength=8 ng-maxlength=20 ng-required="config.encryption!='none'&&config.encryption!=''">
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                    </form>
+                    <form name="tConfigForm" novalidate ng-show="config.checked">
+                        <section style="padding: 0 10px">
+                            <div class="config_title mt20">
+                                <input type="checkbox" name="hasSsid" class="mr5" style="margin: 0 5px" ng-model="config.hasSsid">第二ssid配置
+                            </div>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit table_config">
+                                <tr class="ml10">
+                                    <th>
+                                        <nobr ng-show="config.hasSsid">*</nobr>SSID：</th>
+                                    <td>
+                                        <input type="text" name="tSsid" class="Input_edit" placeholder="SSID" ng-model="config.tSsid" required ng-maxlength=32 ng-readonly="!config.hasSsid" ng-change="validateSsid()" ng-pattern="/^[a-zA-Z]+[a-zA-Z0-9-_\.]*$/">
+                                    </td>
+                                    <th>
+                                        <nobr ng-show="config.hasSsid">*</nobr>管理地址：</th>
+                                    <td>
+                                        <input type="text" name="tBrip" class="Input_edit" placeholder="管理地址" ng-model="config.tBrip" required ng-maxlength=20 ng-readonly="!config.hasSsid" ng-change="validateIp()" ng-pattern="/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/">
+                                    </td>
+                                    <th>
+                                        <nobr ng-show="config.hasSsid">*</nobr>加密方式：</th>
+                                    <td>
+                                        <select name="tEncryption" class="select_edit" ng-model="config.tEncryption" ng-readonly="!config.hasSsid" required>
+                                            <option value="psk">WPA-PSK</option>
+                                            <option value="psk2">WPA2-PSK</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <nobr ng-show="config.hasSsid">*</nobr>密码：</th>
+                                    <td>
+                                        <input type="text" name="tPasswd" class="Input_edit" placeholder="密码长度在8-20位" ng-model="config.tPasswd" required ng-minlength=8 ng-maxlength=20 ng-readonly="!config.hasSsid">
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="infoForm.name.$error" ng-show="infoForm.name.$dirty&&infoForm.name.$invalid" ng-messages-multiple>
+                            <div ng-message="required">模板名称为必填项</div>
+                            <div ng-message="maxlength">模板名称最大不可以超过50个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.ssid.$error" ng-show="infoForm.ssid.$dirty&&infoForm.ssid.$invalid" ng-messages-multiple>
+                            <div ng-message="pattern">ssid只可以包含字母(a-z,A-Z ),数字(0-9)和特殊符号(-_.)，必须以字母开头
+                            </div>
+                            <div ng-message="required">ssid为必填项</div>
+                            <div ng-message="maxlength">ssid最大不可以超过32个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.brip.$error" ng-show="infoForm.brip.$dirty&&infoForm.brip.$invalid" ng-messages-multiple>
+                            <div ng-message="pattern">请填写正确的管理ip,范围为1.0.0.1~255.255.255.254</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.passwd.$error" ng-show="infoForm.passwd.$dirty&&infoForm.passwd.$invalid" ng-messages-multiple ng-if="config.encryption!='none'">
+                            <div ng-message="required">密码为必填项</div>
+                            <div ng-message="minlength">密码最小长度为8位</div>
+                            <div ng-message="maxlength">密码最大不可以超过20个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.maxassoc.$error" ng-show="infoForm.maxassoc.$dirty&&infoForm.maxassoc.$invalid" ng-messages-multiple>
+                            <div ng-message="pattern">最大终端连接数为0-9999的正整数</div>
+                        </div>
+                        <div ng-show="config.hasSsid && config.checked" >
+                            <div class="alert alert-danger" ng-messages="tConfigForm.tSsid.$error" ng-show="tConfigForm.tSsid.$dirty&&tConfigForm.tSsid.$invalid" ng-messages-multiple>
+                                <div ng-message="required">第二ssid为必填项</div>
+                                <div ng-message="maxlength">第二ssid最大不可以超过32个字符</div>
+                                <div ng-message="pattern">第二ssid只可以包含字母(a-z,A-Z ),数字(0-9)和特殊符号(-_.)，必须以字母开头
+                                </div>
+                            </div>
+                            <div class="alert alert-danger" ng-show="invalidateSsid">
+                                <div>第二ssid不可与主ssid相同</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="tConfigForm.tBrip.$error" ng-show="tConfigForm.tBrip.$dirty&&tConfigForm.tBrip.$invalid" ng-messages-multiple>
+                                <div ng-message="required">第二管理地址为必填项</div>
+                                <div ng-message="maxlength">第二管理地址最大不可以超过20个字符</div>
+                                <div ng-message="pattern">请填写正确的第二管理ip,范围为1.0.0.1~255.255.255.254</div>
+                            </div>
+                            <div class="alert alert-danger" ng-show="invalidateIp">
+                                <div>第二管理地址与主管理地址须属于不同网段</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="tConfigForm.tEncryption.$error" ng-show="tConfigForm.tEncryption.$dirty&&tConfigForm.tEncryption.$invalid" ng-messages-multiple>
+                                <div ng-message="required">第二加密方式为必填项</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="tConfigForm.tPasswd.$error" ng-show="tConfigForm.tPasswd.$dirty&&tConfigForm.tPasswd.$invalid" ng-messages-multiple>
+                                <div ng-message="required">第二密码为必填项</div>
+                                <div ng-message="minlength">第二密码最小长度为8位</div>
+                                <div ng-message="maxlength">第二密码最大不可以超过20个字符</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn_Edit1 mb20">
+                        <button type="button" class="btn_blue" ng-click="onReset()">清空</button>
+                        <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn_blue" ng-click="onSave()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加模态窗口e -->
+    <!-- 详情模态窗口s -->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModal" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal"><img class="ws-viewImg" src="resources/image/detail_img1.png">模板详情</h4>
+                </div>
+                <div class="modal-body ws-modal-body p10">
+                    <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+                        <tr>
+                            <th width="13.3%" align="left">名称</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="name" readonly placeholder="模板名称" ng-model="view.name">
+                            </td>
+                            <th width="13.3%" align="left">最大连接数</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="maxassoc" readonly placeholder="最大终端连接数" ng-model="view.maxassoc">
+                            </td>
+                            <th width="13.4%" align="left">信道</th>
+                            <td width="20%" align="left">
+                                <select name="channel" class="select_disabled" readonly disabled ng-model="view.channel">
+                                    <option value="0">auto</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">创建时间</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="createTime" placeholder="创建时间" ng-model="view.createTime" readonly>
+                            </td>
+                            <th width="13.4%" align="left">修改时间</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="modifyTime" placeholder="修改时间" ng-model="view.createTime" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="center"><strong>主ssid配置</strong></td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">SSID</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="ssid" readonly placeholder="SSID" ng-model="view.ssid">
+                            </td>
+                            <th width="13.3%" align="left">管理地址</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="brip" readonly placeholder="管理地址" ng-model="view.brip">
+                            </td>
+                            <th width="13.4%" align="left">加密方式</th>
+                            <td width="20%" align="left">
+                                <select name="encryption" class="select_disabled" readonly disabled ng-model="view.encryption">
+                                    <option value="none">none</option>
+                                    <option value="psk">WPA-PSK</option>
+                                    <option value="psk2">WPA2-PSK</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">密码</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="passwd" readonly placeholder="密码长度在8-20位" ng-model="view.passwd">
+                            </td>
+                            <th width="13.3%" align="left"></th>
+                            <td width="20%" align="left"></td>
+                            <th width="13.4%" align="left"></th>
+                            <td width="20%" align="left"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="center"><strong>第二ssid配置</strong></td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">SSID</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="tSsid" readonly placeholder="SSID" ng-model="view.tSsid">
+                            </td>
+                            <th width="13.3%" align="left">管理地址</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="tBrip" readonly placeholder="管理地址" ng-model="view.tBrip">
+                            </td>
+                            <th width="13.4%" align="left">加密方式</th>
+                            <td width="20%" align="left">
+                                <select name="tEncryption" class="select_disabled" readonly disabled ng-model="view.tEncryption">
+                                    <option value="psk">WPA-PSK</option>
+                                    <option value="psk2">WPA2-PSK</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">密码</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="tPasswd" readonly placeholder="密码长度在8-20位" ng-model="view.tPasswd">
+                            </td>
+                            <th width="13.3%" align="left"></th>
+                            <td width="20%" align="left">
+                            </td>
+                            <th width="13.4%" align="left"></th>
+                            <td width="20%" align="left">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情模态窗口e -->
+</div>

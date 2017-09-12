@@ -1,0 +1,47 @@
+<style type="text/css">
+</style>
+<div ng-controller="anaBodyIndexController">
+	<ul class="nav nav-tabs ws-tab" role="tablist">
+		<li role="presentation" class="active">
+			<a href="#deviceOnlineIndex" aria-controls="deviceOnlineIndex" ng-click="showDeviceOnlineIndexChart()" role="tab" data-toggle="tab">
+				设备在线率
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#gatherIndex" aria-controls="gatherIndex" ng-click="showGatherChart()" role="tab" data-toggle="tab">
+				采集指数
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#dataAnalyse" aria-controls="#dataAnalyse" ng-click="showDataChart()" role="tab" data-toggle="tab">
+				数据分析
+			</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<!-- 设备在线率 -->
+		<div class="tab-pane active" id="deviceOnlineIndex" role="tabpanel">
+			<div class="panel panel-default tab_pane">
+				<div class="panel-body" ng-init="createDeviceOnlineIndexChart()">
+					<div id="container"></div>
+				</div>
+			</div>
+		</div>
+		<!-- 采集指数 -->
+		<div class="tab-pane" id="gatherIndex" role="tabpanel">
+			<div class="panel panel-default tab_pane">
+				<div class="panel-body">
+					<div id="container1"></div>
+				</div>
+			</div>
+		</div>
+		<!-- 数据分析 -->
+		<div class="tab-pane" id="dataAnalyse" role="tabpanel">
+			<div class="panel panel-default tab_pane">
+				<div class="panel-body">
+					<div id="container2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

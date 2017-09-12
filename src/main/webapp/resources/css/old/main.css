@@ -1,0 +1,273 @@
+@CHARSET "UTF-8";
+
+.ws-accordion-btn {
+	background-color: #f5f5f5;
+}
+
+.denyselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+table .btn-link {
+	color: #333333;
+}
+
+table .btn-sm {
+	padding: 0 6px;
+}
+/*为表单中的label设置小字体*/
+label {
+	font-size: small;
+}
+
+/***编辑框样式s****/
+.editTitle {
+	padding-left: 15px;
+	padding-right: 0px;
+	margin-right: 15px;
+	text-align: right;
+	max-width: 120px;
+	width: 120px;
+	overflow: hidden;
+	display: block;
+	white-space: nowrap;
+}
+
+.editTitle:first {
+	padding-left: 0px;
+}
+
+.editBody {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.editBody:focus {
+	border-color: #66AFE9;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+}
+
+.editRow {
+	margin-top: 10px;
+}
+
+.eiitRow:first {
+	margin-top: 0px;
+}
+
+/********编辑框样式e*********/
+
+/***新编辑窗样式-王武辉s****/
+.elabel {
+	padding-left: 0px;
+	padding-right: 10px;
+	padding-top: 5px;
+	text-align: left;
+}
+
+.ebody {
+	padding: 0 2px;
+	/*padding-left: 2px;padding-right: 2px;*/
+}
+
+
+/******确认消息提示框s*************/
+.center {
+	width: auto;
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.modal-footer .btn-left {
+	width: 50%;
+	color: #407BBF;
+	height: 45px;
+	line-height: 44px;
+	float: left;
+	border-right: 1px solid #E5E5E5;
+	text-align: center;
+	cursor: pointer;
+}
+
+.modal-footer .btn-right {
+	width: 50%;
+	color: #407BBF;
+	height: 45px;
+	line-height: 44px;
+	float: left;
+	text-align: center;
+	cursor: pointer;
+}
+
+.modal-footer .btn-alert {
+	color: #407BBF;
+	height: 45px;
+	width: 100%;
+	line-height: 44px;
+	float: left;
+	text-align: center;
+	cursor: pointer;
+}
+/******确认消息提示框e**********/
+
+/********左侧菜单样式s*********/
+/*.menuBtn {*/
+	/*background: rgba(94, 96, 100, 0) none repeat scroll 0 0 !important;*/
+	/*font-size: 16px;*/
+	/*width: 100%;*/
+	/*text-align: left;*/
+	/*padding-left: 30px;*/
+	/*height: 38px;*/
+	/*border-radius: 0px;*/
+/*}*/
+
+/*.ws-menu-menus{*/
+	/*padding-left: 55px;*/
+	/*height: 38px;*/
+/*}*/
+/********左侧菜单样式e*********/
+
+/*******菜单固定样式s*********/
+.menuFixed {
+	position: fixed;
+	/*padding-left: 15px;*/
+	padding-left: 0px;
+	padding-right: 0px;
+	z-index: 999;
+}
+
+@media ( max-width : 992px) {
+	.menuFixed {
+		position: inherit;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+/*******菜单固定样式e*********/
+
+/*******chart 在 modal中时 chart所在div样式s******/
+.chartInModal {
+	height: 400px;
+}
+/*******chart 在 modal中时 chart所在div样式e******/
+
+/********遮罩层s************/
+.mask {
+	position: absolute;
+	top: 0px;
+	filter: alpha(opacity = 60);
+	background-color: #777;
+	z-index: 9999;
+	left: 0px;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+}
+
+#loading {
+	position: absolute;
+	left: 45%;
+	top: 40%;
+	padding: 2px;
+	z-index: 20001;
+	height: auto;
+}
+
+#loading .loading-indicator {
+	background: white;
+	color: #444;
+	font: bold 20px tahoma, arial, helvetica;
+	padding: 10px;
+	margin: 0;
+	height: auto;
+	-moz-border-radius: 6px; /* Gecko browsers */
+	-webkit-border-radius: 6px; /* Webkit browsers */
+	border-radius: 6px; /* W3C syntax */
+}
+
+#loading-msg {
+	font: normal 18px arial, tahoma, sans-serif;
+}
+/********遮罩层e************/
+
+/*******tab 下 panel 样式***********************/
+.tab_pane {
+	border-top: 0px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-top: 0px;
+}
+/*******tab 下 panel 样式***********************/
+
+/*******搜索菜单竖线样式s************************/
+.ws-menuLine{
+	padding: 0px;
+	margin: 0 2px -12px 2px;
+	height: 30px;
+	width: 2px;
+	border: 1px solid #CCCCCC;
+	display: inline-block;
+}
+/*******搜索菜单竖线样式e************************/
+
+
+/*********表格提示框s*************/
+.ws-gridTip{
+	text-align: center;
+	margin-bottom: 0;
+	padding:5px 5px;
+}
+.ws-gridTip-font{
+	display: inline-block;
+	font-size: 25px;
+	/*text-decoration: line-through;*/
+	margin:0 3px;
+	cursor: pointer;
+}
+/*********表格提示框e*************/
+.ws-mt3{
+	margin-top: 3px !important;
+}
+/*********编辑/详情模态窗*************/
+.ws-modal-header{
+	padding: 8px;
+	height: 40px
+}
+.ws-modal-body{
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	padding: 0px;
+}
+.mt0{
+	margin-top: 0px;
+}
+.ws-mlr10{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.ws-mlr5{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.ws-viewImg {
+    margin-right: 10px;
+    margin-top: -2px;
+}
+/*********智能易搜下拉*****/
+.ws-search-dropdown{
+	border: none;
+   height: 38px;
+   margin-top: -3px;
+   width: 100%;
+}
+
+/**修复 针对新样式和日期控件高度有冲突问题 **/
+.table_edit .bootstrap-datetimepicker-widget tr{height: 30px !important}
+.table_edit .bootstrap-datetimepicker-widget th{height: 30px !important}
+.table_edit .bootstrap-datetimepicker-widget td{height: 30px !important}

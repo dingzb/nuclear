@@ -1,0 +1,38 @@
+<div ng-controller="loginInCtrl">
+    <div class="login-top-box">
+        <div class="login-top" style="vertical-align: middle;">
+            <img src="resources/img/logo.png" style="margin-top: -10px;">
+            <span class="login-title">中国核能行业协会科学技术奖网络评审系统</span>
+        </div>
+    </div>
+    <div class="login-bg">
+        <div class="login-main"></div>
+        <div>
+            <div class="login-login">
+                <div class="login-login-title">欢迎使用评审系统</div>
+                <div class="login-login-error">
+                    <span ng-bind="errMsg"></span>
+                </div>
+                <div class="login-login-form">
+                    <div class="input-group">
+                        <form class="form-horizontal" role="form" name="formLogin">
+                            <input type="text" class="login-login-username" placeholder="用户名"
+                                   aria-describedby="sizing-addon2" ng-model="username">
+                            <input type="password" class="login-login-password" placeholder="密码"
+                                   aria-describedby="sizing-addon2" ng-model="password">
+                            <input id="imgCode" ng-blur="validateVerifyCode()" class="login-login-verify" placeholder="验证码"
+                                   name="verifyCode" ng-model="verifyCode">
+                            <img id="verifyCode" style="cursor: pointer; margin-bottom: 2px; width: 86px;" alt="点击刷新" src="app/verifyCode/image"
+                                 ng-click="updateVerify()">
+                            <input type="submit" class="login-login-login" value="登录" ng-click="login()">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-footer">
+        <span>Copyright © 2017 中国核能行业协会</span>
+    </div>
+</div>

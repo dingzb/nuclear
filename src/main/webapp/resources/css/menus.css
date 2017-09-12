@@ -1,0 +1,51 @@
+.ws-menu-fixed {
+    position: fixed;
+    padding-left: 0;
+    padding-right: 0;
+    z-index: 999;
+    width:180px;
+    bottom: 0;
+    top:50px;
+    background-color: #333744;
+}
+
+.ws-menu-btn {
+    background: #42485b none repeat scroll 0 0 !important;
+    font-size: 16px;
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
+    height: 38px;
+    border-radius: 0;
+    border: 0;
+    color: #ffffff;
+}
+.ws-menu-btn:hover,
+.ws-menu-btn:focus{
+    color: #ffffff;
+}
+.ws-menu-btn:hover{
+    background-color: #585a61 !important;
+}
+.ws-menu-menus{
+    padding-left: 54px;
+    height: 38px;
+    background: #333744;
+    color: #ffffff !important;
+    border-top: 1px solid #4c4b4b !important;
+}
+.ws-menu-menus:hover,
+.ws-menu-menus:focus,
+.ws-menu-menus.active{
+    background: #585a61 !important;
+    color: #ffffff !important;
+    border-top: 1px solid #4c4b4b !important;
+}
+.ws-menu-menus.active{
+    background: #00c1de !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid #4c4b4b !important;
+}
+.ws-accordion-list-group{
+    border: 0 !important;
+}

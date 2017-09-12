@@ -1,0 +1,277 @@
+<div ng-controller="systemUserInfoCtrl">
+    <div>
+        <div class="ws-info-side">
+            <div class="ws-info-side-header">
+                <span class="glyphicon glyphicon-user"></span>
+                <span style="margin-left: 5px;">用户信息</span>
+            </div>
+            <div>
+                <table class="ws-info-table">
+                    <tbody>
+                    <tr>
+                        <td><span>用户名</span></td>
+                        <td><span ng-bind="display.username"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span>名称</span></td>
+                        <td><span ng-bind="display.name"></span></td>
+                    </tr>
+                    <!--<tr>-->
+                        <!--<td><span>邮箱</span></td>-->
+                        <!--<td><span ng-bind="display.email"></span></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td><span>证件号码</span></td>-->
+                        <!--<td><span ng-bind="display.idCard"></span></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td><span>手机号</span></td>-->
+                        <!--<td><span ng-bind="display.phone"></span></td>-->
+                    <!--</tr>-->
+                    </tbody>
+                </table>
+            </div>
+            <div class="ws-info-side-footer">
+                <button type="submit" class="btn btn-info btn-sm" ng-click="mod('info')">修改信息</button>
+                <button type="submit" class="btn btn-info btn-sm" ng-click="mod('password')">修改密码</button>
+            </div>
+        </div>
+        <div class="ws-info-modify">
+            <div ng-show="fun=='info'">
+                <form id="form-info" name="infoForm" novalidate>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="username">用户名</label>
+                                <input name="username" type="text" class="form-control input-sm" id="username" placeholder="用户名"
+                                       readonly ng-model="info.username">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group"
+                                 ng-class="{'has-error has-feedback':infoForm.name.$dirty&&infoForm.name.$invalid}">
+                                <label for="name">名称</label>
+                                <input name="name" type="text" class="form-control input-sm" id="name" placeholder="名称" required
+                                       ng-model="info.name" ng-maxlength=50>
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                      ng-show="infoForm.name.$dirty&&infoForm.name.$invalid"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="oldPasswd">&nbsp;</label>
+                                <p ng-show="infoForm.name.$dirty&&infoForm.name.$error.required"
+                                   class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;请输入名称
+                                </p>
+                                <p ng-show="infoForm.name.$dirty&&infoForm.name.$error.maxlength"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;名称最大长度为50
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-8">-->
+                            <!--<div class="form-group"-->
+                                 <!--ng-class="{'has-error has-feedback':infoForm.email.$dirty&&infoForm.email.$invalid}">-->
+                                <!--<label for="email">邮箱</label>-->
+                                <!--<input name="email" type="email" class="form-control input-sm" id="email" placeholder="邮箱"-->
+                                       <!--required-->
+                                       <!--ng-model="info.email" ng-maxlength=50 -->
+                                       <!--ng-pattern="/^[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$/">-->
+                                <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"-->
+                                      <!--ng-show="infoForm.email.$dirty&&infoForm.email.$invalid"></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="oldPasswd">&nbsp;</label>-->
+                                <!--<p ng-show="infoForm.email.$dirty&&infoForm.email.$error.required"-->
+                                   <!--class="form-control-static" style="font-size: small; color: #A94442">-->
+                                    <!--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;请输入邮箱-->
+                                <!--</p>-->
+                                <!--<p ng-show="infoForm.email.$dirty&&infoForm.email.$error.email"-->
+                                   <!--class="form-control-static"-->
+                                   <!--style="width:200px;font-size: small; color: #A94442">-->
+                                    <!--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;邮箱格式为xxxx@xx.xx-->
+                                <!--</p>-->
+                                <!--<p ng-show="infoForm.email.$dirty&&infoForm.email.$error.maxlength"-->
+                                   <!--class="form-control-static" style="font-size: small; color: #A94442">-->
+                                    <!--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;邮箱最大长度为50-->
+                                <!--</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-8">-->
+                            <!--<div class="form-group"-->
+                                 <!--ng-class="{'has-error has-feedback':infoForm.idCard.$dirty&&infoForm.idCard.$invalid}">-->
+                                <!--<label for="idCard">身份证号</label>-->
+                                <!--<input name="idCard" type="text" ws-idCard class="form-control input-sm" id="idCard"-->
+                                       <!---->
+                                       <!--placeholder="身份证号" required ng-model="info.idCard">-->
+                                <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"-->
+                                      <!--ng-show="infoForm.idCard.$dirty&&infoForm.idCard.$invalid"></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="idCard">&nbsp;</label>-->
+                                <!--<p ng-show="infoForm.idCard.$dirty&&infoForm.idCard.$error.required"-->
+                                   <!--class="form-control-static" style="font-size: small; color: #A94442">-->
+                                    <!--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;请输入身份证号-->
+                                <!--</p>-->
+                                <!--<p ng-show="infoForm.idCard.$dirty&&infoForm.idCard.$error.idCard"-->
+                                   <!--class="form-control-static" style="font-size: small; color: #A94442">-->
+                                    <!--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;身份证号格式不正确-->
+                                <!--</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-8">-->
+                            <!--<div class="form-group"-->
+                                 <!--ng-class="{'has-error has-feedback':infoForm.phone.$dirty&&infoForm.phone.$invalid}">-->
+                                <!--<label for="phone">手机号</label>-->
+                                <!--<input name="phone" type="text" class="form-control input-sm" id="phone" placeholder="手机号"-->
+                                       <!--required-->
+                                       <!--ng-model="info.phone" -->
+                                       <!--ng-pattern="/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/">-->
+                                <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"-->
+                                      <!--ng-show="infoForm.phone.$dirty&&infoForm.phone.$invalid"></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="phone">&nbsp;</label>-->
+                                <!--<p ng-show="infoForm.phone.$dirty&&infoForm.phone.$error.required"-->
+                                   <!--class="form-control-static" style="font-size: small; color: #A94442">-->
+                                    <!--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;请输入手机号-->
+                                <!--</p>-->
+                                <!--<p ng-show="infoForm.phone.$dirty&&infoForm.phone.$error.pattern"-->
+                                   <!--class="form-control-static" style="font-size: small; color: #A94442">-->
+                                    <!--<span class="glyphicon glyphicon-info-sign"></span>&nbsp;手机号格式不正确-->
+                                <!--</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div>
+                                <button type="submit" class="btn btn-default btn-sm" ng-click="edit()" ng-disabled="disModInfo">提交</button>
+                                <button type="button" class="btn btn-default btn-sm" ng-click="reset()">重置</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ng-show="fun=='password'" class="panel-body">
+                <form name="modPasswd" novalidate>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group"
+                                 ng-class="{'has-error has-feedback':modPasswd.oldPasswd.$dirty&&modPasswd.oldPasswd.$invalid}">
+                                <label for="oldPasswd">原始密码</label>
+                                <input name="oldPasswd" type="password" class="form-control input-sm" id="oldPasswd"
+                                       placeholder="原始密码"
+                                       required ng-model="oldPasswd" ng-change="oldPasswdChange()" ng-maxlength=20>
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                      ng-show="modPasswd.oldPasswd.$dirty&&modPasswd.oldPasswd.$invalid"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="oldPasswd">&nbsp;</label>
+                                <p ng-show="modPasswd.oldPasswd.$dirty&&modPasswd.oldPasswd.$error.required"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;原始密码不能为空
+                                </p>
+                                <p ng-show="modPasswd.oldPasswd.$dirty&&modPasswd.oldPasswd.$error.maxlength"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;原始密码最大长度为20
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group"
+                                 ng-class="{'has-error has-feedback':modPasswd.newPasswd.$dirty&&modPasswd.newPasswd.$invalid}">
+                                <label for="newPasswd">新密码</label>
+                                <input name="newPasswd" type="password" class="form-control input-sm" id="newPasswd"
+                                       placeholder="新密码"
+                                       required ng-model="newPasswd" ng-change="clearConfirmPasswd()" ng-maxlength=20
+                                       ng-minlength=6 ng-pattern="/^[a-zA-Z0-9@_\*]+$/">
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                      ng-show="modPasswd.newPasswd.$dirty&&modPasswd.newPasswd.$invalid"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="newPasswd">&nbsp;</label>
+                                <p ng-show="modPasswd.newPasswd.$dirty&&modPasswd.newPasswd.$error.required"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;新密码不能为空
+                                </p>
+                                <p ng-show="modPasswd.newPasswd.$dirty&&modPasswd.newPasswd.$error.minlength"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;新密码最小长度为6
+                                </p>
+                                <p ng-show="modPasswd.newPasswd.$dirty&&modPasswd.newPasswd.$error.maxlength"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;新密码最大长度为20
+                                </p>
+                                <p ng-show="modPasswd.newPasswd.$dirty&&modPasswd.newPasswd.$error.pattern"
+                                   class="form-control-static" style="width: 213px;font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;密码只允许输入大小写字母与数字_,@,*
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group"
+                                 ng-class="{'has-error has-feedback':modPasswd.confirmPasswd.$dirty&&modPasswd.confirmPasswd.$invalid}">
+                                <label for="confirmPasswd">确认密码</label>
+                                <input type="password" name="confirmPasswd" class="form-control input-sm" id="confirmPasswd"
+                                       placeholder="确认密码" required ws-comparewith="newPasswd" ng-model="confirmPasswd"
+                                       ng-change="disabledSubmit=false"><span
+                                    class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                    ng-show="modPasswd.confirmPasswd.$dirty&&modPasswd.confirmPasswd.$invalid"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="confirmPasswd">&nbsp;</label>
+                                <p ng-show="modPasswd.confirmPasswd.$dirty&&modPasswd.confirmPasswd.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp; <span
+                                        ng-show="modPasswd.confirmPasswd.$error.required">确认密码不能为空</span>
+                                    <span ng-show="modPasswd.confirmPasswd.$error.wsComparewith">密码不一致</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="showInfo" class="row">
+                        <div class="col-md-8">
+                            <label style="font-size: small;" ng-class="{'text-danger':modErr}" for="confirmPasswd"><span
+                                    class="glyphicon glyphicon-info-sign"></span>&nbsp;{{errorInfo}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <button type="submit" class="btn btn-default btn-sm" ng-disabled="disabledSubmit"
+                                    ng-click="submit()">提交
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="onreset()">清空</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

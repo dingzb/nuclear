@@ -1,0 +1,110 @@
+<div ng-controller="dataCenterController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form class="ws-searchform ">
+                    <div class="collapse" id="showOrHide">
+                        <div class="borderTopf0 noborderTop borderE2" id="search">
+                            <ul class="search">
+                                <li><span>名称:</span>
+                                    <input class="Input_search" type="text" placeholder="名称" name="name" ng-model="datagrid.params.dataCenterName">
+                                </li>
+                                <li><span>地址:</span>
+                                    <input class="Input_search" type="text" placeholder="地址" name="address" ng-model="datagrid.params.dataCenterIp">
+                                </li>
+                                <!-- 					        <li><span>身份证号:</span><input class="Input_search" type="text" placeholder="身份证号" name="idCard"  ng-model="datagrid.params.idCard"></li>     -->
+                                <div class="clear"></div>
+                            </ul>
+                            <div class="btn_box mb20">
+                                <button class="btn_blue" type="button" ng-click="search()" ws-permcode="app.ac.dataCenter.getDataCenterPaging">查询</button>
+                                <button class="btn_blue" type="button" ng-click="resetSearch()">清空</button>
+                            </div>
+                        </div>
+                        <div class="borderTopf0 borderE2"></div>
+                    </div>
+                    <div class="mlr10">
+                        <div class="mb10 mt20">
+                            <button class="btn_blue" ng-click="onAdd()" ws-permcode="app.ac.dataCenter.addDataCenter">添加</button>
+                            <button class="btn_blue" type="button" ng-click="onEdit()" ws-permcode="app.ac.dataCenter.editDataCenter">编辑</button>
+                            <button class="btn_blue" type="button" ng-click="onDelete()" ws-permcode="app.ac.dataCenter.deletesDataCenter">删除</button>
+                            <button class="btn_blue right" data-toggle="collapse" data-target="#showOrHide" aria-expanded="false" aria-controls="ShowOrHide">显示/隐藏表格</button>
+                        </div>
+                    </div>
+                </form>
+            </ws-datagrid>
+            <!-- 添加模态窗 -->
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="dataCenterForm" novalidate>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                    <tr>
+                                        <th>
+                                            <nobr>*</nobr>名称：</th>
+                                        <td>
+                                            <input class="Input_edit" type="text" name="dataCenterName" ng-model="info.dataCenterName" ng-maxlength=50 required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <nobr>*</nobr>地址：</th>
+                                        <td>
+                                            <input class="Input_edit" type="text" name="dataCenterIp" ng-model="info.dataCenterIp " required ng-pattern="/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <div class="errMsg">
+                                <div class="alert alert-danger" ng-messages="dataCenterForm.dataCenterName.$error" ng-show="dataCenterForm.dataCenterName.$dirty&&dataCenterForm.dataCenterName.$invalid" ng-message-multiple>
+                                    <div ng-message="required">名称为必填项</div>
+                                    <div ng-message="maxlength">名称最大长度为50个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="dataCenterForm.dataCenterIp.$error" ng-show="dataCenterForm.dataCenterIp.$dirty&&dataCenterForm.dataCenterIp.$invalid" ng-message-multiple>
+                                    <div ng-message="required">地址为必填项</div>
+                                    <div ng-message="pattern">地址格式为1.0.0.1 到 255.255.255.254</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mlP35 mb20 mt0">
+                            <button type="button" class="btn_blue" ng-click="reset()">清空</button>
+                            <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                            <button id="conSaveBtn" type="button" class="btn_blue" ng-click="onSave('conSaveBtn')">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 详细信息 -->
+            <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel"><img src="resources/image/detail_img1.png">详细信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="dataCenterDetailForm">
+                                <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+                                    <tr>
+                                        <th width="13.3%" align="left">名称</th>
+                                        <td width="20%" align="left" name="dataCenterName" ng-bind="detail.dataCenterName"></td>
+                                        <th width="13.3%" align="left">地址</th>
+                                        <td width="20%" align="left" name="dataCenterIp" ng-bind="detail.dataCenterIp"></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

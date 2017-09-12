@@ -1,0 +1,27 @@
+.ws-alert .modal-header {
+    padding: 8px 15px;
+}
+
+.ws-alert .modal-header .glyphicon {
+    margin-right: 4px;
+}
+
+.ws-alert .modal-footer {
+    padding: 4px 15px;
+}
+
+.ws-error {
+    color: #a94442;
+}
+
+.ws-warning {
+    color: #f0ad4e;
+}
+
+.ws-danger {
+    color: #d9534f;
+}
+
+.ws-info {
+    color: #5bc0de;
+}

@@ -1,0 +1,377 @@
+<div ng-controller="systemUserCtrl">
+    <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+        <div class="collapse" id="showOrHide">
+            <form class="form-inline">
+                <div class="ws-search-input-group">
+                    <div class="form-group">
+                        <label title="用户名" for="username">用户名</label>
+                        <input id="username" type="text" class="form-control input-sm"
+                               ng-model="searchParams.username" maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label title="姓名" for="name">姓名</label>
+                        <input id="name" type="text" class="form-control input-sm" ng-model="searchParams.name"
+                               maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label title="创建时间起" for="createTimeStart">创建时间起</label>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            <input size="16" type="text" id="createTimeStart" name="createTimeStart"
+                                   class="form-control input-sm"
+                                   placeholder="年-月-日 时:分" ng-model="searchParams.createTimeStart">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label title="创建时间止" for="createTimeEnd"> 创建时间止</label>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            <input size="16" type="text" id="createTimeEnd" ng-init="initDtp()"
+                                   class="form-control input-sm" placeholder="年-月-日 时:分"
+                                   ng-model="searchParams.createTimeEnd">
+                        </div>
+                    </div>
+                    <div class="ws-search-btn-group ws-inline">
+                        <button class="btn btn-info btn-sm" type="submit" ng-click="search()">查询</button>
+                        <button class="btn btn-info btn-sm" type="button" ng-click="resetSearch()">清空</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <button class="btn btn-info btn-sm" type="button" ng-click="onAdd()"
+                    ws-permcode="system.permission.user.add">添加
+            </button>
+            <button class="btn btn-info btn-sm" type="button"
+                    ng-click="onEdit()" ws-permcode="system.permission.user.edit">编辑
+            </button>
+            <button class="btn btn-info btn-sm" type="button"
+                    ng-click="onDelete()" ws-permcode="system.permission.user.del">删除
+            </button>
+            <button class="btn btn-info btn-sm" type="button" ng-click="setRoles()"
+                    ws-permcode="system.permission.user.role.remove, system.permission.user.role.add">设置角色
+            </button>
+            <button class="btn btn-info btn-sm" type="button" ng-click="showGroups()"
+                    ws-permcode="system.permission.user.group.add, system.permission.user.group.remove">设置组
+            </button>
+            <button class="btn btn-primary btn-sm pull-right" data-toggle="collapse" data-target="#showOrHide">
+                显示/隐藏搜索
+            </button>
+        </div>
+    </ws-datagrid>
+
+    <!--设置组-->
+    <div class="modal fade" id="groupModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <ul class="nav nav-tabs ws-layout-tab" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#includeGroup" aria-controls="includeGroup" role="tab" data-toggle="tab">已添组</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#excludeGroup" aria-controls="excludeGroup" role="tab" data-toggle="tab">可选组</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content ws-layout-tab-content">
+                        <div class="tab-pane active" id="includeGroup" role="tabpanel">
+                            <ws-datagrid configuration="groupInclDatagrid" inner-ctrl="groupInclCtrl">
+                                <form name="groupInclForm" class="form-inline">
+                                    <div class="ws-search-input-group">
+                                        <div class="form-group">
+                                            <label title="用户名" for="incGroupNmae">名称</label>
+                                            <input id="incGroupNmae" class="form-control input-sm" type="text"
+                                                   placeholder="名称"
+                                                   ng-model="groupInclDatagrid.params.name">
+                                        </div>
+                                        <div class="ws-search-btn-group ws-inline">
+                                            <button class="btn btn-info btn-sm" type="submit"
+                                                    ng-click="searchGroupIncl()">查询
+                                            </button>
+                                            <button class="btn btn-info btn-sm" type="button"
+                                                    ng-click="clearGroupIncl()">清空
+                                            </button>
+                                            <button class="btn btn-info btn-sm" type="button"
+                                                    ng-click="removeGroupIncl()"
+                                                    ws-permcode="system.permission.user.group.remove">移除组
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </ws-datagrid>
+                        </div>
+
+                        <div class="tab-pane" id="excludeGroup" role="tabpanel">
+                            <ws-datagrid configuration="groupExclDatagrid" inner-ctrl="groupExclCtrl">
+                                <form name="groupExclForm" class="form-inline">
+                                    <div class="ws-search-input-group">
+                                        <div class="form-group">
+                                            <label title="用户名" for="excGroupName">名称</label>
+                                            <input id="excGroupName" class="form-control input-sm" type="text"
+                                                   placeholder="名称"
+                                                   ng-model="groupExclDatagrid.params.name">
+                                        </div>
+                                        <div class="ws-search-btn-group ws-inline">
+                                            <button class="btn btn-info btn-sm" type="submit"
+                                                    ng-click="searchGroupExcl()">查询
+                                            </button>
+                                            <button class="btn btn-info btn-sm" type="submit"
+                                                    ng-click="clearGroupExcl()">清空
+                                            </button>
+                                            <button class="btn btn-info btn-sm" type="submit"
+                                                    ng-click="addGroupExcl()"
+                                                    ws-permcode="system.permission.user.group.add"> 添加组
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </ws-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 	设置角色	--- -->
+    <div class="modal fade" id="roleModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <ul class="nav nav-tabs ws-layout-tab" role="tablist" style="padding-top: 10px;">
+                        <li role="presentation" class="active">
+                            <a href="#includeRole" aria-controls="includeRole" role="tab" data-toggle="tab">已添角色</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#excludeRole" aria-controls="excludeRole" role="tab" data-toggle="tab">可选角色</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content ws-layout-tab-content">
+                        <div class="tab-pane active" id="includeRole" role="tabpanel">
+                            <ws-datagrid configuration="roleInclDatagrid" inner-ctrl="roleInclCtrl">
+                                <form name="groupInclForm" class="form-inline">
+                                    <div class="ws-search-input-group">
+                                        <div class="form-group">
+                                            <label title="用户名" for="roleIncName">名称</label>
+                                            <input id="roleIncName" class="form-control input-sm" type="text"
+                                                   placeholder="名称"
+                                                   ng-model="roleInclDatagrid.params.name">
+                                        </div>
+                                        <div class="ws-search-btn-group ws-inline">
+                                            <button class="btn btn-info btn-sm" type="submit"
+                                                    ng-click="searchRoleIncl()">查询
+                                            </button>
+                                            <button class="btn btn-info btn-sm" type="button"
+                                                    ng-click="clearRoleIncl()">清空
+                                            </button>
+                                            <button class="btn btn-info btn-sm" type="button"
+                                                    ng-click="removeRoleIncl()"
+                                                    ws-permcode="system.permission.user.role.remove">移除角色
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </ws-datagrid>
+                        </div>
+                        <div class="tab-pane" id="excludeRole" role="tabpanel">
+                            <ws-datagrid configuration="roleExclDatagrid" inner-ctrl="roleExclCtrl">
+                                <form name="groupInclForm" class="form-inline">
+                                    <div class="ws-search-input-group">
+                                        <div class="form-group">
+                                            <label title="用户名" for="roleExcName">名称</label>
+                                            <input id="roleExcName" class="form-control input-sm" type="text"
+                                                   placeholder="名称"
+                                                   ng-model="roleExclDatagrid.params.name">
+                                        </div>
+                                        <div class="ws-search-btn-group ws-inline">
+                                            <button class="btn btn-info btn-sm" type="submit"
+                                                    ng-click="searchRoleExcl()">查询
+                                            </button>
+                                            <button class="btn btn-info btn-sm" type="button"
+                                                    ng-click="clearRoleExcl()">清空
+                                            </button>
+                                            <button class="btn btn-info btn-sm" type="button"
+                                                    ng-click="addRoleExcl()"
+                                                    ws-permcode="system.permission.user.role.add">添加角色
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </ws-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 添加模态窗口 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="addUserForm" novalidate>
+                        <table class="ws-form-table">
+                            <tr>
+                                <th><label for="add_username">用户名：</label></th>
+                                <td>
+                                    <input type="hidden" name="userId" ng-model="info.id">
+                                    <input id="add_username" class="form-control input-sm" type="text" name="username"
+                                           placeholder="用户名"
+                                           ng-model="info.username" required maxlength="10">
+                                    <div ng-messages="addUserForm.username.$error"
+                                         ng-show="addUserForm.username.$dirty&&addUserForm.username.$invalid"
+                                         ng-messages-multiple class="ws-form-msg-err">
+                                        <span ng-message="required" class="label label-danger">用户名为必填项</span>
+                                    </div>
+                                </td>
+                                <th><label for="add_name">姓名：</label></th>
+                                <td>
+                                    <input id="add_name" class="form-control input-sm" type="text" name="name"
+                                           placeholder="姓名"
+                                           ng-model="info.name" required maxlength="10">
+                                    <div ng-messages="addUserForm.name.$error"
+                                         ng-show="addUserForm.name.$dirty&&addUserForm.name.$invalid"
+                                         ng-messages-multiple class="ws-form-msg-err">
+                                        <span ng-message="required" class="label label-danger">姓名为必填项</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="xianju">县局：</label></th>
+                                <td>
+                                    <select id="xianju" class="form-control input-sm" style="width: 169px;" disabled
+                                            ng-model="userTopAgencyId">
+                                        <option ng-selected="agency.id == userTopAgencyId"
+                                                ng-repeat="agency in topAgencies" value="{{agency.id}}"
+                                                ng-bind="agency.name"></option>
+                                    </select>
+                                </td>
+                                <th><label for="fenju">分局：</label></th>
+                                <td>
+                                    <select id="fenju" class="form-control input-sm" style="width: 169px;"
+                                            ng-model="userAgencyId">
+                                        <option value="">-请选择-</option>
+                                        <option ng-selected="agency.id == userAgencyId" ng-repeat="agency in agencies"
+                                                value="{{agency.id}}" ng-bind="agency.name"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>负责人：</label></th>
+                                <td>
+                                    <label class="radio-inline">
+                                        <input ng-model="info.agencyBoss" type="radio" name="agencyBoss" ng-value="true">是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input ng-model="info.agencyBoss" type="radio" name="agencyBoss" ng-value="false">否
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-info btn btn-sm" ng-click="reset()">清空</button>
+                    <button type="button" class="btn-info btn btn-sm" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn-info btn btn-sm" ng-click="onSave()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 编辑用户 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="ediUserForm" novalidate>
+                        <table class="ws-form-table">
+                            <tr>
+                                <th><label>用户名：</label></th>
+                                <td><input class="form-control input-sm" readonly type="text" name="username"
+                                           placeholder="用户名" ng-model="edit.username" required maxlength="10"
+                                           disabled>
+                                    <input type="hidden" name="userId" ng-model="edit.id">
+                                </td>
+                                <th><label>姓名：</label></th>
+                                <td>
+                                    <input class="form-control input-sm" type="text" name="name" placeholder="姓名"
+                                           ng-model="edit.name" required maxlength="10">
+                                    <div class="ws-form-msg-err"
+                                         ng-messages="ediUserForm.name.$error"
+                                         ng-show="ediUserForm.name.$dirty&&ediUserForm.name.$invalid"
+                                         ng-messages-multiple>
+                                        <span class="label label-danger" ng-message="required">姓名为必填项</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="edit_xianju">县局：</label></th>
+                                <td>
+                                    <select id="edit_xianju" class="form-control input-sm" style="width: 169px;"
+                                            disabled ng-model="editUserTopAgencyId">
+                                        <option ng-selected="agency.id == editUserTopAgencyId"
+                                                ng-repeat="agency in topAgencies" value="{{agency.id}}"
+                                                ng-bind="agency.name"></option>
+                                    </select>
+                                </td>
+                                <th><label for="edit_fenju">分局：</label></th>
+                                <td>
+                                    <select id="edit_fenju" class="form-control input-sm" style="width: 169px;"
+                                            ng-model="editUserAgencyId">
+                                        <option value="">-请选择-</option>
+                                        <option ng-selected="agency.id == editUserAgencyId"
+                                                ng-repeat="agency in agencies" value="{{agency.id}}"
+                                                ng-bind="agency.name"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>负责人：</label></th>
+                                <td>
+                                    <label class="radio-inline">
+                                        <input ng-model="edit.agencyBoss" type="radio" name="agencyBoss" ng-value="true">是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input ng-model="edit.agencyBoss" type="radio" name="agencyBoss" ng-value="false">否
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-info btn btn-sm" ng-click="resetEdit()">清空</button>
+                    <button type="button" class="btn-info btn btn-sm" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn-info btn btn-sm" ng-click="editSave()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

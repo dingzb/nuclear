@@ -1,0 +1,895 @@
+<!-- 
+/** 
+ * <p>场所管理</p>
+ * @author Dzb
+ * @since 2015-07-09
+ * 字段长度限制（2016-12-07）
+ *	来源于《规范数据格式表.xlsx》
+ *	规范中有的字段长度按照规范中的长度
+ *	规范中没有的字段长度默认为32（郭云军口述）
+ */
+ -->
+<style type="text/css">
+.ws-grid {
+    padding-top: 20px;
+}
+
+.ws-searchform {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ws-paginationbar {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.ws-row {
+    padding-top: 15px;
+}
+.btn_Edit1{
+	margin-left:0;
+}
+</style>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div ng-controller="acPlaceManageController">
+            <div class="row" ws-permcode="app.analysis.system.place.getPlaceTips2">
+                <div class="col-md-12">
+                    <div class="alert alert-info alert-dismissible ws-gridTip" role="alert" ng-init="initTips()">
+                      新增总数<span class="ws-gridTip-font" ng-click="addFilter('isNew')" ng-bind="tip.newAdd"></span>个，
+                      当前在服<span class="ws-gridTip-font" ng-click="addFilter('inService')" ng-bind="tip.inService"></span>个，
+                      不在服<span class="ws-gridTip-font" ng-click="addFilter('outService')" ng-bind="tip.outService"></span>个，
+                      总场所数<span class="ws-gridTip-font" ng-click="addFilter('clear')" ng-bind="tip.placeSum"></span>个
+                    </div>
+                </div>
+            </div>
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form >
+                    <div class="col-md-12">
+                        <div id="placeSearchInput" class="collapse">
+	                        <div class="row" ng-init="showSearch=true" style="margin-top: 10px">
+	                        	<div class="borderTopf0 noborderTop borderE2" id="search">
+	                        		<ul class="search">
+										<li><span>场所名称:</span>
+											<input type="text" name="placeName" placeholder="场所" class="Input_search" ng-model="datagrid.params.name">
+										</li>
+										<!-- <li><span>联系人:</span>
+											<input id="contactsName" type="text" placeholder="联系人" class="Input_search" ng-model="datagrid.params.contactsName">
+										</li> -->
+										<li><span>场所编码:</span>
+											<input id="code" type="text" placeholder="场所编码" class="Input_search" ng-model="datagrid.params.code">
+										</li>
+										<li><span>服务类型:</span>
+											<select name="placeTypeId" id="placeTypeId" class="Input_search" ng-model="datagrid.params.placeTypeId">
+	                                            <option value="">-请选择-</option>
+	                                            <option ng-repeat="placeType in placeTypeItems" value="{{placeType.id}}" ng-bind="placeType.text"></option>
+	                                        </select>
+										</li>
+										<li><span>所属省份:</span>
+											<select name="province" id="province" class="Input_search" ng-model="datagrid.params.provinceCode" ng-change="getCitys(datagrid.params.provinceCode)">
+	                                            <option value="">--请选择--</option>
+	                                            <option ng-repeat="province in provinceList" value="{{province.code}}" ng-bind="province.name"></option>
+	                                        </select>
+										</li>
+										<li><span>所属城市:</span>
+											<select name="city" id="city" class="Input_search" ng-model="datagrid.params.cityCode" ng-change="getRegions(datagrid.params.cityCode)">
+	                                            <option value="">--请选择--</option>
+	                                            <option ng-repeat="city in citysList" value="{{city.code}}" ng-bind="city.name"></option>
+	                                        </select>
+										</li>
+										<li><span>所属区域:</span>
+											 <select name="region" id="region" class="Input_search" ng-model="datagrid.params.regionCode">
+	                                            <option value="">--请选择--</option>
+	                                            <option ng-repeat="region in regionsList" value="{{region.code}}" ng-bind="region.name"></option>
+	                                        </select>
+										</li>
+									</ul>
+									<div class="btn_box mb20">
+				                        <button class="btn_blue" style="margin-left: 10px;" ng-click="search()" ng-disabled="!showSearch">查询</button>
+										<button class="btn_blue" ng-click="resetSearch()" ng-disabled="!showSearch">清空</button>
+									</div>	
+			                        <div class="mainTop"></div>
+	                        	</div>
+	                        </div>
+                        </div>
+                        <div class="mb10 mt20">
+							<button class="btn_blue btn_mt" style="margin-left: 10px;"ng-click="onAdd()" ws-permcode="app.analysis.system.place.addPlace">添加</button>
+							<button class="btn_blue btn_mt" ng-click="onEdit()" ws-permcode="app.analysis.system.place.editPlace">编辑</button>
+							<button class="btn_blue btn_mt" ng-click="onDelete()" ws-permcode="app.analysis.system.place.removePlace">删除</button>
+							<button class="btn_blue btn_mt" style="margin-left: 10px;"ng-click="approve()" ws-permcode="app.analysis.system.place.approvePlace">审核</button>
+							<button class="btn_blue btn_mt" ng-class="{btn_active:isApprovePress}" style="margin-left: 10px;"ng-click="search(1)"  ws-permcode="app.analysis.system.place.approvePlace">待审核</button>
+							<button class="btn_blue btn_mt" ng-class="{btn_active:isSubPress}" style="margin-left: 10px;"ng-click="search(0)"  ws-permcode="app.analysis.system.place.addPlace">未审核</button>
+							<!-- <span class="excel_btn">
+					        	<button class="btn_blue" ng-click="excelExport()">导出excel表格<small>▼</small></button>
+					            <ul class="excel_export" id="excel_export">
+					               <li><a href="" ng-click="exportSelected()" ws-permcode="app.place.exportSelected">导出选定行</a></li>
+					               <li><a href="" ng-click="exportPage()" ws-permcode="app.place.exportPage">导出当前页面</a></li>
+					               <li><a ng-click="exportExcel()" href="" ws-permcode="app.place.exportCounts">输入条数导出</a></li>
+					            </ul>
+					        </span> -->
+					        <div class="btn-group">
+                                <button class="btn_blue dropdown-toggle btn_mt" type="button" data-toggle="dropdown" ws-permcode="app.place.exportSelected,app.place.exportPage,app.place.exportCounts">导出Excel<span class="caret" style="margin-left: 5px;"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="" ng-click="exportSelected()" ws-permcode="app.place.exportSelected">导出选定行</a></li>
+                                    <li><a href="" ng-click="exportPage()" ws-permcode="app.place.exportPage">导出当前页面</a></li>
+                                    <li><a ng-click="exportExcel()" href="" ws-permcode="app.place.exportCounts">输入条数导出</a></li>
+                                </ul>
+                            </div>
+                            <button class="btn_blue btn_mt" type="button" ng-click="importExcel()" ws-permcode="app.place.importExcel">导入Excel</button>
+							<button class="btn_blue right btn_mt" data-toggle="collapse" data-target="#placeSearchInput" aria-expanded="false" aria-controls="placeSearchInput" >显示/隐藏搜索           </button>
+						</div>
+                    </div>
+                </form>
+            </ws-datagrid>
+            <!-- 添加模态窗 -->
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content" style="border-radius: 10px;">
+                        <div class="detail_top">
+							<div class="detail_top_l pl10">{{modalTitle}}&nbsp;——&nbsp;</div>
+                            <div class="detail_top_l pl10" ng-show="saveIndex==1">基本信息(1/7)</div>
+                            <div class="detail_top_l pl10" ng-show="saveIndex==2">基本信息(2/7)</div>
+                            <div class="detail_top_l pl10" ng-show="saveIndex==3">基本信息(3/7)</div>
+                            <div class="detail_top_l pl10" ng-show="saveIndex==4">基本信息(4/7)</div>
+                            <div class="detail_top_l pl10" ng-show="saveIndex==5">基本信息(5/7)</div>
+                            <div class="detail_top_l pl10" ng-show="saveIndex==6">基本信息(6/7)</div>
+                            <div class="detail_top_l pl10" ng-show="saveIndex==7">基本信息(7/7)</div>
+							<div class="detail_top_r">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+							</div>
+						</div>
+                        <div class="modal-body">
+                            <!--基本信息表单s -->
+                            <form name="baseForm" ng-show="saveIndex==1" novalidate>
+								<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+									<tr>
+										<th><nobr>*</nobr>场所名称：</th>
+										<td>
+											<input type="text" name="addressname" class="Input_edit" placeholder="场所名称" ng-model="info.name" required ng-maxlength=256>
+                                            <input type="hidden" name="placeId" ng-model="info.id">
+										</td>
+										<th><nobr>*</nobr>流水号：</th>
+										<td>
+											<input id="serialnumber" type="text" name="serialnumber" class="Input_edit" placeholder="流水号" ng-model="info.serialNumber" ng-maxlength=32 required ng-pattern="/^[0-9]*$/">
+										</td>
+										<th><nobr>*</nobr>组织机构：</th>
+										<td>
+											<input type="text" name="organization" class="Input_edit" placeholder="组织机构" ng-model="info.organization" required ng-maxlength=9 ng-pattern="/^[A-Za-z0-9]+$/">
+										</td>
+									</tr>
+									<tr>
+										<th><nobr>*</nobr>在服：</th>
+										<td>
+											<select name="inService" id="inService" class="Input_edit" ng-model="info.inService" required>
+                                                <option value="">--请选择--</option>
+                                                <option value="true">是</option>
+                                                <option value="false">否</option>
+                                            </select>
+										</td>
+										<th>备注：</th>
+										<td>
+											<input type="text" name="description" class="Input_edit" placeholder="备注" ng-model="info.description" ng-maxlength=32>
+										</td>
+									</tr>
+								</table>
+                            </form>
+                            <!--基本信息表单e -->
+                            <!--地址信息表单s -->
+                            <form name="positionForm" ng-show="saveIndex==2"  novalidate>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit" >
+                                	<tr>
+										<th><nobr>*</nobr>场所编码：</th>
+										<td>
+                                            <input type="text" disabled ng-model="info.code1" class="Input_edit" style="width:50%;float: left">
+                                             <input type="text" name="code" class="Input_edit" placeholder="场所编码" ng-model="info.code" required ng-pattern="/^\d{6}$/" maxlength=6 style="width:50%;float: left">
+										</td>
+										<th><nobr>*</nobr>经度：</th>
+										<td>
+											<input type="text" name="longitude" class="Input_edit" placeholder="经度" ng-model="info.longitude" required ng-pattern="/^(-|\+)?(180\.0{5}|(\d{1,2}|1([0-7]\d))\.\d{5})$/">
+										</td>
+										<th><nobr>*</nobr>纬度：</th>
+										<td>
+											<input type="text" name="latitude" class="Input_edit" placeholder="纬度" ng-model="info.latitude" required ng-pattern="/^(-|\+)?(90\.0{4,6}|(\d|[1-8]\d)\.\d{5})$/">
+										</td>
+									</tr>
+									<tr>
+										<th><nobr>*</nobr>省份：</th>
+										<td>
+                                            <select name="provinceCode" id="province" class="Input_edit" ng-model="info.provinceCode" ng-change="getCitys(info.provinceCode)">
+                                                <option value="">--请选择--</option>
+                                                <option ng-repeat="province in provinceList" ng-selected="provinceId==province.code" value="{{province.code}}" ng-bind="province.name"></option>
+                                            </select>
+										</td>
+										<th><nobr>*</nobr>城市：</th>
+										<td>
+											<select name="cityCode" id="city" class="Input_edit" ng-model="info.cityCode" ng-change="getRegions(info.cityCode)">
+                                                <option value="">--请选择--</option>
+                                                <option ng-repeat="city in citysList" ng-selected="cityId==city.code" value="{{city.code}}" ng-bind="city.name"></option>
+                                            </select>
+										</td>
+										<th><nobr>*</nobr>所属区域：</th>
+										<td>
+											<select name="regionCode" id="region" class="Input_edit" ng-model="info.regionCode" required ng-change="getPlaceCode()">
+                                                <option value="">--请选择--</option>
+                                                <option ng-repeat="region in regionsList" ng-selected="info.regionCode==region.code" value="{{region.code}}" ng-bind="region.name"></option>
+                                            </select>
+										</td>
+									</tr>
+									<tr>
+										<th><nobr>*</nobr>地址：</th>
+										<td>
+                                            <input type="text" name="address" class="Input_edit" placeholder="地址" ng-model="info.address" required ng-maxlength=256>
+										</td>
+										<th><nobr>*</nobr>邮编：</th>
+										<td>
+											<input type="text" name="postal" class="Input_edit" placeholder="邮编" ng-model="info.postal" required ng-pattern="/^[1-9]\d{5}$/">
+										</td>
+										<th><nobr>*</nobr>经营性质：</th>
+										<td>
+											<select name="businessType" id="businessType" class="Input_edit" ng-model="info.businessType" required ng-change="getPlaceCode(1)">
+                                                <option value="">--请选择--</option>
+                                                <option value="0">经营</option>
+                                                <option value="1">非经营</option>
+                                                <option value="3">WIFI无线采集前端</option>
+                                            </select>
+										</td>
+									</tr>
+									<tr>
+										<th><nobr>*</nobr>服务类型：</th>
+										<td>
+                                            <select name="placeTypeId" id="placeTypeId" class="Input_edit" ng-model="info.placeTypeId" ng-change="getPlaceCode()" ng-disabled="placeTypeDisabled">
+                                                <option value="">-请选择-</option>
+                                                <option ng-repeat="placeType in placeTypeItems" ng-selected="info.placeTypeId==placeType.id" value="{{placeType.id}}" ng-bind="placeType.text"></option>
+                                            </select>
+										</td>
+										<th><nobr>*</nobr>营业开始时间：</th>
+										<td>
+											<input type="text" id="bussinessStart" name="businessHourStart" class="Input_edit" placeholder="营业开始时间" ng-model="info.businessHourStart" required >
+										</td>
+										<th><nobr>*</nobr>营业结束时间：</th>
+										<td>
+											<input type="text" id="bussinessEnd" name="businessHourEnd" class="Input_edit" placeholder="营业结束时间" ng-model="info.businessHourEnd" required >
+										</td>
+									</tr>
+                                </table>
+                            </form>
+                            <!--地址信息表单e -->
+                            <!--场所信息表单s -->
+                            <form name="placeForm" ng-show="saveIndex==3" novalidate>
+                            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                	<tr>
+										<th><nobr>*</nobr>从业人数：</th>
+										<td>
+											<input type="text" name="employess" class="Input_edit" placeholder="从业人数" ng-model="info.employess" required ng-maxlength=32 ng-pattern="/^[0-9]*$/">
+										</td>
+										<th title="报装机器数"><nobr>*</nobr>报装机器数：</th>
+										<td>
+											<input type="text" name="machine" class="Input_edit" placeholder="报装机器数" ng-model="info.machine" required ng-maxlength=32 ng-pattern="/^[0-9]*$/">
+										</td>
+										<th><nobr>*</nobr>服务器数：</th>
+										<td>
+											<input type="text" name="server" class="Input_edit" placeholder="服务器数" ng-model="info.server" required ng-maxlength=32 ng-pattern="/^[0-9]*$/">
+										</td>
+									</tr>
+								</table>
+                            </form>
+                            <!--场所信息表单e -->
+                            <!--网络信息表单s -->
+                            <form name="netForm" ng-show="saveIndex==4" novalidate>
+                            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                	<tr>
+										<th title="接入服务商" style="cursor: pointer;"><nobr>*</nobr>接入服务商：</th>
+										<td>
+											<select name="ispCode" id="facilitator" class="Input_edit" ng-model="info.ispCode" required>
+                                                <option value="">--请选择--</option>
+                                                <option ng-repeat="ispCode in ispList " ng-selected="info.ispCode==ispCode.id" value="{{ispCode.id}}" ng-bind="ispCode.text"></option>
+                                            </select>
+										</td>
+										<th><nobr>*</nobr>接入方式：</th>
+										<td>
+											<select name="accessModelCode" id="access" class="Input_edit" ng-model="info.accessModelCode" required>
+                                                <option value="">--请选择--</option>
+                                                <option ng-repeat="accessModel in accessList" ng-selected="info.accessModelCode==accessModel.id" value="{{accessModel.id}}" ng-bind="accessModel.text"></option>
+                                            </select>
+										</td>
+										<th><nobr>*</nobr>出口IP：</th>
+										<td>
+											<input type="text" name="outip" class="Input_edit" placeholder="出口IP" ng-model="info.outip" required ng-pattern="/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/">
+										</td>
+									</tr>
+								</table>
+                            </form>
+                            <!--网络信息表单e -->
+                            <!--法人信息表单s -->
+                            <form name="legalPersonForm" ng-show="saveIndex==5" novalidate>
+                            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                	<tr>
+										<th title="法定代表人"><nobr>*</nobr>法定代表人：</th>
+										<td>
+											<input type="text" name="legalpersonname" class="Input_edit" placeholder="法定代表人" ng-model="info.legalPersonName" required ng-maxlength=64>
+										</td>
+										<th title="法人证件类型"><nobr>*</nobr>法人证件类型：</th>
+										<td>
+											<select name="certificate" id="certificate" class="Input_edit" ng-model="info.legalPersonIdType" required>
+                                                <option value="">--请选择--</option>
+                                                <option ng-repeat="certificate in certificateList" ng-selected="info.legalPersonIdType==certificate.id" value="{{certificate.id}}" ng-bind="certificate.text"></option>
+                                            </select>
+										</td>
+										<th title="法人证件号码"><nobr>*</nobr>法人证件号码：</th>
+										<td>
+											<input type="text" name="legalpersoncardno" class="Input_edit" placeholder="法人证件号码"  ng-model="info.legalPersonIdNo" required ng-minlength="10" ng-maxlength="18" ng-pattern="^\d{10,18}$">
+										</td>
+									</tr>
+									<tr>
+										<th title="法定代表人电话"><nobr>*</nobr>法定代表人电话：</th>
+										<td>
+											<input type="text" name="legalpersonph" class="Input_edit" placeholder="法定代表人电话" ws-phone ng-model="info.legalPersonPhone" required>
+										</td>
+									</tr>
+								</table>
+                            </form>
+                            <!--法人信息表单e -->
+                            <!--场所安全信息表单s -->
+                            <form name="placeSafeForm" ng-show="saveIndex==6" novalidate>
+                            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                	<tr>
+										<th title="场所负责人"><nobr>*</nobr>场所负责人：</th>
+										<td>
+											<input type="text" name="duty" class="Input_edit" placeholder="场所负责人" ng-model="info.duty" required ng-maxlength=32>
+										</td>
+										<th title="场所负责人电话"><nobr>*</nobr>场所负责人电话：</th>
+										<td>
+											<input type="text" name="dutyph" class="Input_edit" placeholder="场所负责人电话" ws-phone ng-model="info.dutyPhone" required>
+										</td>
+										<th title="信息安全员"><nobr>*</nobr>信息安全员：</th>
+										<td>
+											<input type="text" name="safety" class="Input_edit" placeholder="信息安全员" ng-model="info.safety" required ng-maxlength=32>
+										</td>
+									</tr>
+									<tr>
+										<th title="安全员电话"><nobr>*</nobr>安全员电话：</th>
+										<td>
+											<input type="text" name="safetyph" class="Input_edit" placeholder="安全员电话" ws-phone ng-model="info.safetyPhone" required>
+										</td>
+										<th title="安全员email"><nobr>*</nobr>安全员email：</th>
+										<td>
+											<input type="text" name="safetyem" class="Input_edit" placeholder="安全员email" ng-model="info.safetyEmail" ng-maxlength=32 required ng-pattern="/^[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$/">
+										</td>
+										<th title="所属网监"><nobr>*</nobr>所属网监：</th>
+										<td>
+											<input type="text" name="netcontrol" class="Input_edit" placeholder="所属网监" ng-model="info.netControl" required ng-maxlength=32>
+										</td>
+									</tr>
+									<tr>
+										<th title="网监负责人"><nobr>*</nobr>网监负责人：</th>
+										<td>
+											<input type="text" name="netpeople" class="Input_edit" placeholder="网监负责人" ng-model="info.netPeople" required ng-maxlength=32>
+										</td>
+										<th title="网监负责人电话"><nobr>*</nobr>网监负责人电话：</th>
+										<td>
+											<input type="text" name="netph" class="Input_edit" placeholder="网监负责人电话" ws-phone ng-model="info.netPhone" required>
+										</td>
+									</tr>
+								</table>
+                            </form>
+                            <!--场所安全信息表单e -->
+                            <!--联系人信息表单s -->
+                            <form name="userForm" ng-show="saveIndex==7">
+                                <div class="row " ng-init="initAddPage()">
+                                    <div class="col-md-12" style="margin-top: 0px">
+                                        <ws-datagrid configuration="datagridAdd" inner-ctrl="innerCtrlContacts">
+                                        </ws-datagrid>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--联系人信息表单e -->
+                            <div class="errMsg">
+                                <div class="alert alert-danger" ng-messages="baseForm.addressname.$error" ng-show="baseForm.addressname.$dirty&&baseForm.addressname.$invalid" ng-message-multiple>
+                                    <div ng-message="required">场所名称为必填项</div>
+                                    <div ng-message="maxlength">场所名称最大长度不可以超过256个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="baseForm.serialnumber.$error" ng-show="baseForm.serialnumber.$dirty&&baseForm.serialnumber.$invalid" ng-message-multiple>
+                                    <div ng-message="required">流水号为必填项</div>
+                                    <div ng-message="pattern">流水号必须是数字</div>
+                                    <div ng-message="maxlength">流水号最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="baseForm.organization.$error" ng-show="baseForm.organization.$dirty&&baseForm.organization.$invalid" ng-message-multiple>
+                                    <div ng-message="required">组织机构为必填项</div>
+                                    <div ng-message="maxlength">组织机构最大长度不可以超过9个字符</div>
+                                    <div ng-message="pattern">组织机构为数字、字母、或数字字母组合</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="baseForm.inService.$error" ng-show="baseForm.inService.$dirty&&baseForm.inService.$invalid" ng-message-multiple>
+                                    <div ng-message="required">在服信息为必填项</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="baseForm.description.$error" ng-show="baseForm.description.$dirty&&baseForm.description.$invalid" ng-message-multiple>
+                                    <div ng-message="maxlength">备注最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.code.$error" ng-show="positionForm.code.$dirty&&positionForm.code.$invalid" ng-message-multiple>
+                                    <div ng-message="required">场所编码为必填项</div>
+                                    <div ng-message="pattern">场所编码格式为6位数字</div>
+                                </div>
+                                <div class="alert alert-danger" ng-show="positionForm.placeTypeId.$dirty&&(info.placeTypeId=='')&&(info.businessType!=0)">
+                                    <div>服务类型为必填项</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.longitude.$error" ng-show="positionForm.longitude.$dirty&&positionForm.longitude.$invalid" ng-message-multiple>
+                                    <div ng-message="required">经度为必填项</div>
+                                    <div ng-message="pattern">经度格式为-180.00000~+180.00000</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.latitude.$error" ng-show="positionForm.latitude.$dirty&&positionForm.latitude.$invalid" ng-message-multiple>
+                                    <div ng-message="required">纬度为必填项</div>
+                                    <div ng-message="pattern">纬度格式为-90.00000~+90.00000</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.postal.$error" ng-show="positionForm.postal.$dirty&&positionForm.postal.$invalid" ng-message-multiple>
+                                    <div ng-message="required">邮编为必填项</div>
+                                    <div ng-message="pattern">邮编格式为1~9开头的6位数字</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.regionCode.$error" ng-show="positionForm.regionCode.$dirty&&positionForm.regionCode.$invalid" ng-message-multiple>
+                                    <div ng-message="required">所属区域为必填项</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.address.$error" ng-show="positionForm.address.$dirty&&positionForm.address.$invalid" ng-message-multiple>
+                                    <div ng-message="required">地址为必填项</div>
+                                    <div ng-message="maxlength">地址最大长度不可以超过256个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.businessHourStart.$error" ng-show="positionForm.businessHourStart.$dirty&&positionForm.businessHourStart.$invalid" ng-message-multiple>
+                                    <div ng-message="required">营业开始时间必填</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.businessHourEnd.$error" ng-show="positionForm.businessHourEnd.$dirty&&positionForm.businessHourEnd.$invalid" ng-message-multiple>
+                                    <div ng-message="required">营业结束时间必填</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="positionForm.businessType.$error" ng-show="positionForm.businessType.$dirty&&positionForm.businessType.$invalid" ng-message-multiple>
+                                    <div ng-message="required">经营性质为必填项</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeForm.employess.$error" ng-show="placeForm.employess.$dirty&&placeForm.employess.$invalid" ng-message-multiple>
+                                    <div ng-message="required">从业人数为必填项</div>
+                                    <div ng-message="pattern">从业人数必须是数字</div>
+                                    <div ng-message="maxlength">从业人数最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeForm.machine.$error" ng-show="placeForm.machine.$dirty&&placeForm.machine.$invalid" ng-message-multiple>
+                                    <div ng-message="required">报装机器数为必填项</div>
+                                    <div ng-message="pattern">报装机器数必须是数字</div>
+                                    <div ng-message="maxlength">报装机器数最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeForm.server.$error" ng-show="placeForm.server.$dirty&&placeForm.server.$invalid" ng-message-multiple>
+                                    <div ng-message="required">服务器数为必填项</div>
+                                    <div ng-message="pattern">服务器数必须是数字</div>
+                                    <div ng-message="maxlength">服务器数最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="netForm.ispCode.$error" ng-show="netForm.ispCode.$dirty&&netForm.ispCode.$invalid" ng-message-multiple>
+                                    <div ng-message="required">接入服务商为必填项</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="netForm.accessModelCode.$error" ng-show="netForm.accessModelCode.$dirty&&netForm.accessModelCode.$invalid" ng-message-multiple>
+                                    <div ng-message="required">接入方式为必填项</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="netForm.outip.$error" ng-show="netForm.outip.$dirty&&netForm.outip.$invalid" ng-message-multiple>
+                                    <div ng-message="required">出口IP为必填项</div>
+                                    <div ng-message="pattern">IP格式为1.0.0.1 到 255.255.255.255</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="legalPersonForm.legalpersonname.$error" ng-show="legalPersonForm.legalpersonname.$dirty&&legalPersonForm.legalpersonname.$invalid" ng-message-multiple>
+                                    <div ng-message="required">法定代表人为必填项</div>
+                                    <div ng-message="maxlength">法定代表人最大长度不可以超过64个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="legalPersonForm.certificate.$error" ng-show="legalPersonForm.certificate.$dirty&&legalPersonForm.certificate.$invalid" ng-message-multiple>
+                                    <div ng-message="required">法人证件类型为必填项</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="legalPersonForm.legalpersoncardno.$error" ng-show="legalPersonForm.legalpersoncardno.$dirty&&legalPersonForm.legalpersoncardno.$invalid" ng-message-multiple>
+                                    <div ng-message="required">法人证件号码为必填项</div>
+                                    <div ng-message="maxlength">最大长度为18位数字</div>
+                                    <div ng-message="minlength">最小长度为10位数字</div>
+                                    <div ng-message="pattern">最小长度为10,最大长度为18位的数字</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="legalPersonForm.legalpersonph.$error" ng-show="legalPersonForm.legalpersonph.$dirty&&legalPersonForm.legalpersonph.$invalid" ng-message-multiple>
+                                    <div ng-message="required">法定代表人电话为必填项</div>
+                                    <div ng-message="phone">电话格式为11位手机号或者01012345678或010-12345678或者05381234567或0538-1234567</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeSafeForm.duty.$error" ng-show="placeSafeForm.duty.$dirty&&placeSafeForm.duty.$invalid" ng-message-multiple>
+                                    <div ng-message="required">场所负责人为必填项</div>
+                                    <div ng-message="maxlength">场所负责人最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeSafeForm.dutyph.$error" ng-show="placeSafeForm.dutyph.$dirty&&placeSafeForm.dutyph.$invalid" ng-message-multiple>
+                                    <div ng-message="required">场所负责人电话必填项</div>
+                                    <div ng-message="phone">电话格式为11位手机号或者01012345678或010-12345678或者05381234567或0538-1234567</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeSafeForm.safety.$error" ng-show="placeSafeForm.safety.$dirty&&placeSafeForm.safety.$invalid" ng-message-multiple>
+                                    <div ng-message="required">信息安全员必填项</div>
+                                    <div ng-message="maxlength">信息安全员最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeSafeForm.safetyph.$error" ng-show="placeSafeForm.safetyph.$dirty&&placeSafeForm.safetyph.$invalid" ng-message-multiple>
+                                    <div ng-message="required">安全员电话必填项</div>
+                                    <div ng-message="phone">电话格式为11位手机号或者01012345678或010-12345678或者05381234567或0538-1234567</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeSafeForm.safetyem.$error" ng-show="placeSafeForm.safetyem.$dirty&&placeSafeForm.safetyem.$invalid" ng-message-multiple>
+                                    <div ng-message="required">安全员email必填项</div>
+                                    <div ng-message="pattern">安全员email格式为xxxx@xx.xx</div>
+                                    <div ng-message="maxlength">安全员email最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeSafeForm.netcontrol.$error" ng-show="placeSafeForm.netcontrol.$dirty&&placeSafeForm.netcontrol.$invalid" ng-message-multiple>
+                                    <div ng-message="required">所属网监必填项</div>
+                                    <div ng-message="maxlength">所属网监最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeSafeForm.netpeople.$error" ng-show="placeSafeForm.netpeople.$dirty&&placeSafeForm.netpeople.$invalid" ng-message-multiple>
+                                    <div ng-message="required">网监负责人为必填项</div>
+                                    <div ng-message="maxlength">网监负责人最大长度不可以超过32个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="placeSafeForm.netph.$error" ng-show="placeSafeForm.netph.$dirty&&placeSafeForm.netph.$invalid" ng-message-multiple>
+                                    <div ng-message="required">网监负责人电话必填项</div>
+                                    <div ng-message="phone">电话格式为11位手机号或者01012345678或010-12345678或者05381234567或0538-1234567</div>
+                                </div>
+                                <!-- <div class="alert alert-danger" ng-messages="positionForm.provinceCode.$error" ng-show="positionForm.provinceCode.$dirty&&positionForm.provinceCode.$invalid" ng-message-multiple>
+			                        <div ng-message="required">省份为必填项</div>
+			                    </div>
+			                    <div class="alert alert-danger" ng-messages="positionForm.cityCode.$error" ng-show="positionForm.cityCode.$dirty&&positionForm.cityCode.$invalid" ng-message-multiple>
+			                        <div ng-message="required">城市为必填项</div>
+			                    </div> -->
+                            </div>
+                        </div>
+                        <div class="btn_Edit1 mb20">
+                        	<center>
+							<button class="btn_blue" ng-click="reset()">清空</button>
+							<button class="btn_blue" data-dismiss="modal">关&nbsp;闭</button>
+							<button class="btn_blue placeSaveBtn" ng-show="saveIndex==7" ng-click="onSave()">提&nbsp;交</button>
+							<button id="placeSaveBtn1" type="button" class="btn_blue" ng-show="saveIndex > 1" ng-click="saveIndex=1" title="首页">首页<!-- <span class="glyphicon glyphicon-step-backward"></span> --></button>
+                            <button id="placeSaveBtn1" type="button" class="btn_blue" ng-show="saveIndex > 1" ng-click="savePrevious()" title="上一页">上一页<!-- <span class="glyphicon glyphicon-triangle-left"> --></span></button>
+                            <button id="placeSaveBtn2" type="button" class="btn_blue" ng-show="saveIndex!=7" ng-click="saveNext()">下一页<!-- <span class="glyphicon glyphicon-triangle-right" title="下一页"> --></span></button>
+                            <button id="placeSaveBtn2" type="button" class="btn_blue" ng-show="saveIndex!=7" ng-click="saveNext(7)" title="末页">末页<!-- <span class="glyphicon glyphicon-step-forward"></span> --></button>
+                            <button type="button"  class="btn_blue placeSaveBtn" ng-show="saveIndex!=7 && approvePer" ng-click="onSave()" title="暂存">暂存</button>
+							</center>
+						</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 详细信息 -->
+            <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content" style="border-radius: 10px;">
+                        <div class="detail_top">
+							<div class="detail_top_l pl10"><img src="resources/images/detail_img1.png">{{modalTitle}}</div>
+							<div class="detail_top_r">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+							</div>
+						</div>
+                        <div class="modal-body" ng-init="initAddPage()">
+                            <form name="placeDetailForm">
+								<table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+									<tr>
+										<th width="13.3%" align="left">流水号</th>
+										<td width="20%" align="left" ng-bind="detail.serialNumber">
+										<th width="13.3%" align="left">场所名称</th>
+										<td width="20%" align="left" ng-bind="detail.name"></td>
+										<th width="13.4%" align="left">服务类型</th>
+										<td width="20%" align="left">
+											<select name="placeTypeId" id="placeTypeId" class="select_edit" ng-model="detail.placeTypeId"  ng-options="placeType.id as placeType.text for placeType in placeTypeItems" disabled>
+												<option value="">无</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">纬度</th>
+										<td width="20%" align="left" ng-bind="detail.latitude"></td>
+										<th width="13.3%" align="left">经度</th>
+										<td width="20%" align="left" ng-bind="detail.longitude"></td>
+										<th width="13.4%" align="left">场所编码</th>
+										<td width="20%" align="left" ng-bind="detail.code"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">省份</th>
+										<td width="20%" align="left">
+											<select name="provinceCode" id="province" class="select_edit" ng-model="detail.provinceCode" ng-options="item.code as item.name for item in provinceList" disabled>
+												<option value="">无</option>
+											</select>
+										</td>
+										<th width="13.3%" align="left">城市</th>
+										<td width="20%" align="left">
+											<select name="cityCode" id="city" class="select_edit" ng-options="item.code as item.name for item in citysList" ng-model="detail.cityCode" disabled>
+												<option value="">请选择</option>
+											</select>
+										</td>
+										<th width="13.4%" align="left">所属区域</th>
+										<td width="20%" align="left">
+											<select name="regionCode" id="region" class="select_edit" ng-model="detail.regionCode" ng-options="item.code as item.name for item in regionsList" disabled>
+												<option value="">请选择</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">从业人数</th>
+										<td width="20%" align="left" ng-bind="detail.employess"></td>
+										<th width="13.3%" align="left">报装机器数</th>
+										<td width="20%" align="left" ng-bind="detail.machine"></td>
+										<th width="13.4%" align="left">服务器数</th>
+										<td width="20%" align="left" ng-bind="detail.server"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">组织机构</th>
+										<td width="20%" align="left" ng-bind="detail.organization"></td>
+										<th width="13.3%" align="left">邮编</th>
+										<td width="20%" align="left" ng-bind="detail.postal"></td>
+										<th width="13.4%" align="left">地址</th>
+										<td width="20%" align="left" ng-bind="detail.address"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">接入服务商</th>
+										<td width="20%" align="left">
+											<select name="ispCode" id="facilitator" class="select_edit" ng-model="detail.ispCode" disabled ng-options="ispCode.id as ispCode.text for ispCode in ispList">
+												<option value="">无</option>
+											</select>
+										</td>
+										<th width="13.3%" align="left">接入方式</th>
+										<td width="20%" align="left">
+											<select name="accessModelCode" id="access" class="select_edit" ng-model="detail.accessModelCode" disabled ng-options="accessModel.id as accessModel.text for accessModel in accessList">
+												<option value="">无</option>
+											</select>
+										</td>
+										<th width="13.4%" align="left">出口IP</th>
+										<td width="20%" align="left" ng-bind="detail.outip"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">法定代表人</th>
+										<td width="20%" align="left" ng-bind="detail.legalPersonName"></td>
+										<th width="13.3%" align="left">法人证件类型</th>
+										<td width="20%" align="left">
+											<select name="certificate" id="certificate" class="select_edit" ng-model="detail.legalPersonIdType" ng-options="certificate.id as certificate.text for certificate in certificateList" disabled>
+												<option value="">无</option>
+											</select>
+										</td>
+										<th width="13.4%" align="left">法人证件号码</th>
+										<td width="20%" align="left" ng-bind="detail.legalPersonIdNo"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">法定代表人电话</th>
+										<td width="20%" align="left" ng-bind="detail.legalPersonPhone"></td>
+										<th width="13.3%" align="left">场所负责人</th>
+										<td width="20%" align="left" ng-bind="detail.duty"></td>
+										<th width="13.4%" align="left">场所负责人电话</th>
+										<td width="20%" align="left" ng-bind="detail.dutyPhone"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">信息安全员</th>
+										<td width="20%" align="left" ng-bind="detail.safety"></td>
+										<th width="13.3%" align="left">安全员电话</th>
+										<td width="20%" align="left" ng-bind="detail.safetyPhone"></td>
+										<th width="13.4%" align="left">安全员email</th>
+										<td width="20%" align="left" ng-bind="detail.safetyEmail"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">所属网监</th>
+										<td width="20%" align="left" ng-bind="detail.netControl"></td>
+										<th width="13.3%" align="left">网监负责人</th>
+										<td width="20%" align="left" ng-bind="detail.netPeople"></td>
+										<th width="13.4%" align="left">网监负责人电话</th>
+										<td width="20%" align="left" ng-bind="detail.netPhone"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">经营性质</th>
+										<td width="20%" align="left">
+											<select name="businessType" id="businessType" class="select_edit" ng-model="detail.businessType" disabled>
+												<option value="">无</option>
+												<option value="0">经营</option>
+												<option value="1">非经营</option>
+												<option value="3">其他</option>
+											</select>
+										</td>
+										<th width="13.3%" align="left">联系人证件号码</th>
+										<td width="20%" align="left" ng-bind="detail.contactsIdCard"></td>
+										<th width="13.4%" align="left">联系人姓名</th>
+										<td width="20%" align="left" ng-bind="detail.contactsName"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">联系人电话</th>
+										<td width="20%" align="left" ng-bind="detail.contactsPhone"></td>
+										<th width="13.3%" align="left">联系人Email</th>
+										<td width="20%" align="left">{{detail.contactsEmail | cut:15:'...'}}</td>
+										<th width="13.4%" align="left">备注</th>
+										<td width="20%" align="left" ng-bind="detail.description"></td>
+									</tr>
+									<tr>
+										<th width="13.3%" align="left">营业开始时间</th>
+										<td width="20%" align="left" ng-bind="detail.businessHourStart"></td>
+										<th width="13.3%" align="left">营业结束时间</th>
+										<td width="20%" align="left" ng-bind="detail.businessHourEnd"></td>
+									</tr>
+								</table>
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- AP数量 -->
+            <div class="modal fade" id="apCountlModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content" style="border-radius: 10px;">
+                        <div class="detail_top">
+							<div class="detail_top_l pl10">{{modalTitle}}</div>
+							<div class="detail_top_r">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+							</div>
+						</div>
+                        <div class="modal-body" ng-init="initAPCount()">
+                            <ws-datagrid configuration="datagridShowCount" inner-ctrl="innerCtrlQuery">
+                                <form>
+                                    <div class="col-md-12">
+                                        <div class="row">
+											<table width="100%" border="0" cellspacing="2" cellpadding="0"
+												class="table_edit search">
+												<tr>
+													<th>AP名称:</th>
+													<td>
+														<input type="text" name="name" placeholder="AP名称" class="Input_search" ng-model="datagridShowCount.params.name">
+													</td>
+													<th>AP编码:</th>
+													<td>
+														<input type="text" name="name" placeholder="AP编码" class="Input_search" ng-model="datagridShowCount.params.code">
+													</td>
+													<th>MAC地址:</th>
+													<td>
+														<input type="text" name="name" placeholder="MAC地址" class="Input_search" ng-model="datagridShowCount.params.mac">
+													</td>
+												</tr>
+												<tr>
+													<td colspan="6"><button class="btn_blue right mb10" ng-click="innerCtrlQuery.load(datagridShowCount.params)">查&nbsp;询</button></td>
+												</tr>
+											</table>
+                                        </div>
+                                    </div>
+                                </form>
+                            </ws-datagrid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 导出 -->
+            <div class="modal fade" id="exportExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content" style="border-radius: 10px;">
+                        <div class="detail_top">
+							<div class="detail_top_l pl10">数据导出</div>
+							<div class="detail_top_r">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+							</div>
+						</div>
+                        <div class="modal-body">
+                            <form name="excelForm" novalidate>
+                                <section class="edit_main m10">
+		                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+		                                <tr>
+		                                    <th><nobr>*</nobr>导出数据条数:</th>
+		                                    <td> 
+		                                        <input type="text" name="size" class="Input_edit" style="width:200px" ng-model="counts" required ng-pattern="/^(?!0)(?:[0-9]{1,3}|1000)$/">
+		                                    </td>
+		                                </tr>
+		                            </table>
+		                        </section>
+                            </form>
+                            <div class="errMsg">
+                                <div class="alert alert-danger" ng-messages="excelForm.size.$error" ng-show="excelForm.size.$dirty&&excelForm.size.$invalid" ng-message-multiple>
+                                    <div ng-message="required">导出数据条数为必填项</div>
+                                    <div ng-message="pattern">导出数据条数为数字并且小于1000</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mlP35 mb20 mt0">
+                            <button type="button" class="btn_blue" ng-click="resetExcel()">清空</button>
+                            <button id="excelSaveBtn" type="button" class="btn_blue" ng-click="excelSave('excelSaveBtn')">导出</button>
+                            <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 导入 -->
+            <div class="modal fade" id="readExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content" style="boder-radius:10px;">
+                        <div class="detail_top">
+							<div class="detail_top_l pl10">数据导入</div>
+							<div class="detail_top_r">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+							</div>
+						</div>
+                        <div class="modal-body">
+                            <form name="readExcelForm">
+                                <div class="row" style="padding-top: 15px;">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label elabel" for="advertisement" title="导入文件">导入文件</label>
+                                            <div class="col-sm-8 ebody">
+                                                <input id="excelPath" type="file" name="advertisement" class="fujian_btn_1" ngf-select ng-model="advertisement">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <div class="col-sm-4 ebody">
+                                                <button type="button" class="btn_blue" ng-click="uploadExcel(advertisement,'adv')">导入</button>
+                                            </div>
+                                            <div class="col-sm-6 ebody">   
+                                                <button id="excelTemplateBtn" type="button" class="btn_blue" ng-click="excelTemplate('excelTemplateBtn')">导出模板</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-top: 15px;">
+                                    <div class="col-sm-8">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body" style="height: 80px; text-align: center; overflow: hidden; padding: 0px;">
+                                                <span style="color: red;">请按照导出模板格式上传数据！</span>
+                                                <img ng-show="advPreview == 'loading'" style="height: 32px; width: 32px; margin: 59px 0px;" src="resources/image/loading.gif">
+                                                <div ng-show="advPreview == 'progress'" class="progress" style="margin: 30px 15px;">
+                                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style=" width: {{advCompleted}}%">
+                                                        <span>{{advCompleted}}%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 审核 -->
+            <div class="modal fade" id="approveModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="border-radius: 10px;">
+                        <div class="detail_top">
+							<div class="detail_top_l pl10">审核</div>
+							<div class="detail_top_r">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+							</div>
+						</div>
+                        <div class="modal-body">
+                            
+                            <form name="approveForm"  novalidate>
+								<table width="90%" border="0" cellspacing="0" cellpadding="0" class="table_edit" style="margin-left: 50px;">
+									<tr>
+										
+										<td>
+											<input type="radio" ng-model="info.status" name="status" style="margin-right:5px;" value="2">通过
+											<input type="radio" ng-model="info.status" name="status" style="margin: 0px 5px 0px 30px;" value="3">拒绝
+										</td>
+										
+									</tr>
+									<tr>
+										<td>
+											<p><nobr>*</nobr>备注：</p>
+											<textarea ng-model="info.descr" ng-maxlength=255 class="Input_edit" name="desc" rows="3" style="height:auto;" required></textarea>
+										</td>
+									</tr>
+								</table>
+                            </form>
+                            
+                          
+                            
+                            <div class="errMsg">
+                                <div class="alert alert-danger" ng-messages="approveForm.desc.$error" ng-show="approveForm.desc.$dirty&&approveForm.desc.$invalid" ng-message-multiple>
+                                    <div ng-message="required">审核备注为必填项</div>
+                                    <div ng-message="maxlength">审核备注最多255个字符</div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="btn_Edit1 mb20">
+                        	<center>
+                        	<button class="btn_blue"  ng-click="saveApprove()">提&nbsp;交</button>
+							<button class="btn_blue" data-dismiss="modal">关&nbsp;闭</button>
+							
+							</center>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

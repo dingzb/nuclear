@@ -1,0 +1,806 @@
+<style type="text/css">
+.ws-searchbutton {
+    margin-top: 10px;
+}
+</style>
+<div ng-controller="apRecordCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info alert-dismissible ws-gridTip" role="alert" ng-init="initTips()" ws-permcode="app.ac.apmanage.getApTips2">
+                        新增总数<span class="ws-gridTip-font" ng-click="addFilter('isNew')" ng-bind="tip.newAdd"></span>个， 当前在线
+                        <span class="ws-gridTip-font" ng-click="addFilter('online')" ng-bind="tip.inLine"></span>个， 不在线
+                        <span class="ws-gridTip-font" ng-click="addFilter('notOnline')" ng-bind="tip.outLine"></span>个， 总设备数
+                        <span class="ws-gridTip-font" ng-click="addFilter('clear')" ng-bind="tip.apSum"></span>个
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-init="initPage()">
+                <div class="col-md-12">
+                    <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                        <form>
+                            <div style="margin-top: 10px">
+                                <div class="collapse" id="apSearchInput">
+                                    <div class="borderTopf0 noborderTop borderE2" id="search">
+                                        <ul class="search">
+                                            <li style="width:30%"><span>场所名称：</span>
+                                                <input type="text" name="placeName" placeholder="场所" class="Input_search" ng-model="datagrid.params.placeName">
+                                            </li>
+                                            <li style="width:30%"><span>设备名称：</span>
+                                                <input type="text" name="name" placeholder="设备名称" class="Input_search" ng-model="datagrid.params.name">
+                                            </li>
+                                            <li style="width:30%"><span>设备编号：</span>
+                                                <input type="text" name="name" placeholder="设备编号" class="Input_search" ng-model="datagrid.params.code">
+                                            </li>
+                                            <li style="width:30%"><span>设备型号：</span>
+                                                <input type="text" name="name" placeholder="设备型号" class="Input_search" ng-model="datagrid.params.modelName">
+                                            </li>
+                                            <li style="width:30%"><span>MAC：</span>
+                                                <input type="text" name="name" placeholder="MAC" class="Input_search" ng-model="datagrid.params.mac">
+                                            </li>
+                                            <li style="width:30%"><span>状态：</span>
+                                                <select name="status" id="status" class="select_search" ng-model="datagrid.params.status">
+                                                    <option value="">全部</option>
+                                                    <option value="0">不在线</option>
+                                                    <option value="1">在线</option>
+                                                </select>
+                                            </li>
+                                            <div class="clear"></div>
+                                        </ul>
+                                        <div class="btn_box mb20">
+                                            <button class="btn_blue" type="button" ng-click="search()">查询</button>
+                                            <button class="btn_blue" type="button" ng-click="onResetSearch()">清空</button>
+                                        </div>
+                                        <div class="mainTop"></div>
+                                    </div>
+                                </div>
+                                <div class="row mlr10">
+                                    <div class="mb10 mt20">
+                                        <button class="btn_blue btn_mt" ng-click="onAdd()" ws-permcode="app.ac.apmanage.addApModel">添&nbsp;加</button>
+                                        <button class="btn_blue btn_mt" ng-click="onEdit()" ws-permcode="app.ac.apmanage.editApModel">编&nbsp;辑</button>
+                                        <button class="btn_blue btn_mt" ng-click="onDelete()" ws-permcode="app.ac.apmanage.removeApModel">删&nbsp;除</button>
+                                        <button class="btn_blue btn_mt" ng-click="onViewApConfig()" ws-permcode="app.ac.apmanage.getApCfgByApId,app.ac.getApCfgSelectItem3">查看配置</button>
+                                        <button class="btn_blue btn_mt" ng-click="onAuth()" ws-permcode="app.ac.apmanage.addAuth">配置认证策略</button>
+                                        <div class="btn-group">
+                                            <button class="btn_blue btn_mt dropdown-toggle" type="button" data-toggle="dropdown" ws-permcode="app.ac.apmanage.exportOne,app.ac.apmanage.exportPage,app.ac.apmanage.exportExcel">导出Excel<span class="caret" style="margin-left: 5px;"></span></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="" ng-click="exportOne()" ws-permcode="app.ac.apmanage.exportOne">导出选定行</a></li>
+                                                <li><a href="" ng-click="exportPage()" ws-permcode="app.ac.apmanage.exportPage">导出当前页面</a></li>
+                                                <li><a ng-click="exportExcel()" href="" ws-permcode="app.ac.apmanage.exportExcel">输入条数导出</a></li>
+                                            </ul>
+                                        </div>
+                                        <button class="btn_blue btn_mt" ng-click="readExcel()" ws-permcode="app.ac.apmanage.readExcel">导入excel</button>
+                                        <button class="btn_blue btn_mt" ng-click="apStatus()" ws-permcode="app.ac.apmanage.getApCfgStatus">设备状态</button>
+                                        <button class="btn_blue btn_mt" ws-permcode="app.ac.apmanage.approveAp" ng-click="onApprove()">审核</button>
+                                        <button class="btn_blue btn_mt" ng-class="{btn_active:isApprovePress}" ng-click="search(1)" ws-permcode="app.ac.apmanage.approveAp">待审核</button>
+                                        <button class="btn_blue btn_mt" ng-class="{btn_active:isSubPress}" ng-click="search(0)" ws-permcode="app.ac.apmanage.addApModel">未审核</button>
+                                        <button class="btn_blue btn_mt right" data-toggle="collapse" data-target="#apSearchInput" aria-expanded="false" aria-controls="apSearchInput">显示/隐藏搜索
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </ws-datagrid>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加模态窗口s -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModalLabel">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body">
+                    <section class="edit_main m10" id="edit_main1">
+                        <form name="infoForm" novalidate>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>设备名称</th>
+                                    <td>
+                                        <input type="text" name="name" placeholder="设备名称" class="Input_edit" ng-model="info.name" required ng-maxlength=20>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>场所</th>
+                                    <td>
+                                        <select name="placeId" id="placeId" class="select_edit" ng-model="info.placeId" ng-options="item.id as item.text for item in placeItems" required>
+                                            <option value="">-请选择-</option>
+                                        </select>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>设备型号</th>
+                                    <td>
+                                        <select name="modelId" id="modelId" class="select_edit" ng-model="info.modelId" ng-options="item.id as item.text for item in apModelItems" required>
+                                            <option value="">-请选择-</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>MAC地址</th>
+                                    <td>
+                                        <input name="mac" type="text" class="Input_edit" placeholder="MAC地址" ng-model="info.mac" required ng-pattern="/^[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]$/" ng-disabled="!isSave" ng-change="getCode()">
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>安全厂商</th>
+                                    <td>
+                                        <select name="secOrga" id="secOrga" class="select_edit" ng-model="info.securityOrganizationId" ng-options="item.code as item.name for item in organizations" required ng-change="getCode()">
+                                            <option value="">-请选择-</option>
+                                        </select>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>设备编号</th>
+                                    <td>
+                                        <input type="text" name="code" placeholder="设备编号" class="Input_edit" ng-model="info.code" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> 放置位置</th>
+                                    <td>
+                                        <input name="position" type="text" class="Input_edit" placeholder="放置位置" ng-model="info.position">
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>管控中心</th>
+                                    <td>
+                                        <select name="acClusterId" id="acClusterId" class="select_edit" ng-model="info.acClusterId" ng-options="item.id as item.name for item in acClustersItems" required>
+                                            <option value="">-请选择-</option>
+                                        </select>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>有效期</th>
+                                    <td ng-init="initValidity()">
+                                        <input id="validity" name="validity" type="text" class="Input_edit" ng-model="info.validity" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>数据中心</th>
+                                    <td>
+                                        <select name="dataCenterId" id="dataCenterId" class="select_edit" ng-model="info.dataCenterId" ng-options="item.id as item.dataCenterName for item in dataCenterItems" required>
+                                            <option value="">-请选择-</option>
+                                        </select>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>基础信息上报采集间隔(h)</th>
+                                    <td>
+                                        <input name="baseInfoUploadInterval" type="text" class="Input_edit" placeholder="数据上传采集间隔" ng-model="info.baseInfoUploadInterval" ng-maxlength=8 ng-pattern="/^([1-9]|1\d{1}|20|2[1-4])$/" required>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>移动类型</th>
+                                    <td>
+                                        <select name="type" id="type" class="select_edit" ng-model="info.type" required>
+                                            <option value="">-请选择-</option>
+                                            <option value="1">移动</option>
+                                            <option value="0">固定</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        <form name="moveForm" novalidate ng-show="info.type==1">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>站点信息</th>
+                                    <td>
+                                        <input name="siteInfo" type="text" class="Input_edit" placeholder="站点信息" ng-model="info.siteInfo" required ng-maxlength=128>
+                                    </td>
+                                    <th> 线路信息</th>
+                                    <td>
+                                        <input name="subwayLine" type="text" class="Input_edit" placeholder="地铁线路信息" ng-model="info.subwayLine" ng-maxlength=256>
+                                    </td>
+                                    <th> 车辆信息</th>
+                                    <td>
+                                        <input name="subwayVehicle" type="text" class="Input_edit" placeholder="地铁车辆信息" ng-model="info.subwayVehicle" ng-maxlength=256>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> 地铁车厢信息</th>
+                                    <td>
+                                        <input name="subwayCarriage" type="text" class="Input_edit" placeholder="地铁车厢信息" ng-model="info.subwayCarriage" ng-maxlength=256>
+                                    </td>
+                                    <th> 车牌号码</th>
+                                    <td>
+                                        <input name="plateNumber" type="text" class="Input_edit" placeholder="车牌号码" ng-model="info.plateNumber" ng-maxlength=64>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        <form name="fixForm" novalidate ng-show="info.type==0">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>楼层</th>
+                                    <td>
+                                        <input name="floor" type="text" class="Input_edit" placeholder="楼层" ng-model="info.floor" required ng-maxlength=16>
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>设备经度</th>
+                                    <td>
+                                        <input name="longitude" type="text" class="Input_edit" placeholder="设备经度" ng-model="info.longitude" required ng-maxlength=10 ng-pattern="/^(-|\+)?(180\.0{5}|(\d{1,2}|1([0-7]\d))\.\d{5})$/">
+                                    </td>
+                                    <th>
+                                        <nobr>*</nobr>设备纬度</th>
+                                    <td>
+                                        <input name="latitude" type="text" class="Input_edit" placeholder="设备纬度" ng-model="info.latitude" required ng-maxlength=10 ng-pattern="/^(-|\+)?(90\.0{4,6}|(\d|[1-8]\d)\.\d{5})$/">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        <div class="errMsg">
+                            <div class="alert alert-danger" ng-messages="infoForm.name.$error" ng-show="infoForm.name.$dirty&&infoForm.name.$invalid" ng-messages-multiple>
+                                <div ng-message="required">设备名称为必填项</div>
+                                <div ng-message="maxlength">设备名称最大不可以超过20个字符</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.secOrga.$error" ng-show="infoForm.secOrga.$dirty&&infoForm.secOrga.$invalid" ng-messages-multiple>
+                                <div ng-message="required">安全厂商为必填项</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.modelId.$error" ng-show="infoForm.modelId.$dirty&&infoForm.modelId.$invalid" ng-messages-multiple>
+                                <div ng-message="required">设备型号为必填项</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.mac.$error" ng-show="infoForm.mac.$dirty&&infoForm.mac.$invalid" ng-messages-multiple>
+                                <div ng-message="required">mac地址为必填项</div>
+                                <div ng-message="pattern">mac地址格式不正确，请注意字母大小写。例如：26-D5-3D-83-75-3F</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.placeId.$error" ng-show="infoForm.placeId.$dirty&&infoForm.placeId.$invalid" ng-messages-multiple>
+                                <div ng-message="required">场所为必填项</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.acClusterId.$error" ng-show="infoForm.acClusterId.$dirty&&infoForm.acClusterId.$invalid" ng-messages-multiple>
+                                <div ng-message="required">管控中心为必填项</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.validity.$error" ng-show="infoForm.validity.$dirty&&infoForm.validity.$invalid" ng-messages-multiple>
+                                <div ng-message="required">有效期为必填项</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.type.$error" ng-show="infoForm.type.$dirty&&infoForm.type.$invalid" ng-messages-multiple>
+                                <div ng-message="required">移动类型为必填项</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.dataCenterId.$error" ng-show="infoForm.dataCenterId.$dirty&&infoForm.dataCenterId.$invalid" ng-messages-multiple>
+                                <div ng-message="required">数据中心为必填项</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="infoForm.baseInfoUploadInterval.$error" ng-show="infoForm.baseInfoUploadInterval.$dirty&&infoForm.baseInfoUploadInterval.$invalid" ng-messages-multiple>
+                                <div ng-message="required">基础信息上报间隔时间为必填项</div>
+                                <div ng-message="pattern">基础信息上报间隔时间格式要求为正整数（1-24）小时之内</div>
+                                <div ng-message="maxlength">基础信息上报间隔时间最大不可以超过8个字符</div>
+                            </div>
+                            <!-- 固定必选错误提示 -->
+                            <div ng-show="info.type==0">
+                                <div class="alert alert-danger" ng-messages="fixForm.floor.$error" ng-show="fixForm.floor.$dirty&&fixForm.floor.$invalid" ng-messages-multiple>
+                                    <div ng-message="required">楼层为必填项</div>
+                                    <div ng-message="maxlength">楼层最大不可以超过16个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="fixForm.longitude.$error" ng-show="fixForm.longitude.$dirty&&fixForm.longitude.$invalid" ng-messages-multiple>
+                                    <div ng-message="required">经度为必填项</div>
+                                    <div ng-message="pattern">设备经度格式为-180.00000~+180.00000</div>
+                                    <div ng-message="maxlength">设备经度最大不可以超过10个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="fixForm.latitude.$error" ng-show="fixForm.latitude.$dirty&&fixForm.latitude.$invalid" ng-messages-multiple>
+                                    <div ng-message="required">设备纬度为必填项</div>
+                                    <div ng-message="pattern">设备纬度格式为-90.00000~+90.00000</div>
+                                    <div ng-message="maxlength">设备纬度最大不可以超过10个字符</div>
+                                </div>
+                            </div>
+                            <!-- 移动必选错误提示 -->
+                            <div ng-show="info.type==1">
+                                <div class="alert alert-danger" ng-messages="moveForm.siteInfo.$error" ng-show="moveForm.siteInfo.$dirty&&moveForm.siteInfo.$invalid" ng-messages-multiple>
+                                    <div ng-message="required">站点信息为必填项</div>
+                                    <div ng-message="maxlength">站点信息最大不可以超过128个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="moveForm.subwayLine.$error" ng-show="moveForm.subwayLine.$dirty&&moveForm.subwayLine.$invalid" ng-messages-multiple>
+                                    <div ng-message="maxlength">线路信息最大不可以超过256个字符</div>
+                                </div> 
+                                <div class="alert alert-danger" ng-messages="moveForm.subwayVehicle.$error" ng-show="moveForm.subwayVehicle.$dirty&&moveForm.subwayVehicle.$invalid" ng-messages-multiple>
+                                    <div ng-message="maxlength">车辆信息最大不可以超过256个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="moveForm.subwayCarriage.$error" ng-show="moveForm.subwayCarriage.$dirty&&moveForm.subwayCarriage.$invalid" ng-messages-multiple>
+                                    <div ng-message="maxlength">地铁车厢信息最大不可以超过256个字符</div>
+                                </div>
+                                <div class="alert alert-danger" ng-messages="moveForm.plateNumber.$error" ng-show="moveForm.plateNumber.$dirty&&moveForm.plateNumber.$invalid" ng-messages-multiple>
+                                    <div ng-message="maxlength">车牌号码信息最大不可以超过64个字符</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="btn_Edit1 mb20">
+                        <button class="btn_blue" data-dismiss="modal">关&nbsp;闭</button>
+                        <button class="btn_blue" ng-click="reset()">清&nbsp;空</button>
+                        <button class="btn_blue" ng-init="approvePer=true" ng-show="approvePer" ng-click="onSave(true)">暂&nbsp;存</button>
+                        <button class="btn_blue" ng-click="onSave()">提&nbsp;交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加模态窗口e -->
+    <!-- 审核弹出框s -->
+    <div class="modal fade" id="approveModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="detail_top">
+                    <div class="detail_top_l pl10">审核</div>
+                    <div class="detail_top_r">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form name="approveForm" novalidate>
+                        <table width="90%" border="0" cellspacing="0" cellpadding="0" class="table_edit" style="margin-left: 50px;">
+                            <tr>
+                                <td>
+                                    <input type="radio" ng-model="appro.status" name="status" id="approPass" style="margin:0 5px 0 0;" value="2">
+                                    <label for="approPass">通过</label>
+                                    <input id="approDeny" type="radio" ng-model="appro.status" name="status" style="margin: 0px 5px 0px 30px;" value="3">
+                                    <label for="approDeny">拒绝</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        <nobr>*</nobr>备注：</p>
+                                    <textarea ng-model="appro.descr" ng-maxlength=255 class="Input_edit" name="desc" rows="3" style="height:auto;" required></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="approveForm.desc.$error" ng-show="approveForm.desc.$dirty&&approveForm.desc.$invalid" ng-message-multiple>
+                            <div ng-message="required">审核备注为必填项</div>
+                            <div ng-message="maxlength">审核备注最多255个字符</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn_Edit1 mb20">
+                    <center>
+                        <button class="btn_blue" ng-click="saveApprove()">提&nbsp;交</button>
+                        <button class="btn_blue" data-dismiss="modal">关&nbsp;闭</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 审核弹出框e -->
+    <!-- 详情模态窗口s -->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModalLabel"><img class="ws-viewImg" src="resources/image/detail_img1.png">设备详情</h4>
+                </div>
+                <div class="modal-body ws-modal-body p10">
+                    <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+                        <tr>
+                            <th width="13.3%" align="left" title="设备名称">设备名称</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="name" placeholder="设备名称" ng-model="view.name" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="设备编号">设备编号</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="code" placeholder="设备编号" ng-model="view.code" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="设备型号">设备型号</th>
+                            <td width="20%" align="left">
+                                <select name="modelId" id="modelId" ng-model="view.modelId" ng-options="item.id as item.text for item in apModelItems" disabled style="background: #fff;width: 100%">
+                                    <option value="">-请选择-</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left" title="MAC地址">MAC地址</th>
+                            <td width="20%" align="left">
+                                <input name="mac" type="text" placeholder="MAC地址" ng-model="view.mac" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="场所">场所</th>
+                            <td width="20%" align="left">
+                                <select name="placeId" id="placeId" ng-model="view.placeId" ng-options="item.id as item.text for item in placeItems" disabled style="background: #fff;width: 100%">
+                                    <option value="">-请选择-</option>
+                                </select>
+                            </td>
+                            <th width="13.3%" align="left" title="放置位置">放置位置</th>
+                            <td width="20%" align="left">
+                                <input name="position" type="text" placeholder="放置位置" ng-model="view.position" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left" title="ac">管控中心</th>
+                            <td width="20%" align="left">
+                                <select name="acClusterId" id="acClusterId" ng-model="view.acClusterId" ng-options="item.id as item.name for item in acClustersItems" disabled style="background: #fff;width: 100%">
+                                    <option value="">-请选择-</option>
+                                </select>
+                            </td>
+                            <th width="13.3%" align="left" title="固件版本">固件版本</th>
+                            <td width="20%" align="left">
+                                <input name="fwversion" id="fwversion" ng-model="view.fwversion" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="认证策略">认证策略</th>
+                            <td width="20%" align="left">
+                                <input name="authStrategy" id="authStrategy" ng-model="view.authStrategy" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left" title="有效期">有效期</th>
+                            <td width="20%" align="left">
+                                <input name="validity" id="validity" ng-model="view.validity" readonly />
+                            </td>
+                            <th width="13.3%" align="left" title="安全厂商">安全厂商</th>
+                            <td width="20%" align="left">
+                                <select name="secOrga" id="secOrga" ng-model="view.securityOrganizationId" ng-options="item.code as item.name for item in organizations" disabled style="background: #fff;width: 100%">
+                                    <option value="">-请选择-</option>
+                                </select>
+                            </td>
+                            <th width="13.3%" align="left">基础信息上报间隔时间（h）</th>
+                            <td width="20%" align="left">
+                                <input ng-model="view.baseInfoUploadInterval" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left" title="移动类型">移动类型</th>
+                            <td width="20%" align="left">
+                                <select name="type" id="type" ng-model="view.type" disabled style="background: #fff;width: 100%">
+                                    <option value="">-请选择-</option>
+                                    <option value="1">移动</option>
+                                    <option value="0">固定</option>
+                                </select>
+                            </td>
+                            <th width="13.3%" align="left" title="站点信息">站点信息</th>
+                            <td width="20%" align="left">
+                                <input name="siteInfo" type="text" placeholder="站点信息" ng-model="view.siteInfo" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="地铁线路信息">线路信息</th>
+                            <td width="20%" align="left">
+                                <input name="subwayLine" type="text" placeholder="地铁线路信息" ng-model="view.subwayLine" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left" title="地铁车辆信息">车辆信息</th>
+                            <td width="20%" align="left">
+                                <input name="subwayVehicle" type="text" placeholder="地铁车辆信息" ng-model="view.subwayVehicle" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="地铁车厢编号">车厢编号</th>
+                            <td width="20%" align="left">
+                                <input name="subwayCarriage" type="text" placeholder="地铁车厢信息" ng-model="view.subwayCarriage" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="车牌号码">车牌号码</th>
+                            <td width="20%" align="left">
+                                <input name="plateNumber" type="text" placeholder="车牌号码" ng-model="view.plateNumber" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left" title="数据中心">数据中心</th>
+                            <td width="20%" align="left">
+                                <select name="dataCenterId" id="dataCenterId" ng-model="view.dataCenterId" ng-options="item.id as item.dataCenterName for item in dataCenterItems" disabled style="background: #fff;width: 100%">
+                                    <option value="">-请选择-</option>
+                                </select>
+                            </td>
+                            <th width="13.3%" align="left" title="楼层">楼层</th>
+                            <td width="20%" align="left">
+                                <input name="floor" type="text" placeholder="楼层" ng-model="view.floor" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="设备经度">设备经度</th>
+                            <td width="20%" align="left">
+                                <input name="longitude" type="text" placeholder="设备经度" ng-model="view.longitude" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left" title="设备纬度">设备纬度</th>
+                            <td width="20%" align="left">
+                                <input name="latitude" type="text" placeholder="设备纬度" ng-model="view.latitude" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="设备经度(baidu)">设备经度(baidu)</th>
+                            <td width="20%" align="left">
+                                <input name="bdLng" type="text" placeholder="设备经度(baidu)" ng-model="view.bdLng" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="设备纬度(baidu)">设备纬度(baidu)</th>
+                            <td width="20%" align="left">
+                                <input name="bdLat" type="text" placeholder="设备纬度(baidu)" ng-model="view.bdLat" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left" title="状态">状态</th>
+                            <td width="20%" align="left">
+                                <select name="status" ng-model="view.status" disabled style="background: #fff;width: 100%">
+                                    <option value="0">不在线</option>
+                                    <option value="1">在线</option>
+                                </select>
+                            </td>
+                            <th width="13.3%" align="left" title="创建日期">创建日期</th>
+                            <td width="20%" align="left">
+                                <input name="createTime" type="text" placeholder="创建日期" ng-model="view.createTime" readonly>
+                            </td>
+                            <th width="13.3%" align="left" title="修改日期">修改日期</th>
+                            <td width="20%" align="left">
+                                <input name="modifyTime" type="text" placeholder="修改日期" ng-model="view.modifyTime" readonly>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情模态窗口e -->
+    <!-- 添加配置窗口s -->
+    <div class="modal fade" id="addConfigModal" tabindex="-1" role="dialog" aria-labelledby="myModal" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal">查看无线接入配置信息</h4>
+                </div>
+                <div class="modal-body ws-modal-body">
+                    <form name="configForm" novalidate>
+                        <section class="edit_main m10">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th>任务名称：</th>
+                                    <td>
+                                        <input type="text" name="scheduleName" class="Input_edit" placeholder="配置任务名称" ng-model="config.scheduleName" readonly>
+                                    </td>
+                                    <th>信道：</th>
+                                    <td>
+                                        <select name="channel" class="select_edit" ng-model="config.channel" readonly>
+                                            <option value="0">auto</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                        </select>
+                                    </td>
+                                    <th>最大连接数：</th>
+                                    <td>
+                                        <input type="text" name="maxassoc" class="Input_edit" placeholder="最大终端连接数" ng-model="config.maxassoc" readonly>
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                        <section class="edit_main m10">
+                            <div class="config_title mt10">主ssid配置</div>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit table_config">
+                                <tr class="ml10">
+                                    <th>SSID：</th>
+                                    <td>
+                                        <input type="text" name="ssid" class="Input_edit" placeholder="SSID" ng-model="config.ssid" readonly>
+                                    </td>
+                                    <th>管理地址：</th>
+                                    <td>
+                                        <input type="text" name="brip" class="Input_edit" placeholder="管理地址" ng-model="config.brip" readonly>
+                                    </td>
+                                    <th>加密方式：</th>
+                                    <td>
+                                        <select name="encryption" class="Input_edit" ng-model="config.encryption" readonly>
+                                            <option value="none">none</option>
+                                            <option value="psk">WPA-PSK</option>
+                                            <option value="psk2">WPA2-PSK</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> 密码：</th>
+                                    <td>
+                                        <input type="text" name="passwd" class="Input_edit "  placeholder="密码长度在8-20位" ng-model="config.passwd" readonly>
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                    </form>
+                    <form name="tConfigForm" novalidate>
+                        <section style="padding: 0 10px">
+                            <div class="config_title mt20">
+                                <!-- <input type="checkbox" name="hasSsid" class="mr5" style="margin: 0 5px" ng-model="config.hasSsid"> -->第二ssid配置
+                            </div>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit table_config">
+                                <tr class="ml10">
+                                    <th>SSID：</th>
+                                    <td>
+                                        <input type="text" name="tSsid" class="Input_edit" placeholder="SSID" ng-model="config.tSsid" readonly>
+                                    </td>
+                                    <th>管理地址：</th>
+                                    <td>
+                                        <input type="text" name="tBrip" class="Input_edit" placeholder="管理地址" ng-model="config.tBrip" readonly>
+                                    </td>
+                                    <th>加密方式：</th>
+                                    <td>
+                                        <select name="tEncryption" class="select_edit" ng-model="config.tEncryption" readonly>
+                                            <option value="psk">WPA-PSK</option>
+                                            <option value="psk2">WPA2-PSK</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>密码：</th>
+                                    <td>
+                                        <input type="text" name="tPasswd" class="Input_edit" placeholder="密码长度在8-20位" ng-model="config.tPasswd" readonly>
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                    </form>
+                    <!-- <form name="titleForm" novalidate>
+                        <section class="edit_main m10">
+                            <div class="row" style="padding-top: 10px;margin-top: 10px;border-top: 1px solid #E5E5E5;">
+                                <div class="col-md-2">
+                                    <div class="checkbox pull-right" style="margin-top: 5px">
+                                        <label>
+                                            <input type="checkbox" ng-model="config.isrestart" disabled>重启
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox pull-right" style="margin-top: 5px">
+                                        <label>
+                                            <input type="checkbox" ng-model="config.ssid_status" disabled>隐藏SSID
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </form> -->
+                    <div class="btn_Edit1 mb20 mt0">
+                        <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加配置窗口e -->
+    <!-- 添加认证策略窗口 -->
+    <div class="modal fade" id="addAuthModal" tabindex="-1" role="dialog" aria-labelledby="myModal" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal">{{modelConfigTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body">
+                    <form name="authForm" novalidate>
+                        <section class="edit_main m10">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>认证策略:</th>
+                                    <td>
+                                        <select name="authStrategyId" id="authStrategyId" class="select_edit" ng-model="info.authStrategyId" required>
+                                            <option value="">-请选择-</option>
+                                            <option ng-repeat="authStrategy in authStrategyItems" ng-selected="info.authStrategyId==authStrategy.id" value="{{authStrategy.id}}" ng-bind="authStrategy.text"></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="authForm.authStrategyId.$error" ng-show="authForm.authStrategyId.$dirty&&authForm.authStrategyId.$invalid" ng-messages-multiple>
+                            <div ng-message="required">认证策略为必填项</div>
+                        </div>
+                    </div>
+                    <div class="btn_Edit1 mb20">
+                        <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                        <button id="saveAuth" type="button" class="btn_blue" ng-click="saveAuthStragy(saveAuth)">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加认证策略e -->
+    <!-- 导入导出 -->
+    <div class="modal fade" id="exportExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body">
+                    <form name="excelForm" novalidate>
+                        <section class="edit_main m10">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th>
+                                        <nobr>*</nobr>导出数据条数:</th>
+                                    <td>
+                                        <input type="text" name="size" class="Input_edit" ng-model="excel.size" required ng-pattern="/^(?!0)(?:[0-9]{1,3}|1000)$/">
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="excelForm.size.$error" ng-show="excelForm.size.$dirty&&excelForm.size.$invalid" ng-message-multiple>
+                            <div ng-message="required">导出数据条数为必填项</div>
+                            <div ng-message="pattern">导出数据条数为数字并且小于1000</div>
+                        </div>
+                    </div>
+                    <div class="mlP35 mb20 mt0">
+                        <button type="button" class="btn_blue" ng-click="resetExcel()">清空</button>
+                        <button id="excelSaveBtn" type="button" class="btn_blue" ng-click="exportSize()">导出</button>
+                        <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="readExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModalLabel">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body mlr10">
+                    <form name="readExcelForm">
+                        <div class="row" style="padding-top: 15px;">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label elabel" for="advertisement" title="导入文件">导入文件</label>
+                                    <div class="col-sm-8 ebody">
+                                        <input id="excelPath" type="file" name="advertisement" class="form-control input-sm" ngf-select ng-model="advertisement">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="col-sm-6 ebody">
+                                        <button type="button" class="btn_blue" ng-click="uploadExcel(advertisement,'adv')">导入</button>
+                                    </div>
+                                    <div class="col-sm-6 ebody">
+                                        <button id="excelTemplateBtn" type="button" class="btn_blue" ng-click="excelTemplate('excelTemplateBtn')">导出模板</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px;">
+                            <div class="col-sm-8">
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="height: 80px; text-align: center; overflow: hidden; padding: 0px;">
+                                        <span style="color: red;">请按照导出模板格式上传数据！</span>
+                                        <img ng-show="advPreview == 'loading'" style="height: 32px; width: 32px; margin: 59px 0px;" src="resources/image/loading.gif">
+                                        <div ng-show="advPreview == 'progress'" class="progress" style="margin: 30px 15px;">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style=" width: {{advCompleted}}%">
+                                                <span>{{advCompleted}}%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end -->
+    <!--     设备状态信息 -->
+    <div class="modal fade" id="apStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <button type="button" class="close glyphicon glyphicon-refresh" ng-click="restartapstatus()" style="float:right;margin-right: 2px;margin-top: 3px;"></button>
+                    <h4 class="modal-title ml10" id="myModalLabel"><img class="ws-viewImg" src="resources/image/detail_img1.png">状态详情</h4>
+                </div>
+                <div style="width: 800px; height: 400px; margin: 0 auto">
+                    <div id="cpu" style="min-width:400px;height:300px;float:left"></div>
+                    <div id="memory" style="min-width:400px;height:300px;float:left"></div>
+                </div>
+                <div style="width: 600px; height: 400px; margin: 0 auto">
+                    <div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
+                    <div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--     end -->
+</div>

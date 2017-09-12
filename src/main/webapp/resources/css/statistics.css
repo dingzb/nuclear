@@ -1,0 +1,33 @@
+.ws-statement {
+    padding: 10px;
+    border-right: 1px solid #d2d7c8;
+    border-bottom: 1px solid #D2D7C8;
+    width: 100%;
+}
+
+.ws-statement .ws-heading {
+    text-align: center;
+    font-family: "Microsoft Yahei", Tahoma, Geneva, sans-serif;
+    font-size: 2em;
+}
+
+.ws-statement .ws-subheading {
+    text-align: left;
+    font-family: "Microsoft Yahei", Tahoma, Geneva, sans-serif;
+    font-size: 0.5em;
+    color: #9d9d9d;
+}
+
+.ws-statement .ws-header {
+    background-color: #f5f5f5;;
+}
+
+.ws-statement th, .ws-statement td {
+    border-left: 1px solid #D2D7C8;
+    padding: 5px;
+}
+
+.ws-statement tr {
+    border-top: 1px solid #D2D7C8;
+    font-family: "Microsoft Yahei", Tahoma, Geneva, sans-serif;
+}

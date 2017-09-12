@@ -1,0 +1,176 @@
+<style type="text/css">
+.ws-searchform {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ws-searchbutton {
+    margin-top: 10px;
+}
+</style>
+<div ng-controller="acAcManaCtrl" >
+    <div class="panel panel-default" >
+        <div class="panel-body" ng-init="initPage()">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form class="ws-searchform ">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label elabel" style="" title="AC名称">AC名称</label>
+                                    <div class="col-sm-9 ebody" >
+                                        <input type="text" name="name" placeholder="AC名称" class="form-control input-sm" ng-model="datagrid.params.name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label elabel" style="" title="内网ip">内网ip</label>
+                                    <div class="col-sm-9 ebody" >
+                                        <input type="text" name="innerIp" placeholder="内网ip" class="form-control input-sm" ng-model="datagrid.params.innerIp">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label elabel" style="" title="外网ip">外网ip</label>
+                                    <div class="col-sm-9 ebody" >
+                                        <input type="text" name="outIp" placeholder="外网ip" class="form-control input-sm" ng-model="datagrid.params.outIp">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label elabel" style="" title="状态">状态</label>
+                                    <div class="col-sm-9 ebody" >
+                                        <select name="status" id="status" class="form-control input-sm" ng-model="datagrid.params.status">
+                                            <option value="">全部</option>
+                                            <option value="0">正常在用</option>
+                                            <option value="1">停用</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <div class="input-group-addon" for="name">AC名称</div>
+                                    <input type="text" name="name" class="form-control input-sm" placeholder="AP名称" ng-model="datagrid.params.name">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <div class="input-group-addon" for="innerIp">内网ip</div>
+                                    <input type="text" name="innerIp" class="form-control input-sm" placeholder="内网ip" ng-model="datagrid.params.innerIp">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <div class="input-group-addon" for="outIp">外网ip</div>
+                                    <input type="text" name="outIp" class="form-control input-sm" placeholder="外网ip" ng-model="datagrid.params.outIp">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <div class="input-group-addon" for="status">状态</div>
+                                    <select name="status" id="status" class="form-control input-sm" ng-model="datagrid.params.status">
+                                        <option value="">全部</option>
+                                        <option value="0">正常在用</option>
+                                        <option value="1">停用</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-sm-12 ws-searchbutton">
+                                <button class="btn btn-default btn-sm btn-info" type="button" ng-click="innerCtrl.load(datagrid.params)">查询</button>
+                                <button class="btn btn-default btn-sm btn-info" type="button" ng-click="onResetSearch()">清空</button>
+                                <button class="btn btn-default btn-sm btn-info" type="button" ng-click="onAdd()" ws-permcode="app.ac.system.addAcModel">添加</button>
+                                <button class="btn btn-default btn-sm btn-info" type="button" ng-click="onEdit()" ws-permcode="app.ac.system.editAcModel">编辑</button>
+                                <button class="btn btn-default btn-sm btn-info" type="button" ng-click="onDelete()" ws-permcode="app.ac.system.removeAcModel">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ws-datagrid>
+        </div>
+    </div>
+    <!-- 添加模态窗口s -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="infoForm" novalidate>
+                        <table>
+                            <tr class="editRow">
+                                <td class="editTitle">AC名称</td>
+                                <td>
+                                    <input name="name" type="text" class="editBody" placeholder="AP名称" ng-model="info.name" required ng-maxlength="50">
+                                    <input type="hidden" name="apId" ng-model="info.id">
+                                </td>
+                                <td class="editTitle">内网ip</td>
+                                <td>
+                                    <input type="text" name="innerIp" class="editBody" placeholder="内网ip" ng-model="info.innerIp" required ng-pattern="/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/" >
+                                </td>
+                            </tr>
+                            <tr class="editRow">
+                                <td class="editTitle">外网ip</td>
+                                <td>
+                                    <input type="text" name="outIp" class="editBody" placeholder="外网ip" ng-model="info.outIp" required ng-pattern="/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/">
+                                </td>
+                                <td class="editTitle">父AC名称</td>
+                                <td>
+                                    <!-- <select name="parentAcId" id="parentAcId" class="editBody" ng-model="info.parentAcId" ng-options="item.id as item.text for item in acsItems">
+                                        <option value="">-请选择-</option>
+                                    </select> -->
+                                    <input type="text" name="parentAcName" ng-model="info.parentAcName" class="editBody" readonly >
+                                    <input type="hidden" name="parentAcId" ng-model="info.parentAcId" class="editBody" >
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="border: 1px #ccc solid;width: 250px;height: 250px;margin-left: 50px" ng-init="initAcTree()">
+                            <ul id="acTree" class="ztree"></ul>
+                        </div>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="infoForm.name.$error" ng-show="infoForm.name.$dirty&&infoForm.name.$invalid" ng-messages-multiple>
+                            <div ng-message="required">ac名称为必填项</div>
+                            <div ng-message="maxlength">ac名称最大不可以超过50个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.innerIp.$error" ng-show="infoForm.innerIp.$dirty&&infoForm.innerIp.$invalid" ng-messages-multiple>
+                            <div ng-message="required">内网ip为必填项</div>
+                            <div ng-message="pattern">请确保内网ip格式的正确。例如192.168.1.1</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.outIp.$error" ng-show="infoForm.outIp.$dirty&&infoForm.outIp.$invalid" ng-messages-multiple>
+                            <div ng-message="required">外网ip为必填项</div>
+                            <div ng-message="pattern">请确保外网ip格式的正确。例如192.168.1.1</div>
+                        </div>
+                        <div class="alert alert-danger" ng-show="isShowAcErr">
+                            <div >父ac节点不允许为自己和自己的子节点</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="reset()">清空</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-default" ng-click="onSave()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加模态窗口e -->
+</div>
+
+<style type="text/css">
+ul.ztree {
+    border: 1px solid #617775;
+    height: 250px;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+</style>

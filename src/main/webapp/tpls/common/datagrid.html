@@ -1,0 +1,101 @@
+<div ng-show="toolbar" class="row" ng-transclude style="margin: 0; padding-bottom: 15px;"></div>
+<div style="position: relative;">
+    <div class="row">
+        <div class="col-sm-12">
+            <div style="overflow-x: auto;">
+                <table class="table table-striped table-bordered table-hover ws-datagrid">
+                    <thead>
+                        <tr>
+                            <th ng-if="checkbox" style="width: 10px;">
+                                <input type="checkbox" ng-click="selectAll()" ng-model="checkall.is" ng-show="!singleSelect">
+                            </th>
+                            <th ng-repeat="column in columns" ng-click="changeSort(column)" style="width: {{column.width}}%; cursor: pointer;">
+                                <span>
+                                    <span ng-bind="column.title" style="padding-right: 2px;"></span>
+                                    <span class="glyphicon glyphicon-sort" style="opacity: .4" ng-show="column.sortable && column.field != params.sort"></span>
+                                    <span class="glyphicon glyphicon-sort-by-attributes" style="opacity: .96; color:#6190CD" ng-show="column.sortable && column.field == params.sort && 'asc' == params.order"></span>
+                                    <span class="glyphicon glyphicon-sort-by-attributes-alt" style="opacity: .96; color:#6190CD" ng-show="column.sortable && column.field == params.sort && 'desc' == params.order"></span>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in rows" ng-class="{'success': row[fieldCheckField] || row['checkbox']}">
+                            <td>
+                                <span ng-if="checkbox&&!fieldCheckbox">
+                                    <input type="checkbox" ng-model="row['checkbox']" ng-click="selectOne($index)">
+                                </span>
+                                <span ng-if="checkbox&&fieldCheckbox">
+                                    <input type="checkbox" ng-model="row[fieldCheckField]" ng-click="selectOne($index)">
+                                </span>
+                            </td>
+                            <td ng-repeat="column in columns" style="max-width: {{column.width + 'px'}}">
+                                <span ng-if="column.formatter" ng-bind-html="htmlFormatter(column.formatter,row)"></span>
+                                <span ng-if="column.translator" ng-bind="column.translator(row)" title="{{column.translator(row)}}"></span>
+                                <span ng-if="!column.formatter && !column.translator" ng-bind="row[column.field]" title="{{row[column.field]}}"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div ng-show="paging" class="row" style="padding-bottom: 10px;">
+        <div class="col-sm-8">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group btn-group-sm">
+                    <button style="width: 60px;" type="button"
+                            class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <span ng-bind="size"></span>&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul style="min-width: 10px; width: 59px;" class="dropdown-menu">
+                        <li ng-repeat="size in sizes"><a href="javascript:void(0)"
+                                                         ng-click="selectSize(size)" ng-bind="size"></a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-sm"
+                            ng-class="{'disabled':pageCurrent<=1}" ng-click="selectPage(1)">
+                        首页</span>
+                    </button>
+                    <button class="btn btn-default btn-sm"
+                            ng-class="{'disabled':pageCurrent<=1}"
+                            ng-click="selectPage(pageCurrent-1)">上一页
+                    </button>
+                    <button type="button"
+                            ng-class="{'active':page.number==pageCurrent}"
+                            class="btn btn-default btn-sm" ng-click="selectPage(page.number)"
+                            ng-repeat="page in pages" ng-bind="page.text"></button>
+                    <button class="btn btn-default btn-sm"
+                            ng-class="{'disabled':pageCurrent>=pageTotal}"
+                            ng-click="selectPage(pageCurrent+1)">下一页
+                    </button>
+                    <button class="btn btn-default btn-sm"
+                            ng-class="{'disabled':pageCurrent>=pageTotal}"
+                            ng-click="selectPage(pageTotal)">末页
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4" style="text-align: right;">
+            <div class="btn-toolbar" role="toolbar">
+                <a href="#" class="btn btn-sm disabled" role="button">第&nbsp; <span
+                        ng-bind="((pageCurrent-1)*size+1)<0?0:((pageCurrent-1)*size+1)"></span>&nbsp;-&nbsp;<span
+                        ng-bind="pageCurrent*size>total?total:pageCurrent*size"></span>&nbsp;条&nbsp;&nbsp;/&nbsp;&nbsp;共&nbsp;
+                    <span ng-bind="total"></span>&nbsp;条
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- 遮罩 -->
+    <div ng-show="isLoading"
+         style="position: absolute; display: block; left: 0px; width: 100%; height: 100%; background: #FEFFFC; opacity: .9; bottom: 0px; z-index: 90;"></div>
+    <div ng-show="isLoading"
+         style="position: absolute; top: 25px; left: 5px; z-index: 91">
+        <img
+                style="width: 16px; height: 16px; margin-bottom: 3px; margin-right: 5px;"
+                src="resources/image/wait.gif"> <label style="color: #000000;">加载中</label>
+    </div>
+</div>

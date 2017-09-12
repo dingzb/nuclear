@@ -1,0 +1,18 @@
+<style type="text/css">
+.ws-row {
+    margin-top: 10px;
+}
+</style>
+<div  ng-controller="acWelcomeCtrl">
+ 	<div id="allmap" class="panel panel-default"  ng-init="initMap()">&nbsp;</div>
+</div>
+<!-- <script type="text/javascript" src="/resources/js/manage/MarkerClusterer.js"></script> -->
+<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script>
+$(function () {
+	$("#allmap").height($(window).height()-90);
+	$(window).resize(function(){
+		$("#allmap").height($(window).height()-90);
+	});
+});
+</script>

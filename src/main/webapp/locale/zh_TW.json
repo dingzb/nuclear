@@ -1,0 +1,12 @@
+{
+  "system.name": "智能Wifi管理系統",
+  "login.error.empty.verify": "驗證碼不能為空",
+  "login.error.empty.password": "密碼不能為空",
+  "login.error.empty.username": "用戶名不能為空",
+  "login.error.invalid.verify": "驗證碼格式不正確",
+  "login.page.login": "登錄",
+  "login.page.username": "用戶名",
+  "login.page.password": "密碼",
+  "login.page.verify":"驗證碼",
+  "login.page.verify.alt": "看不清"
+}

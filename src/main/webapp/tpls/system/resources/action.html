@@ -1,0 +1,368 @@
+<div ng-controller="systemActionCtrl">
+    <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+        <form class="form-inline">
+            <div class="ws-search-input-group">
+                <div class="form-group">
+                    <label for="searcheMenugroupSubsystemId">子系统</label>
+                    <select id="searcheMenugroupSubsystemId" type="text" class="form-control input-sm"
+                            ng-change="getMenugroups(datagrid.params.subsystemId, true)"
+                            ng-model="datagrid.params.subsystemId">
+                        <option value="">-请选择-</option>
+                        <option ng-repeat="sub in subsystem" value="{{sub.id}}" ng-bind="sub.name"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="searcheMenugroupId">目录组</label>
+                    <select id="searcheMenugroupId" type="text" class="form-control input-sm"
+                            ng-change="getMenus(datagrid.params.menuGroupId, true)"
+                            ng-model="datagrid.params.menuGroupId">
+                        <option value="">-请选择-</option>
+                        <option ng-repeat="menu in menugroup" value="{{menu.id}}" ng-bind="menu.name"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="searcheMenugroupId">目录</label>
+                    <select id="searcheMenugroupId" type="text" class="form-control input-sm"
+                            ng-model="datagrid.params.stateId">
+                        <option value="">-请选择-</option>
+                        <option ng-selected="menu.id==datagrid.params.stateId" ng-repeat="menu in menus"
+                                value="{{menu.id}}" ng-bind="menu.name"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="searcheMenugroupId">非目录页面</label>
+                    <select id="searcheMenugroupId" type="text" class="form-control input-sm"
+                            ng-model="datagrid.params.notMenustateId">
+                        <option value="">-请选择-</option>
+                        <option ng-selected="menu.id==datagrid.params.notMenustateId" ng-repeat="menu in notMenustates"
+                                value="{{menu.id}}" ng-bind="menu.name"></option>
+                    </select>
+                </div>
+                <div class="ws-search-btn-group ws-inline">
+                    <button class="btn btn-sm btn-info" type="button" ng-click="search()">查询</button>
+                    <button class="btn btn-sm btn-info" type="button" ng-click="resetSearch()">清空</button>
+                </div>
+            </div>
+        </form>
+        <div>
+            <button class="btn btn-sm btn-info" type="button"
+                    ng-click="showAdd('addModal','addAction')" ws-permcode="system.resources.action.add">添加
+            </button>
+            <button id="menuEdit" class="btn btn-sm btn-info" type="button"
+                    ng-click="showEdit('editModal',getParentSubsystem)" ws-permcode="system.resources.action.edit">编辑
+            </button>
+            <button class="btn btn-sm btn-info" type="button" ng-click="delAccess()"
+                    ws-permcode="system.resources.action.del">删除
+            </button>
+        </div>
+    </ws-datagrid>
+    <div class="modal fade" id="addModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">添加访问控制</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="addAction" name="addAction" novalidate>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addAction.actionName.$dirty && addAction.actionName.$invalid}">
+                            <label class="col-sm-2 control-label" for="actionName">名称</label>
+                            <div class="col-sm-7">
+                                <input id="actionName" name="actionName" type="text" class="form-control"
+                                       ng-model="addaction.name"
+                                       placeholder="action name" required><span
+                                    class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                    ng-show="addAction.actionName.$dirty && addAction.actionName.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="addAction.actionName.$dirty && addAction.actionName.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addAction.actionCode.$dirty && addAction.actionCode.$invalid}">
+                            <label class="col-sm-2 control-label" for="actionCode">编码</label>
+                            <div class="col-sm-7">
+                                <input id="actionCode" name="actionCode" type="text" class="form-control"
+                                       ng-model="addaction.code"
+                                       placeholder="action name" required><span
+                                    class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                    ng-show="addAction.actionCode.$dirty && addAction.actionCode.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="addAction.actionCode.$dirty && addAction.actionCode.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addAction.actionUrl.$dirty && addAction.actionUrl.$invalid}">
+                            <label class="col-sm-2 control-label" for="actionUrl">URL</label>
+                            <div class="col-sm-7">
+                                <input id="actionUrl" name="actionUrl" type="text" class="form-control"
+                                       ng-model="addaction.url"
+                                       placeholder="action url" required><span
+                                    class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                    ng-show="addAction.actionUrl.$dirty && addAction.actionUrl.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="addAction.actionUrl.$dirty && addAction.actionUrl.$invalid"
+                                   class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addAction.searcheMenugroupSubsystemId.$dirty && addAction.searcheMenugroupSubsystemId.$invalid}">
+                            <label class="col-sm-2 control-label" for="searcheMenugroupSubsystemId">子系统</label>
+                            <div class="col-sm-7">
+                                <select id="searcheMenugroupSubsystemId" type="text" class="form-control input-sm"
+                                        name="searcheMenugroupSubsystemId"
+                                        ng-change="getMenugroups(addaction.subsystemId)"
+                                        ng-model="addaction.subsystemId">
+                                    <option value="">-请选择-</option>
+                                    <option ng-repeat="sub in subsystem" value="{{sub.id}}" ng-bind="sub.name"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <p
+                                        ng-show="addAction.searcheMenugroupSubsystemId.$dirty && addAction.searcheMenugroupSubsystemId.$invalid"
+                                        class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addAction.searcheMenugroupId.$dirty && addAction.searcheMenugroupId.$invalid}">
+                            <label class="col-sm-2 control-label" for="searcheMenugroupId">目录组</label>
+                            <div class="col-sm-7">
+                                <select id="searcheMenugroupId" type="text" class="form-control input-sm"
+                                        name="searcheMenugroupId"
+                                        ng-change="getMenus(addaction.menuGroupId)" ng-model="addaction.menuGroupId">
+                                    <option value="">-请选择-</option>
+                                    <option ng-repeat="menu in menugroup" value="{{menu.id}}"
+                                            ng-bind="menu.name"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="addAction.searcheMenugroupId.$dirty && addAction.searcheMenugroupId.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addAction.searcheMenuId.$dirty && addAction.searcheMenuId.$invalid}">
+                            <label class="col-sm-2 control-label" for="searcheMenuId">目录</label>
+                            <div class="col-sm-7">
+                                <select id="searcheMenuId" type="text" class="form-control input-sm"
+                                        name="searcheMenuId"
+                                        ng-model="addaction.stateId">
+                                    <option value="">-请选择-</option>
+                                    <option ng-repeat="menu in menus" value="{{menu.id}}" ng-bind="menu.name"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="addAction.searcheMenuId.$dirty && addAction.searcheMenuId.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addAction.searcheMenuId.$dirty && addAction.searcheMenuId.$invalid}">
+                            <label class="col-sm-2 control-label" for="notMenuId">非目录页面</label>
+                            <div class="col-sm-7">
+                                <select id="notMenuId" type="text" class="form-control input-sm"
+                                        ng-model="addaction.notMenustateId" name="notMenuId">
+                                    <option value="">-请选择-</option>
+                                    <option ng-selected="menu.id==addaction.notMenustateId"
+                                            ng-repeat="menu in notMenustates"
+                                            value="{{menu.id}}" ng-bind="menu.name"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="addAction.searcheMenuId.$dirty && addAction.searcheMenuId.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="reset('addAction')">清空</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="reset('addAction')">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="addAccess()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">添加访问控制</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="editAction" name="editAction" novalidate>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editAction.actionName.$dirty && editAction.actionName.$invalid}">
+                            <label class="col-sm-2 control-label" for="actionName">名称</label>
+                            <div class="col-sm-7">
+                                <input id="actionName" name="actionName" type="text" class="form-control"
+                                       ng-model="editaction.name"
+                                       placeholder="action name" required><span
+                                    class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                    ng-show="editAction.actionName.$dirty && editAction.actionName.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="editAction.actionName.$dirty && editAction.actionName.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editAction.actionCode.$dirty && editAction.actionCode.$invalid}">
+                            <label class="col-sm-2 control-label" for="actionCode">编码</label>
+                            <div class="col-sm-7">
+                                <input id="actionCode" name="actionCode" type="text" class="form-control"
+                                       ng-model="editaction.code"
+                                       placeholder="action name" required><span
+                                    class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                    ng-show="editAction.actionCode.$dirty && editAction.actionCode.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="editAction.actionCode.$dirty && editAction.actionCode.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editAction.actionUrl.$dirty && editAction.actionUrl.$invalid}">
+                            <label class="col-sm-2 control-label" for="actionUrl">URL</label>
+                            <div class="col-sm-7">
+                                <input id="actionUrl" name="actionUrl" type="text" class="form-control"
+                                       ng-model="editaction.url"
+                                       placeholder="action url"><span
+                                    class="glyphicon glyphicon-remove form-control-feedback"
+                                    aria-hidden="true"
+                                    ng-show="editAction.actionUrl.$dirty && editAction.actionUrl.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="editAction.actionUrl.$dirty && editAction.actionUrl.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editAction.searcheMenugroupSubsystemId.$dirty && editAction.searcheMenugroupSubsystemId.$invalid}">
+                            <label class="col-sm-2 control-label" for="searcheMenugroupSubsystemId">子系统</label>
+                            <div class="col-sm-7">
+                                <select id="searcheMenugroupSubsystemId" type="text" class="form-control input-sm"
+                                        name="searcheMenugroupSubsystemId"
+                                        ng-change="getMenugroups(editaction.subsystemId)"
+                                        ng-model="editaction.subsystemId">
+                                    <option value="">-请选择-</option>
+                                    <option ng-repeat="sub in subsystem" value="{{sub.id}}" ng-bind="sub.name"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <p
+                                        ng-show="editAction.searcheMenugroupSubsystemId.$dirty && editAction.searcheMenugroupSubsystemId.$invalid"
+                                        class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editAction.searcheMenugroupId.$dirty && editAction.searcheMenugroupId.$invalid}">
+                            <label class="col-sm-2 control-label" for="searcheMenugroupId">目录组</label>
+                            <div class="col-sm-7">
+                                <select id="searcheMenugroupId" type="text" class="form-control input-sm"
+                                        name="searcheMenugroupId"
+                                        ng-change="getMenus(editaction.menuGroupId)" ng-model="editaction.menuGroupId">
+                                    <option value="">-请选择-</option>
+                                    <option ng-selected="menu.id==editaction.menuGroupId" ng-repeat="menu in menugroup"
+                                            value="{{menu.id}}" ng-bind="menu.name"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="editAction.searcheMenugroupId.$dirty && editAction.searcheMenugroupId.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editAction.searcheMenuId.$dirty && editAction.searcheMenuId.$invalid}">
+                            <label class="col-sm-2 control-label" for="searcheMenuId">目录</label>
+                            <div class="col-sm-7">
+                                <select id="searcheMenuId" type="text" class="form-control input-sm"
+                                        name="searcheMenuId"
+                                        ng-model="editaction.stateId">
+                                    <option value="">-请选择-</option>
+                                    <option ng-selected="menu.id==editaction.stateId" ng-repeat="menu in menus"
+                                            value="{{menu.id}}" ng-bind="menu.name"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="editAction.searcheMenuId.$dirty && editAction.searcheMenuId.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editAction.searcheMenuId.$dirty && editAction.searcheMenuId.$invalid}">
+                            <label class="col-sm-2 control-label" for="searcheMenuId">非目录页面</label>
+                            <div class="col-sm-7">
+                                <select id="notMenuId" type="text" class="form-control input-sm"
+                                        ng-model="editaction.notMenustateId" name="notMenuId">
+                                    <option value="">-请选择-</option>
+                                    <option ng-selected="menu.id==editaction.notMenustateId"
+                                            ng-repeat="menu in notMenustates"
+                                            value="{{menu.id}}" ng-bind="menu.name"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <p ng-show="editAction.searcheMenuId.$dirty && editAction.searcheMenuId.$invalid"
+                                   class="form-control-static" style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;不能为空
+                                </p>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="reset('editAction')">清空</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="reset('editAction')">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="editAccess()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

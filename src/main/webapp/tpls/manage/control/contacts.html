@@ -1,0 +1,116 @@
+<div ng-controller="contactsManageController">
+    <div class="panel panel-default" >
+        <div class="panel-body">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+            	<form class="ws-searchform ">
+            		<div class="collapse" id="showOrHide">
+            		<div class="borderTopf0 noborderTop borderE2" id="search">
+						   <ul class="search">
+					        <li><span>名称:</span><input class="Input_search" type="text" placeholder="名称" name="name"  ng-model="datagrid.params.name"></li> 
+					        <li><span>身份证号:</span><input class="Input_search" type="text" placeholder="身份证号" name="idCard"  ng-model="datagrid.params.idCard"></li>  
+					        <li><span>手机:</span><input class="Input_search" type="text" placeholder="手机" name="phone"  ng-model="datagrid.params.phone"></li>
+					        <li><span>邮箱:</span><input class="Input_search" type="text" placeholder="邮箱" name="email"  ng-model="datagrid.params.email"></li>  
+					        <div class="clear"></div> 
+					     </ul>
+					     <div class="btn_box mb20"><button class="btn_blue" type="button" ng-click="search()">查询</button>
+								<button class="btn_blue" type="button" ng-click="resetSearch()">清空</button></div>	
+					</div> 
+						<div class="borderTopf0 borderE2"></div>
+					</div>
+					<div class="mlr10">
+							 <div class="mb10 mt20">
+								<button class="btn_blue" ng-click="onAdd()" ws-permcode="app.ac.contacts.addContacts">添加</button>
+								<button class="btn_blue" type="button" ng-click="onEdit()" ws-permcode="app.ac.contacts.editContacts">编辑</button>
+								<button class="btn_blue" type="button" ng-click="onDelete()" ws-permcode="app.ac.contacts.deleteContacts">删除</button>
+								<button class="btn_blue right" data-toggle="collapse" data-target="#showOrHide" aria-expanded="false" aria-controls="ShowOrHide">显示/隐藏表格</button>
+						</div>
+						</div>
+				</form>
+            </ws-datagrid>
+            <!-- 添加模态窗 -->
+			<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+							</div>
+							<div class="modal-body" >
+								<form name="contactsForm" novalidate>
+									<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+								            <tr>
+								              <th><nobr>*</nobr>名称：</th><td><input class="Input_edit" type="text" name="name"  ng-model="info.name" maxlength="20" required></td>
+								              <th><nobr>*</nobr>身份证号：</th><td><input class="Input_edit" type="text" name="idCard" ng-model="info.idCard" required ng-pattern="/^\d{17}([0-9]|X|x)$/"></td>
+								              <th><nobr>*</nobr>手机号:</th><td><input class="Input_edit" type="text" name="phone" ng-model="info.phone" required ng-pattern="/^\d{11}$/"></td>
+								            </tr>
+								            <tr>
+								              <th><nobr>*</nobr>邮箱地址：</th><td><input class="Input_edit" type="text" name="email" ng-model="info.email" maxlength="15" required ng-pattern="/^[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$/"></td>
+								            </tr>
+							        </table> 
+					             </form>
+								<div class="errMsg">
+									<div class="alert alert-danger" ng-messages="contactsForm.name.$error" ng-show="contactsForm.name.$dirty&&contactsForm.name.$invalid" ng-message-multiple>
+										<div ng-message="required">名称为必填项</div>
+									</div>
+									<div class="alert alert-danger" ng-messages="contactsForm.idCard.$error" ng-show="contactsForm.idCard.$dirty&&contactsForm.idCard.$invalid" ng-message-multiple>
+										<div ng-message="required">身份证号为必填项</div>
+										<div ng-message="pattern">请填写正确的18位身份证号</div>
+									</div>
+									<div class="alert alert-danger" ng-messages="contactsForm.phone.$error" ng-show="contactsForm.phone.$dirty&&contactsForm.phone.$invalid" ng-message-multiple>
+										<div ng-message="required">手机号为必填项</div>
+										<div ng-message="pattern">请填写11位正确手机号</div>
+									</div>
+									<div class="alert alert-danger" ng-messages="contactsForm.email.$error" ng-show="contactsForm.email.$dirty&&contactsForm.email.$invalid" ng-message-multiple>
+										<div ng-message="required">邮箱地址为必填项</div>
+										<div ng-message="pattern">填写邮箱不正确，格式如xx@xx.com</div>
+									</div>
+								</div>
+								</div>
+								<div class="btn_Edit1 mb20">
+									<button type="button" class="btn_blue" ng-click="reset()">清空</button>
+									<button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+									<button id= "conSaveBtn" type="button" class="btn_blue" ng-click="onSave('conSaveBtn')">保存</button>
+								</div>
+						   </div>
+						</div>
+					</div>
+						<!-- 详细信息 -->
+			<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel"><img src="resources/image/detail_img1.png">详细信息</h4>
+						</div>
+						<div class="modal-body">
+							<form name="contactsDetailForm">
+								  <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+								         <tr>
+								            <th width="13.3%" align="left">名称</th>
+								            <td width="20%" align="left" name="name" ng-bind="detail.name" ></td>
+								            <th width="13.3%" align="left">身份证号</th>
+								            <td width="20%" align="left" name="idCard"  ng-bind="detail.idCard"></td>
+								            <th width="13.4%" align="left">手机号</th>
+								            <td width="20%" align="left" name="phone" ng-bind="detail.phone"></td>
+								          </tr>
+								          <tr>
+								            <th width="13.3%" align="left">邮箱地址</th>
+								            <td width="20%" align="left" name="email" ng-bind="detail.email"></td>
+<!-- 								            <th width="13.3%" align="left"></th> -->
+<!-- 								            <td width="20%" align="left"></td> -->
+<!-- 								            <th width="13.4%" align="left"></th> -->
+<!-- 								            <td width="20%" align="left"></td> -->
+								          </tr>               
+							        </table>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>

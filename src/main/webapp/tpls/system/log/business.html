@@ -1,0 +1,175 @@
+<div ng-controller="businessLogCtrl">
+    <div id="grid">
+        <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+            <div class="collapse" id="showOrHide">
+                <form id="businessForm" name="businessForm" novalidate class="form-inline">
+                    <div class="ws-search-input-group">
+                        <div class="form-group">
+                            <label for="username">用户名</label>
+                            <input id="username" type="text" class="form-control input-sm"
+                                   ng-model="searchParams.username"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">开始时间</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                <input size="16" type="text" id="startTime"
+                                       class="form-control input-sm" placeholder="年-月-日 时:分"
+                                       ng-model="searchParams.startTime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">开始时间</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon"><span
+                                        class="glyphicon glyphicon-calendar"></span>  </span>
+                                <input size="16" type="text" id="endTime"
+                                       class="form-control input-sm" placeholder="年-月-日 时:分"
+                                       ng-model="searchParams.endTime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">操作类别</label>
+                            <select id="type" ng-model="searchParams.operation"
+                                    class="form-control input-sm">
+                                <option value="">-请选择-</option>
+                                <option value="LOGIN">登录</option>
+                                <option value="ADD">添加</option>
+                                <option value="DELETE">删除</option>
+                                <option value="MODIFY">修改</option>
+                                <option value="QUERY">查询</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="isException">是否异常</label>
+                            <select id="isException" class="form-control input-sm"
+                                    ng-model="searchParams.isException">
+                                <option value="">请选择</option>
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+                        </div>
+                        <div class="ws-search-btn-group ws-inline">
+                            <button class="btn btn-info btn-sm" type="submit" ng-click="search()">查询</button>
+                            <button class="btn btn-info btn-sm" type="button" ng-click="reset()">清空</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-info btn-sm" ng-click="delLog()"
+                        ws-permcode="system.log.business.del">删除
+                </button>
+                <button type="submit" class="btn btn-info btn-sm" ws-permcode="system.log.business.time.set"
+                        ng-click="showSetTime()">设置保存时间
+                </button>
+                <button class="btn btn-primary btn-sm pull-right" data-toggle="collapse" data-target="#showOrHide">
+                    显示/隐藏表格
+                </button>
+            </div>
+        </ws-datagrid>
+    </div>
+
+    <div class="modal fade" id="setTimeModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="label">设置日志保存时间</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="setTime" name="setTimeForm"
+                          novalidate>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : setTimeForm.time.$dirty && setTimeForm.time.$invalid}">
+                            <label class="col-sm-3 control-label" for="set-time">保存时间（天）</label>
+                            <div class="col-sm-4">
+                                <input id="set-time" name="time" type="text"
+                                       class="form-control" ng-model="settime.time"
+                                       placeholder="日志保存时间" ng-pattern="/^([1-9]|[1-8][0-9]|90)$/" required>
+                            </div>
+                            <div class="col-md-5">
+                                <p ng-show="setTimeForm.time.$dirty && setTimeForm.time.$invalid"
+                                   class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;
+                                    <span ng-show="setTimeForm.time.$error.pattern">只能为大于0且小于等于90的数字</span>
+                                    <span ng-show="setTimeForm.time.$error.required">不能为空</span>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            ng-click="resetSetTime()">清空
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal" ng-click="reset()">关闭
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            ng-click="setTime()">保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 显示详情 -->
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                    <div class="modal-title ws-info">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        <span style="position: relative; top:  -1px;">业务日志详情</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <table width="100%" border="0" cellspacing="2" cellpadding="0" class="ws-table-detail">
+                        <tr>
+                            <th width="13.3%" align="left">用户名</th>
+                            <td width="20%" align="left" ng-bind="detail.username" name="username"></td>
+                            <th width="13.3%" align="left">创建时间</th>
+                            <td width="20%" align="left" ng-bind="detail.createTime" name="createTime"></td>
+                            <th width="13.4%" align="left">IP地址</th>
+                            <td width="20%" align="left" ng-bind="detail.ipAddr" name="ipAddr"></td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">操作类别</th>
+                            <td width="20%" align="left" ng-bind="detail.operation" name="operation"></td>
+                            <th width="13.3%" align="left">操作内容</th>
+                            <td width="20%" align="left" ng-bind="detail.content" name="content"></td>
+                            <th width="13.4%" align="left">异常内容</th>
+                            <td width="20%" align="left" ng-bind="detail.exception" name="exception"></td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">方法描述</th>
+                            <td width="86.7%" align="left" colspan="5" name="signature"
+                                ng-bind="detail.signature"></td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">方法参数</th>
+                            <td width="86.7%" align="left" colspan="5" name="args" ng-bind="detail.args"></td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">User-Agent</th>
+                            <td width="86.7%" align="left" colspan="5" name="userAgent"
+                                ng-bind="detail.userAgent"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

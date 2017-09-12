@@ -1,0 +1,290 @@
+<style type="text/css">
+.ws-searchbutton {
+    margin-top: 10px;
+}
+</style>
+<!-- 配置任务管理 -->
+<div ng-controller="apTerminialConfTaskCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body" ng-init="initPage()">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info alert-dismissible ws-gridTip" role="alert" style="" ws-permcode="app.ac.apmanage.getConfigCount2">
+                        当前任务总数<span class="ws-gridTip-font" ng-click="addFilter('clear')" ng-bind="countTask.totalTask"></span>个， 成功任务
+                        <span class="ws-gridTip-font" ng-click="addFilter('success')" ng-bind="countTask.taskSuccess"></span>个， 失败任务
+                        <span class="ws-gridTip-font" ng-click="addFilter('fail')" ng-bind="countTask.taskFailure"></span>个， 任务运行
+                        <span class="ws-gridTip-font" ng-click="addFilter('run')" ng-bind="countTask.taskRun"></span>个
+                    </div>
+                </div>
+            </div>
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form>
+                    <div class="collapse" id="scheduleSearchInput">
+                        <div class="borderTopf0 noborderTop borderE2" id="search">
+                            <div class="row ws-mlr10" style="padding-top: 10px;" ng-init="initdate()">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label elabel" for="onlinePlaceCode">任务名称：</label>
+                                        <div class="col-sm-8 ebody">
+                                            <input type="text" name="name" class="form-control input-sm" placeholder="任务名称" ng-model="datagrid.params.name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label elabel" for="onlineStartTime">创建时间：</label>
+                                        <div class="col-sm-8 ebody">
+                                            <input type="text" id="createTimeStart" name="createTimeStart" class="form-control input-sm" placeholder="开始时间" ng-model="datagrid.params.createTimeStart">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label elabel" for="onlineEndTime">到：</label>
+                                        <div class="col-sm-8 ebody">
+                                            <input type="text" id="createTimeEnd" class="form-control input-sm" placeholder="截止时间" ng-model="datagrid.params.createTimeEnd">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label elabel" for="onlineEndTime">状态：</label>
+                                        <div class="col-sm-8 ebody">
+                                            <select name="status" id="item2" class="form-control input-sm" ng-model="datagrid.params.status">
+                                                <option value="" selected>全部</option>
+                                                <option value="null">任务初始</option>
+                                                <option value="0">任务启动</option>
+                                                <option value="1">任务运行</option>
+                                                <option value="2">任务成功</option>
+                                                <option value="3">任务失败</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_box mb20 ws-searchbutton">
+                                <button class="btn_blue" type="button" ng-click="searchTerSch()">查询</button>
+                                <button class="btn_blue" type="button" ng-click="onResetSearch()">清空</button>
+                            </div>
+                            <div class="mainTop"></div>
+                        </div>
+                    </div>
+                    <div class="mb10 mt20 ws-mlr10">
+                        <button class="btn_blue" type="button" ng-click="onAdd()" ws-permcode="app.ac.apmanage.ter.addApCfg">新建</button>
+                        <button class="btn_blue" type="button" ng-click="onDelete()" ws-permcode="app.ac.apmanage.removeConfigSchedules2">删除</button>
+                        <button class="btn_blue" type="button" ng-click="onStart()" ws-permcode="app.ac.apmanage.startConfigSchedules2">启动任务</button>
+                        <button class="btn_blue" type="button" ng-click="onStop()" ws-permcode="app.ac.apmanage.stopConfigSchedules2">停止任务</button>
+                        <button class="btn_blue right" type="button" data-toggle="collapse" data-target="#scheduleSearchInput" aria-expanded="false" aria-controls="scheduleSearchInput">显示/隐藏搜索</button>
+                    </div>
+                </form>
+            </ws-datagrid>
+        </div>
+    </div>
+    <!-- 添加配置窗口s -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModal" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal">新建任务(终端采集)</h4>
+                </div>
+                <div class="modal-body ws-modal-body">
+                    <div class="tab1" ng-init="initAddPage();showTab1=true" ng-show="showTab1">
+                        <div class="row ws-mlr5">
+                            <ws-datagrid configuration="datagrAddid" inner-ctrl="innerCtrlAdd">
+                            </ws-datagrid>
+                            <div class="btn_Edit1 mb20 mt0">
+                                <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn_blue" ng-click="onConfigNext()">下一步</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab2" ng-show="showTab2" ng-init="showTab2=false">
+                        <form name="configForm" novalidate>
+                            <section class="edit_main m10">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                    <tr>
+                                        <th>
+                                            <nobr>*</nobr>任务名称：</th>
+                                        <td>
+                                            <input type="text" name="scheduleName" class="Input_edit" placeholder="配置任务名称" ng-model="config.scheduleName" required ng-maxlength=50>
+                                        </td>
+                                        <th>信道：</th>
+                                        <td>
+                                            <select name="channel" class="select_edit" ng-model="config.channel">
+                                                <option value="0">auto</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                            </select>
+                                        </td>
+                                        <th>最大连接数：</th>
+                                        <td>
+                                            <input type="text" name="maxassoc" class="Input_edit" placeholder="最大终端连接数" ng-model="config.maxassoc" ng-pattern="/^[1-9]\d{0,3}$|^[0]$/">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </section>
+                            <section class="edit_main m10">
+                                <div class="config_title mt10">主ssid配置</div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit table_config">
+                                    <tr class="ml10">
+                                        <th>
+                                            <nobr>*</nobr>SSID：</th>
+                                        <td>
+                                            <input type="text" name="ssid" class="Input_edit" placeholder="SSID" ng-model="config.ssid" ng-pattern="/^[a-zA-Z]+[a-zA-Z0-9-_\.]*$/" ng-change="validateSsid()" required ng-maxlength=32>
+                                        </td>
+                                        <th>管理地址：</th>
+                                        <td>
+                                            <input type="text" name="brip" class="Input_edit" placeholder="管理地址" ng-model="config.brip" ng-change="validateIp()" ng-maxlength=20 ng-pattern="/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-4])))$/">
+                                        </td>
+                                        <th>加密方式：</th>
+                                        <td>
+                                            <select name="encryption" class="Input_edit" ng-model="config.encryption">
+                                                <option value="none">none</option>
+                                                <option value="psk">WPA-PSK</option>
+                                                <option value="psk2">WPA2-PSK</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <nobr ng-show="config.encryption!='none'&&config.encryption!=''">*</nobr> 密码：</th>
+                                        <td>
+                                            <input type="text" name="passwd" class="Input_edit " disabled placeholder="密码长度在8-20位" ng-model="config.passwd" ng-if="config.encryption=='none'||config.encryption==''">
+                                            <input type="text" name="passwd" class="Input_edit" placeholder="密码长度在8-20位" ng-model="config.passwd" required ng-minlength=8 ng-maxlength=20 ng-if="config.encryption!='none'&&config.encryption!=''">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </section>
+                        </form>
+                        <form name="titleForm" novalidate>
+                            <section class="edit_main m10">
+                                <div class="row" style="padding-top: 10px;margin-top: 10px;border-top: 1px solid #E5E5E5;">
+                                    <div class="col-md-2">
+                                        <div class="checkbox pull-right" style="margin-top: 5px">
+                                            <label>
+                                                <input type="checkbox" ng-model="useTemplate">使用模板
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label elabel" style="" title="模板名称">模板名称</label>
+                                            <div class="col-sm-8 ebody">
+                                                <select name="id" id="id" class="form-control input-sm" ng-model="tplId" ng-change="onSelectTpl()" ng-disabled="!useTemplate" ng-options="item.id as item.name for item in apCfgItems">
+                                                    <option value="">-请选择-</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox pull-right" style="margin-top: 5px">
+                                            <label>
+                                                <input type="checkbox" ng-model="config.istemplate">另存为模板
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label elabel" style="" title="另存模板名称">另存名称</label>
+                                            <div class="col-sm-8 ebody">
+                                                <input type="text" name="name" class="form-control input-sm" placeholder="另存为模板名称" ng-disabled="!config.istemplate" ng-model="config.name" required ng-maxlength=50>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="">
+                                    <div class="col-md-2">
+                                        <div class="checkbox pull-right" style="margin-top: 5px">
+                                            <label>
+                                                <input type="checkbox" ng-model="config.isrestart">重启
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox pull-right" style="margin-top: 5px">
+                                            <label>
+                                                <input type="checkbox" ng-model="config.ssid_status">隐藏SSID
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </form>
+                        <div class="errMsg">
+                            <div class="alert alert-danger" ng-messages="configForm.ssid.$error" ng-show="configForm.ssid.$dirty&&configForm.ssid.$invalid" ng-messages-multiple>
+                                <div ng-message="required">ssid为必填项</div>
+                                <div ng-message="maxlength">ssid最大不可以超过32个字符</div>
+                                <div ng-message="pattern">ssid只可以包含字母(a-z,A-Z ),数字(0-9)和特殊符号(-_.)，必须以字母开头
+                                </div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="configForm.passwd.$error" ng-show="configForm.passwd.$dirty&&configForm.passwd.$invalid" ng-messages-multiple ng-show="config.encryption!='none'">
+                                <div ng-message="required">密码为必填项</div>
+                                <div ng-message="minlength">密码最小长度为8位</div>
+                                <div ng-message="maxlength">密码最大不可以超过20个字符</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="configForm.maxassoc.$error" ng-show="configForm.maxassoc.$dirty&&configForm.maxassoc.$invalid" ng-messages-multiple>
+                                <div ng-message="pattern">最大终端连接数为0-9999的正整数</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="configForm.scheduleName.$error" ng-show="configForm.scheduleName.$dirty&&configForm.scheduleName.$invalid" ng-messages-multiple>
+                                <div ng-message="required">任务名称为必填项</div>
+                                <div ng-message="maxlength">任务名称最大不可以超过50个字符</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="configForm.brip.$error" ng-show="configForm.brip.$dirty&&configForm.brip.$invalid" ng-messages-multiple>
+                                <div ng-message="pattern">请填写正确的管理ip,范围为1.0.0.1~255.255.255.254</div>
+                            </div>
+                            <div class="alert alert-danger" ng-messages="titleForm.name.$error" ng-show="config.istemplate&&titleForm.name.$dirty&&titleForm.name.$invalid" ng-messages-multiple>
+                                <div ng-message="required">另存模板名称为必填项</div>
+                                <div ng-message="maxlength">另存模板名称最大不可以超过50个字符</div>
+                            </div>
+                        </div>
+                        <div class="btn_Edit1 mb20 mt0">
+                            <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn_blue" ng-click="onConfigPre()" >上一步</button>
+                            <button type="button" class="btn_blue" ng-click="onSaveConfig()">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加配置窗口e -->
+    <!-- 详情s -->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal"><img class="ws-viewImg" src="resources/image/detail_img1.png">任务详情</h4>
+                </div>
+                <div class="modal-body" ng-init="initViewPage()">
+                    <ws-datagrid configuration="datagridView" inner-ctrl="innerCtrlView">
+                        <form class="ws-searchform ">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="hidden" name="ConfigScheduleId" ng-model="datagridView.params.ConfigScheduleId">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </ws-datagrid>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情e -->
+</div>

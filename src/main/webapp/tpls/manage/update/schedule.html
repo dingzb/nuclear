@@ -1,0 +1,178 @@
+<style type="text/css">
+.ws-searchbutton {
+    margin-top: 10px;
+}
+.ap-table table th{
+	width:10%;
+}
+</style>
+<!-- 系统升级 -->
+<div ng-controller="apUpdateApCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body" ng-init="initPage()">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info alert-dismissible ws-gridTip" role="alert" style="" ws-permcode="app.ac.apmanage.getConfigUpdateCount">
+                        当前任务总数<span class="ws-gridTip-font" ng-click="addFilter('clear')" ng-bind="countTask.totalTask"></span>个， 成功任务
+                        <span class="ws-gridTip-font" ng-click="addFilter('success')" ng-bind="countTask.taskSuccess"></span>个， 失败任务
+                        <span class="ws-gridTip-font" ng-click="addFilter('fail')" ng-bind="countTask.taskFailure"></span>个， 任务运行
+                        <span class="ws-gridTip-font" ng-click="addFilter('run')" ng-bind="countTask.taskRun"></span>个
+                    </div>
+                </div>
+            </div>
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form>
+                    <div class="col-md-12">
+                        <div class="collapse" id="scheduleSearchInput">
+                            <div class="borderTopf0 noborderTop borderE2" id="search">
+                                <div class="row ws-mlr10" style="padding-top: 10px;" ng-init="initdate()">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label elabel" for="onlinePlaceCode">任务名称：</label>
+                                            <div class="col-sm-8 ebody">
+                                                <input type="text" name="name" class="form-control input-sm" placeholder="任务名称" ng-model="datagrid.params.name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label elabel" for="onlineStartTime">时间范围：</label>
+                                            <div class="col-sm-8 ebody">
+                                                <input type="text" id="createTimeStart" name="createTimeStart" class="form-control input-sm" placeholder="开始时间" ng-model="datagrid.params.createTimeStart">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label elabel" for="onlineEndTime">到：</label>
+                                            <div class="col-sm-8 ebody">
+                                                <input type="text" id="createTimeEnd" class="form-control input-sm" placeholder="截止时间" ng-model="datagrid.params.createTimeEnd">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label elabel" for="onlineEndTime">状态：</label>
+                                            <div class="col-sm-8 ebody">
+                                                <select name="status" id="item2" class="form-control input-sm" ng-model="datagrid.params.status">
+                                                    <option value="" selected>全部</option>
+                                                    <option value="null">任务初始</option>
+                                                    <option value="0">任务启动</option>
+                                                    <option value="1">任务运行</option>
+                                                    <option value="2">任务成功</option>
+                                                    <option value="3">任务失败</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn_box mb20 ws-searchbutton">
+                                    <button class="btn_blue" type="button" ng-click="searchSchedule()">查询</button>
+                                    <button class="btn_blue" type="button" ng-click="onResetSearch()">清空</button>
+                                </div>
+                                <div class="mainTop"></div>
+                            </div>
+                        </div>
+                        <div class="mb10 mt20 ws-mlr10">
+                            <button class="btn_blue " type="button" ng-click="onAdd()" ws-permcode="app.ac.apmanage.addUpdateSchedule">添加</button>
+                            <button class="btn_blue " type="button" ng-click="onDelete()" ws-permcode="app.ac.apmanage.removeUpdateSchedule">删除</button>
+                            <button class="btn_blue " type="button" ng-click="onStart()" ws-permcode="app.ac.apmanage.startUpdateSchedule">启动任务</button>
+                            <button class="btn_blue " type="button" ng-click="onStop()" ws-permcode="app.ac.apmanage.stopUpdateSchedule">停止任务</button>
+                            <button class="btn_blue right" type="button" data-toggle="collapse" data-target="#scheduleSearchInput" aria-expanded="false" aria-controls="scheduleSearchInput">显示/隐藏搜索</button>
+                        </div>
+                    </div>
+                </form>
+            </ws-datagrid>
+        </div>
+    </div>
+    <!-- 添加模态窗口s -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="infoForm" novalidate>
+                        <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_edit">
+                            <tr>
+                                <th>
+                                    <nobr>*</nobr>名称：</th>
+                                <td>
+                                    <input type="text" name="name" class="Input_edit" placeholder="名称" ng-model="config.name" required ng-maxlength=50>
+                                </td>
+                                <th>
+                                    <nobr>*</nobr>固件名称:</th>
+                                <td>
+                                    <select name="firmwareId" id="firmwareId" class="select_edit" ng-model="config.firmwareId" ng-options="item.id as item.name for item in firmwares" required>
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="row ws-mlr5">
+                            <div ng-init="initAddPage()">
+                                <ws-datagrid configuration="datagridAdd" inner-ctrl="innerCtrlAdd">
+                                    <input type="hidden" ng-model="datagridAdd.params.updateScheduleId">
+                                </ws-datagrid>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="infoForm.name.$error" ng-show="infoForm.name.$dirty&&infoForm.name.$invalid" ng-messages-multiple>
+                            <div ng-message="required">名称为必填项</div>
+                            <div ng-message="maxlength">名称最大不可以超过50个字符</div>
+                        </div>
+                        <div class="alert alert-danger" ng-messages="infoForm.firmwareId.$error" ng-show="infoForm.firmwareId.$dirty&&infoForm.firmwareId.$invalid" ng-messages-multiple>
+                            <div ng-message="required">固件名称为必填项</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn_blue mlP47" ng-click="onSave()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加模态窗口e -->
+    <!-- 详情模态窗口s -->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myvModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModal"><img class="ws-viewImg" src="resources/image/detail_img1.png">任务详情</h4>
+                </div>
+                <div class="modal-body ws-modal-body p10" ng-init="initViewPage()">
+                    <form name="viewForm">
+                        <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+                            <tr>
+                                <th width="13.3%" align="left">名称</th>
+                                <td width="20%" align="left">
+                                    <input type="text" name="name" placeholder="名称" ng-model="view.name" readonly style="background: #fff">
+                                </td>
+                                <th width="13.3%" align="left">固件名称</th>
+                                <td width="20%" align="left">
+                                    <select name="firmwareId" ng-model="view.firmwareId" ng-options="item.id as item.name for item in firmwares" disabled style="background: #fff">
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </td>
+                                <th width="13.4%" align="left"></th>
+                                <td width="20%" align="left"></td>
+                            </tr>
+                        </table>
+                        <div class="row ws-mlr5">
+                            <div style="max-width: 850px;overflow-x:scroll;">
+                                <div style="width: 1200px;" class="ap-table">
+                                    <ws-datagrid configuration="datagridView" inner-ctrl="innerCtrlView">
+                                        <input type="hidden" ng-model="datagridView.params.updateScheduleId">
+                                    </ws-datagrid>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情模态窗口e -->
+</div>

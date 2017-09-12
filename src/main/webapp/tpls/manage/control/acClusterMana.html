@@ -1,0 +1,128 @@
+<style type="text/css">
+.ws-searchform {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ws-searchbutton {
+    margin-top: 10px;
+}
+</style>
+<div ng-controller="acClusterManaCtrl" >
+    <div class="panel panel-default" >
+        <div class="panel-body" ng-init="initPage()">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+                <form >
+                    <div class="collapse" id="acSearchInput">
+                        <div class="borderTopf0 noborderTop borderE2" id="search">
+                            <ul class="search">
+                            	<li><span >名称：</span>
+                                    <input type="text" name="name" placeholder="名称" class="Input_search" ng-model="datagrid.params.name">
+                                </li>
+                                <li><span>地址：</span>
+                                    <input type="text" name="code" placeholder="地址" class="Input_search" ng-model="datagrid.params.code">
+                                </li>
+                                <div class="clear"></div>
+                            </ul>
+                            <div class="btn_box mb20">
+                                <button class="btn_blue" type="button" ng-click="innerCtrl.load(datagrid.params)">查询</button>
+                                <button class="btn_blue" type="button" ng-click="onResetSearch()">清空</button>
+                            </div>
+                            <div class="mainTop"></div>
+                        </div>
+                    </div>
+                    <div class="row mlr10">
+                        <div class="mb10 mt20">
+                            <button class="btn_blue" type="button" ng-click="onAdd()" ws-permcode="app.ac.apmanage.addAcCluster">添加</button>
+                            <button class="btn_blue" type="button" ng-click="onEdit()" ws-permcode="app.ac.apmanage.editAcCluster">编辑</button>
+                            <button class="btn_blue" type="button" ng-click="onDelete()" ws-permcode="app.ac.apmanage.removeAcCluster">删除</button>
+                            <button class="btn_blue right" data-toggle="collapse" data-target="#acSearchInput" aria-expanded="false" aria-controls="acSearchInput" >显示/隐藏搜索</button>
+                        </div>
+                    </div>       
+                </form>
+            </ws-datagrid>
+        </div>
+    </div>
+    <!-- 添加模态窗口s -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myModalLabel">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body">
+                    <form name="infoForm" novalidate>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                            <tr>
+                                <th style="text-align:right;padding-right: 15px;">
+                                    <nobr>*</nobr>名称</th>
+                                <td>
+                                    <input type="text" name="name" placeholder="名称" class="Input_edit" ng-model="info.name" required ng-maxlength=50>
+                                    <!-- ws-unique="app/ac/apmanage/acCluster/exist?name" -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align:right;padding-right: 15px;">
+                                    <nobr>*</nobr>地址</th>
+                                <td>
+                                    <input type="text" name="code" placeholder="地址" class="Input_edit" ng-model="info.code" required ng-maxlength=32 ng-pattern="/^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9]):([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/">
+                                    <input type="hidden" name="id" ng-model="info.id">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div class="errMsg">
+                        <div class="alert alert-danger" ng-messages="infoForm.name.$error" ng-show="infoForm.name.$dirty&&infoForm.name.$invalid">
+                            <div ng-message="required">名称为必填项</div>
+                            <div ng-message="maxlength">名称最大不可以超过50个字符</div>
+                            <!-- <div ng-message="unique">该名称已存在</div> -->
+                        </div>
+                        <!-- <div class="alert alert-info" ng-show="infoForm.name.uniqueAajax">
+                            <div >验证名称中，请稍等.....</div>
+                        </div> -->
+                        <div class="alert alert-danger" ng-messages="infoForm.code.$error" ng-show="infoForm.code.$dirty&&infoForm.code.$invalid" ng-messages-multiple>
+                            <div ng-message="required">地址为必填项</div>
+                            <div ng-message="maxlength">地址最大不可以超过32个字符</div>
+                            <div ng-message="pattern">地址需要使用ip+端口号形式，例如192.168.1.1:8000,端口号范围在0-65535之间</div>
+                        </div>
+                    </div>
+                    <div class="mlP35 mb20 mt0">
+                        <button type="button" class="btn_blue" ng-click="reset()">清空</button>
+                        <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn_blue" ng-click="onSave()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加模态窗口e -->
+     <!-- 详情模态窗口s -->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myviewModalLabel" data-backdrop="static">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header ws-modal-header">
+                    <button type="button" class="close ws-mt3" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    <h4 class="modal-title ml10" id="myviewModalLabel"><img class="ws-viewImg" src="resources/image/detail_img1.png">{{modalTitle}}</h4>
+                </div>
+                <div class="modal-body ws-modal-body p10">
+                    <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+                        <tr>
+                            <th width="13.3%" align="left">名称</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="name" placeholder="名称" ng-model="info.name" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="13.3%" align="left">地址</th>
+                            <td width="20%" align="left">
+                                <input type="text" name="code" placeholder="地址" ng-model="info.code" readonly>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情模态窗口e -->
+</div>

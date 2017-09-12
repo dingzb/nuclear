@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="./plugin/jquery/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script type="text/javascript" src="./plugin/bootstrap-fileinput/themes/explorer/theme.min.js"></script>
+
+    <link rel="stylesheet" href="plugin/bootstrap-3.3.4-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="plugin/bootstrap-fileinput/css/fileinput.min.css">
+    <link rel="stylesheet" href="plugin/bootstrap-fileinput/themes/explorer/theme.min.css">
+    <link rel="stylesheet" href="resources/css/tax.css">
+
+</head>
+<body>
+<label class="control-label">Select File</label>
+<input id="input-ke-2" name="inputKE2[]" type="file" multiple class="file-loading">
+<script>
+    <!-- must load the font-awesome.css for this example -->
+    $("#input-ke-2").fileinput({
+        language : 'zh',
+        theme: "explorer",
+        uploadUrl: "/file-upload-batch/2",
+        minFileCount: 2,
+        maxFileCount: 5,
+        overwriteInitial: false,
+        previewFileIcon: '<i class="fa fa-file"></i>',
+        initialPreview: [
+            // IMAGE DATA
+            'http://lorempixel.com/800/460/business/1',
+            // IMAGE RAW MARKUP
+            '<img src="http://lorempixel.com/800/460/business/2" class="kv-preview-data file-preview-image" style="height:160px">',
+            // TEXT DATA
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut mauris ut libero fermentum feugiat eu et dui. Mauris condimentum rhoncus enim, sed semper neque vestibulum id. Nulla semper, turpis ut consequat imperdiet, enim turpis aliquet orci, eget venenatis elit sapien non ante. Aliquam neque ipsum, rhoncus id ipsum et, volutpat tincidunt augue. Maecenas dolor libero, gravida nec est at, commodo tempor massa. Sed id feugiat massa. Pellentesque at est eu ante aliquam viverra ac sed est.",
+            // PDF DATA
+            'http://kartik-v.github.io/bootstrap-fileinput-samples/samples/pdf-sample.pdf',
+            // VIDEO DATA
+            "http://kartik-v.github.io/bootstrap-fileinput-samples/samples/small.mp4",
+        ],
+        initialPreviewAsData: true, // defaults markup
+        initialPreviewConfig: [
+            {caption: "Business 1.jpg", size: 762980, url: "/site/file-delete", key: 11},
+            {previewAsData: false, size: 823782, caption: "Business 2.jpg", url: "/site/file-delete", key: 13},
+            {caption: "Lorem Ipsum.txt", type: "text", size: 1430, url: "/site/file-delete", key: 12},
+            {type: "pdf", size: 8000, caption: "PDF Sample.pdf", url: "/site/file-delete", key: 14},
+            {type: "video", size: 375000, filetype: "video/mp4", caption: "Krajee Sample.mp4", url: "/site/file-delete", key: 15},
+        ],
+        uploadExtraData: {
+            img_key: "1000",
+            img_keywords: "happy, nature",
+        },
+        preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+        previewFileIconSettings: { // configure your icon file extensions
+            'doc': '<span class="ws-tax-font fa-file-word-o text-primary"></span>',
+            'xls': '<span class="ws-tax-font fa-file-excel-o text-success"></span>',
+            'ppt': '<span class="ws-tax-font fa-file-powerpoint-o text-danger"></span>',
+            'pdf': '<span class="ws-tax-font fa-file-pdf-o text-danger"></span>',
+            'zip': '<span class="ws-tax-font fa-file-archive-o text-muted"></span>',
+            'htm': '<span class="ws-tax-font fa-file-code-o text-info"></span>',
+            'txt': '<span class="ws-tax-font fa-file-text-o text-info"></span>',
+            'mov': '<span class="ws-tax-font fa-file-movie-o text-warning"></span>',
+            'mp3': '<span class="ws-tax-font fa-file-audio-o text-warning"></span>',
+            'jpg': '<span class="ws-tax-font fa-file-photo-o text-danger"></span>',
+            'gif': '<span class="ws-tax-font fa-file-photo-o text-muted"></span>',
+            'png': '<span class="ws-tax-font fa-file-photo-o text-primary"></span>'
+        },
+        previewFileExtSettings: { // configure the logic for determining icon file extensions
+            'doc': function(ext) {
+                return ext.match(/(doc|docx)$/i);
+            },
+            'xls': function(ext) {
+                return ext.match(/(xls|xlsx)$/i);
+            },
+            'ppt': function(ext) {
+                return ext.match(/(ppt|pptx)$/i);
+            },
+            'zip': function(ext) {
+                return ext.match(/(zip|rar|tar|gzip|gz|7z)$/i);
+            },
+            'htm': function(ext) {
+                return ext.match(/(htm|html)$/i);
+            },
+            'txt': function(ext) {
+                return ext.match(/(txt|ini|csv|java|php|js|css)$/i);
+            },
+            'mov': function(ext) {
+                return ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i);
+            },
+            'mp3': function(ext) {
+                return ext.match(/(mp3|wav)$/i);
+            }
+        }
+    });
+</script>
+</body>
+</html>

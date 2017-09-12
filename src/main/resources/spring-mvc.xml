@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:component-scan base-package="cc.idiary.nuclear.controller"/>
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>locales.message</value>
+                <value>locales.exception</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="cookieName" value="clientlanguage"/>
+        <property name="defaultLocale" value="zh_CN"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSize" value="104857600"/>
+        <property name="maxInMemorySize" value="4096"/>
+    </bean>
+    <!-- 拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="cc.idiary.nuclear.interceptor.SecurityInterceptor">
+                <!-- 以下属性支持正则配置 -->
+                <property name="noSessionUrls">
+                    <list>
+                        <value>app/verifyCode/\w+</value>
+                        <value>app/login</value>
+                        <value>app/logout</value>
+                        <value>app/authorization</value>
+                        <value>app/test/\w*</value>
+                        <!--<value>app/tax(/\w*)*</value>-->
+                    </list>
+                </property>
+                <property name="noPermissionUrls">
+                    <list>
+                        <value>app/system/state/subsystem</value>
+                        <value>app/system/state/menus</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean id="userAspect" class="cc.idiary.nuclear.aspect.UserAspect"/>
+
+    <aop:config>
+        <aop:aspect id="userAspect" ref="userAspect">
+            <aop:pointcut expression="execution(* cc.idiary.nuclear.controller..*.*(..))" id="userPointcut"/>
+            <aop:before pointcut-ref="userPointcut" method="setUserToQuery"/>
+            <aop:after pointcut-ref="userPointcut" method="setUserToQuery"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

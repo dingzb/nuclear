@@ -1,0 +1,116 @@
+<div class="panel panel-default">
+    <div class="panel-body" ng-controller="anaMonitorApAlarmCtrl">
+        <div >
+            <div class="row" style="padding-top: 18px;">
+                <form id="placeCodeForm" name="placeCodeForm" novalidate>
+                	<div class="borderTopf0 noborderTop borderE2 collapse" id="monitorSearch">
+                		<div class="col-sm-12">
+	                        <div class="col-md-3 form-group">
+	                            <label class="col-sm-4 elabel" for="placeCode">场所编码</label>
+	                            <div class="col-sm-8 ebody" ng-init="initselect2()">
+	                                <select id="placeCode" style="width: 100%" class="js-data-example-ajax form-control input-sm " ng-model="datagrid.params.placeCode">
+	                                    <option value="" selected="selected">请选择</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	                        <div class="col-md-3 form-group">
+	                            <label class="col-sm-4 elabel" for="startTime">场所名称</label>
+	                            <div class="col-sm-8 ebody">
+	                                <input id="placeName" type="text" class="form-control input-sm" ng-model="datagrid.params.placeName" />
+	                            </div>
+	                        </div>
+	                        <div class="col-md-3 form-group">
+	                            <label class="col-sm-4 elabel" for="startTime">ap名称</label>
+	                            <div class="col-sm-8 ebody">
+	                                <input id="apName" type="text" class="form-control input-sm" ng-model="datagrid.params.apName" />
+	                            </div>
+	                        </div>
+	                        <div class="col-md-3 form-group">
+	                            <label class="col-sm-4 elabel" for="startTime">报警状态</label>
+	                            <div class="col-sm-8 ebody">
+	                                <select id="status" class="form-control input-sm" ng-model="datagrid.params.status" >
+	                                	<option value="">请选择</option>
+	                                	<option value="1">上线</option>
+	                                	<option value="0">下线</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-sm-12">
+	                    	 <div class="col-md-3 form-group">
+	                            <label class="col-sm-4 elabel" for="startTime">开始时间</label>
+	                            <div class="col-sm-8 ebody">
+	                                <input id="startTime" type="text" class="form-control input-sm" ng-model="datagrid.params.startTime" />
+	                            </div>
+	                        </div>
+	                        <div class="col-md-3 form-group">
+	                            <label class="col-sm-4 elabel" for="endTime">结束时间</label>
+	                            <div class="col-sm-8 ebody">
+	                                <input id="endTime" type="text" class="form-control input-sm" ng-model="datagrid.params.endTime" />
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="btn_box mb20">
+	                    	<button type="submit" class="btn btn_blue" ng-click="search()">查询</button>
+	                        <button type="submit" class="btn btn_blue" ng-click="reset()">清空</button>
+	                    </div>
+	                    <div class="mainTop"></div>
+                	</div>
+                	<div class="mb10 mt20">
+                		<div class="btn-group">
+							<button class="btn btn_blue dropdown-toggle" style="margin-left: 15px;" type="button" data-toggle="dropdown" ws-permcode="app.analysis.monitor.exportPage,app.analysis.monitor.exportExcel">导出Excel<span class="caret"></span></button>
+							<ul class="dropdown-menu" role="menu">
+							      <li><a href="" ng-click="exportPage()" ws-permcode="app.analysis.monitor.exportPage">导出当前页面</a></li>
+							      <li><a ng-click="exportExcel()" href="" ws-permcode="app.analysis.monitor.exportExcel">输入条数导出</a></li>
+						   </ul>
+                		</div>
+					   <button class="btn_blue right" data-toggle="collapse" data-target="#monitorSearch" aria-expanded="false" aria-controls="monitorSearch" >显示/隐藏搜索 </button>
+                	</div>
+                </form>
+            </div>
+        </div>
+        <div id="grid">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl"></ws-datagrid>
+        </div>
+<!--      导入导出    -->
+        <div class="modal fade" id="exportExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+				<div class="modal-dialog " role="document">
+					<div class="modal-content" style="border-radius:10px;">
+						<div class="detail_top">
+							<div class="detail_top_l pl10">{{modalTitle}}</div>
+							<div class="detail_top_r">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+							</div>
+						</div>
+						<div class="modal-body" >
+							<form name="excelForm" novalidate>
+                            	<section class="edit_main m10">
+		                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+		                                <tr>
+		                                    <th><nobr>*</nobr>导出数据条数:</th>
+		                                    <td> 
+		                                        <input type="text" name="count" class="Input_edit"  ng-model="excel.count" required ng-pattern="/^(?!0)(?:[0-9]{1,3}|1000)$/" >
+		                                    </td>
+		                                </tr>
+		                            </table>
+		                        </section>
+				             </form>
+							<div class="errMsg">
+								<div class="alert alert-danger" ng-messages="excelForm.count.$error" ng-show="excelForm.count.$dirty&&excelForm.count.$invalid" ng-message-multiple>
+									<div ng-message="required">导出数据条数为必填项</div>
+									<div ng-message="pattern">导出数据条数为数字并且小于1000</div>
+								</div>
+							</div>
+							</div>
+							<div class="btn_Edit1 mb20">
+								<button type="button" class="btn btn_blue" ng-click="resetExcel()">清空</button>
+								<button id= "excelSaveBtn" type="button" class="btn btn_blue" ng-click="excelSave('excelSaveBtn')">导出</button>
+								<button type="button" class="btn btn_blue" data-dismiss="modal">关闭</button>
+							</div>
+					   </div>
+					</div>
+				</div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+.ws-table-info {
+
+}
+
+.ws-info-side {
+    display: inline-block;
+    position: fixed;
+    top: 55px;
+    bottom: 5px;
+    width: 260px;
+    border-right: 1px dotted #2e6da4;
+}
+
+.ws-info-side > .ws-info-side-header {
+    margin: 9px 20px 10px 0;
+    font-size: large;
+    vertical-align: middle;
+    border-bottom: 1px dashed;
+}
+
+.ws-info-table {
+    text-align: left;
+}
+
+.ws-info-table tr {
+    height: 43px;
+}
+
+.ws-info-table span {
+    margin-right: 10px;
+}
+
+.ws-info-side-footer {
+    margin-top: 10px;
+}
+.ws-info-modify {
+    display: inline-block;
+    margin-left: 290px;
+    width: 600px;
+}

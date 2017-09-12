@@ -1,0 +1,130 @@
+<div ng-controller="securityVendorManageController">
+    <div class="panel panel-default" >
+        <div class="panel-body">
+            <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+            	<form class="ws-searchform ">
+					<div class="collapse" id="showOrHide">
+					<div class="borderTopf0 noborderTop borderE2" id="search">
+						   <ul class="search">
+						   	<li><span>编码:</span><input class="Input_search" type="text" placeholder="编码" name="code"  ng-model="datagrid.params.code"></li> 
+					        <li><span>厂商名称:</span><input class="Input_search" type="text" placeholder="厂商名称" name="name"  ng-model="datagrid.params.name"></li> 
+					        <li><span>联系人:</span><input class="Input_search" type="text" placeholder="联系人" name="contacts" ng-model="datagrid.params.contacts"></li>
+					        <div class="clear"></div> 
+					     </ul>
+					     <div class="btn_box mb20"><button class="btn_blue" type="button" ng-click="search()">查询</button>
+								<button class="btn_blue" type="button" ng-click="resetSearch()">清空</button></div>	
+					</div> 
+						<div class="borderTopf0 borderE2"></div>	
+					</div>	
+							
+						<div class="mlr10">
+							 <div class="mb10 mt20">
+								<button class="btn_blue" ng-click="onAdd()" ws-permcode="app.ac.securityVendor.addVendor">添加</button>
+								<button class="btn_blue" type="button" ng-click="onEdit()" ws-permcode="app.ac.securityVendor.editVendor">编辑</button>
+								<button class="btn_blue" type="button" ng-click="onDelete()" ws-permcode="app.ac.securityVendor.deleteVendor">删除</button>
+								<button class="btn_blue right" data-toggle="collapse" data-target="#showOrHide" aria-expanded="false" aria-controls="ShowOrHide">显示/隐藏表格</button>
+							</div>
+							</div>
+						
+							
+				</form>
+            </ws-datagrid>
+            <!-- 添加模态窗 -->
+			<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+							</div>
+							<div class="modal-body" >
+								<form name="vendorForm" novalidate>
+									<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+							            <tr>
+							              <th><nobr>*</nobr>名称：</th><td><input class="Input_edit" type="text"  name="name"   ng-model="info.name" required ng-maxlength="70"></td>
+							              <th><nobr>*</nobr>地址：</th><td><input class="Input_edit" type="text"  name="address"   ng-model="info.address" required ng-maxlength="256"></td>
+							              <th><nobr>*</nobr>编号:</th><td><input class="Input_edit" type="text"  name="code"   ng-model="info.code" required ng-pattern="/^\d{9}$/"></td>
+							            </tr>
+							            <tr>
+							              <th><nobr>*</nobr>联系人：</th><td><input class="Input_edit" type="text"  name="contacts"   ng-model="info.contacts" required ng-maxlength="128"></td>
+							              <th><nobr>*</nobr>联系人手机：</th><td><input class="Input_edit" type="text"  name="contactsPhone"   ng-model="info.contactsPhone" required ws-phone></td>
+							              <th><nobr>*</nobr>联系人邮箱：</th><td><input class="Input_edit" type="text" name="contactsMail"   ng-model="info.contactsMail" required ng-maxlength="32" ng-pattern="/^[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$/" ></td>
+							            </tr>
+							        </table>        
+					             </form>
+								<div class="errMsg">
+									<div class="alert alert-danger" ng-messages="vendorForm.name.$error" ng-show="vendorForm.name.$dirty&&vendorForm.name.$invalid" ng-message-multiple>
+										<div ng-message="required">名称为必填项</div>
+										<div ng-message="maxlength">名称最大长度不可以超过70个字符</div>
+									</div>
+									<div class="alert alert-danger" ng-messages="vendorForm.code.$error" ng-show="vendorForm.code.$dirty&&vendorForm.code.$invalid" ng-message-multiple>
+										<div ng-message="required">编码为必填项</div>
+										<div ng-message="pattern">编码为九位数字</div>
+									</div>
+									<div class="alert alert-danger" ng-messages="vendorForm.address.$error" ng-show="vendorForm.address.$dirty&&vendorForm.address.$invalid" ng-message-multiple>
+										<div ng-message="required">地址为必填项</div>
+										<div ng-message="maxlength">地址最大长度不可以超过256个字符</div>
+									</div>
+									<div class="alert alert-danger" ng-messages="vendorForm.contacts.$error" ng-show="vendorForm.contacts.$dirty&&vendorForm.contacts.$invalid" ng-message-multiple>
+										<div ng-message="required">联系人为必填项</div>
+										<div ng-message="maxlength">名称最大长度不可以超过128个字符</div>
+									</div>
+									<div class="alert alert-danger" ng-messages="vendorForm.contactsMail.$error" ng-show="vendorForm.contactsMail.$dirty&&vendorForm.contactsMail.$invalid" ng-message-multiple>
+										<div ng-message="required">联系人邮箱为必填项</div>
+										<div ng-message="pattern">填写邮箱不正确，格式如xx@xx.com</div>
+										<div ng-message="maxlength">邮箱最大长度不可以超过32个字符</div>
+									</div>
+									<div class="alert alert-danger" ng-messages="vendorForm.contactsPhone.$error" ng-show="vendorForm.contactsPhone.$dirty&&vendorForm.contactsPhone.$invalid" ng-message-multiple>
+										<div ng-message="required">联系人电话为必填项</div>
+										<div ng-message="phone">电话格式为11位手机号或者01012345678或010-12345678或者05381234567或0538-1234567</div>
+									</div>
+								</div>
+								</div>
+								<div class="btn_Edit1 mb20">
+									<button type="button" class="btn_blue" ng-click="reset()">清空</button>
+									<button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+									<button id= "vendorSaveBtn" type="button" class="btn_blue" ng-click="onSave('vendorSaveBtn')">保存</button>
+								</div>
+						   </div>
+						</div>
+					</div>
+						<!-- 详细信息 -->
+			<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel"><img src="resources/image/detail_img1.png">详细信息</h4>
+						</div>
+						<div class="modal-body">
+							<form name="vendorDetailForm">
+							<table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+						         <tr>
+						            <th width="13.3%" align="left" name="name" >名称</th>
+						            <td width="20%" align="left" ng-bind="detail.name"></td>
+						            <th width="13.3%" align="left">地址</th>
+						            <td width="20%" align="left" ng-bind="detail.address"></td>
+						            <th width="13.4%" align="left">编码</th>
+						            <td width="20%" align="left" ng-bind="detail.code"></td>
+						          </tr>
+						          <tr>
+						            <th width="13.3%" align="left">联系人</th>
+						            <td width="20%" align="left" ng-bind="detail.contacts"></td>
+						            <th width="13.3%" align="left">联系人手机</th>
+						            <td width="20%" align="left" ng-bind="detail.contactsPhone"></td>
+						            <th width="13.4%" align="left">联系人邮箱</th>
+						            <td width="20%" align="left" ng-bind="detail.contactsMail"></td>
+						          </tr>               
+					        </table>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,177 @@
+{
+    "roles": [{
+        "name": "管理员",
+        "code": "admin",
+        "description": "管理员",
+        "type": "ADMIN",
+        "exclude": {
+            "states": [
+                "init",
+                "main.sysconfig.state"
+            ],
+            "actions": []
+        },
+        "include": {
+            "states": [
+                true
+            ],
+            "actions": [
+                true
+            ]
+        }
+    }, {
+        "name": "查看角色",
+        "code": "viewer",
+        "description": "查看角色",
+        "type": "NORMAL",
+        "exclude": {
+            "states": [
+                "init",
+                "main.sysconfig.state",
+                "main.sysconfig.user",
+                "main.manage.config",
+                "main.manage.update"
+            ],
+            "actions": [
+                "app.authroization.portalMana.addPortal",
+                "app.authroization.portalMana.editPortal",
+                "app.authroization.portalMana.deletePortals",
+                "app.authroization.advMana.add",
+                "app.authroization.advMana.edit",
+                "app.authroization.advMana.deletes",
+                "app.authroization.advStrategyMana.add",
+                "app.authroization.advStrategyMana.edit",
+                "app.authroization.advStrategyMana.deletes",
+                "app.authroization.advStrategyMana.addRule",
+                "app.authroization.advStrategyMana.editRule",
+                "app.authroization.advStrategyMana.deleteRule",
+                "app.Authentication.rz.addAuthType",
+                "app.Authentication.rz.editAuthType",
+                "app.Authentication.rz.removeAuthType",
+                "app.Authentication.wechat.add",
+                "app.Authentication.wechat.edit",
+                "app.Authentication.wechat.remove",
+                "app.authStrategy.ce.addAuthStrategy",
+                "app.authStrategy.ce.editAuthStrategy",
+                "app.authStrategy.ce.removeAuthStrategy",
+                "app.aclDomain.ad.addAclDomain",
+                "app.aclDomain.ad.editAclDomain",
+                "app.aclDomain.ad.removeAclDomain",
+                "app.aclDomain.ad.readExcel",
+                "app.aclMac.am.addAclMac",
+                "app.aclMac.am.editAclMac",
+                "app.aclMac.am.removeAclMac",
+                "app.aclMac.am.readExcel",
+                "app.analysis.system.place.addPlace",
+                "app.analysis.system.place.editPlace",
+                "app.analysis.system.place.removePlace",
+                "app.analysis.system.place.approvePlace",
+                "app.place.importExcel",
+                "app.ac.apmanage.addApModel",
+                "app.ac.apmanage.editApModel",
+                "app.ac.apmanage.removeApModel",
+                "app.ac.apmanage.addAuth",
+                "app.ac.apmanage.readExcel",
+                "app.ac.apmanage.approveAp",
+                "app.ac.apmanage.addTerminal",
+                "app.ac.apmanage.editTerminal",
+                "app.ac.apmanage.removeTerminal",
+                "app.ac.apmanage.approveTerminal",
+                "app.ac.apmanage.addAcCluster",
+                "app.ac.apmanage.editAcCluster",
+                "app.ac.apmanage.removeAcCluster",
+                "app.ac.dataCenter.addDataCenter",
+                "app.ac.dataCenter.editDataCenter",
+                "app.ac.dataCenter.deletesDataCenter",
+                "app.ac.apmanage.addApModelModel",
+                "app.ac.apmanage.editApModelModel",
+                "app.ac.apmanage.removeApModelModel",
+                "app.ac.securityVendor.addVendor",
+                "app.ac.securityVendor.editVendor",
+                "app.ac.securityVendor.deleteVendor",
+                "app.ac.contacts.addContacts",
+                "app.ac.contacts.editContacts",
+                "app.ac.contacts.deleteContacts"
+            ]
+        },
+        "include": {
+            "states": [
+                true
+            ],
+            "actions": [
+                true
+            ]
+        }
+    }, {
+        "name": "维护角色",
+        "code": "fix",
+        "description": "维护角色",
+        "type": "NORMAL",
+        "exclude": {
+            "states": [
+                "init",
+                "main.sysconfig.state",
+                "main.sysconfig.user"
+            ],
+            "actions": []
+        },
+        "include": {
+            "states": [
+                true
+            ],
+            "actions": [
+                true
+            ]
+        }
+    }],
+    "users": [{
+        "name": "管理员",
+        "username": "admin",
+        "password": "admin",
+        "type": "ADMIN",
+        "roles": [
+            "admin"
+        ],
+        "groups": [
+            "admin"
+        ]
+    }],
+    "groups": [{
+        "name": "管理员",
+        "code": "admin",
+        "description": "管理员",
+        "type": "ADMIN"
+    }],
+    "authType": {
+        "name": "默认",
+        "code": "default",
+        "url": "http://182.92.85.89:9090/wireless/app/authroization/portalMana/getModel?t=1"
+    },
+    "apModel": [{
+        "code": "mode_x",
+        "cpu": "cpuType1",
+        "name": "HB_A",
+        "port": 80,
+        "ram": 1,
+        "rom": 1
+    }, {
+        "code": "mode_y",
+        "cpu": "cpuType2",
+        "name": "HB_B",
+        "port": 90,
+        "ram": 1,
+        "rom": 1
+    }],
+    "securityOrganization": [{
+        "address": "北四环中路",
+        "code": "000000001",
+        "contactor": "阿宝",
+        "email": "abao@abao.com",
+        "phone": "18888888888",
+        "name": "阿宝"
+    }],
+    "acCluster": [{
+        "code": "182.92.85.89:9111",
+        "status": 1
+    }]
+}

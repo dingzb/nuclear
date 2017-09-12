@@ -1,0 +1,18 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class=" panel panel-default" style="background-color: #4a5064; color: #9d9d9d; margin-top: 0;border: 0; border-radius: 0; text-align: center;">
+        <span style="margin: 3px;" class="glyphicon glyphicon-menu-hamburger"></span>
+    </div>
+    <div ng-repeat="menu in menus" class="panel panel-default" style="margin-top: 0;border: 0;border-radius: 0;">
+        <div class="panel-heading ws-menu-heading" style="padding: 0;-moz-user-select: none;-webkit-user-select: none;" role="tab" id="head-{{menu.code|period2minus}}">
+            <button type="button" class="btn ws-menu-btn collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{menu.code|period2minus}}" aria-expanded="false" aria-controls="collapse-{{menu.code|period2minus}}">
+                <!--<span class="glyphicon glyphicon-upload" style="float: left;margin:1px 15px 0 0;color: #A8A8A8;font-size: 18px"></span>-->
+                <span style="padding-left: 15px; display: inline-block;float: left;font-size: 14px;">{{menu.name}}</span>
+            </button>
+        </div>
+        <div id="collapse-{{menu.code|period2minus}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head-{{menu.code|period2minus}}">
+            <div class="list-group ws-accordion-list-group">
+                <a style="border-radius: 0;" ui-sref="{{child.code}}" ng-repeat="child in menu.children" class="list-group-item ws-menu-menus" active-type="menu" ws-on-finish-render-filters>{{child.name}}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,312 @@
+<div ng-controller="anaTerminalOnOfflineCtrl"class="bgfff"style="padding-top: 2px;padding-left:2px;">
+	<div class="" style="padding-top: 15px;padding-left:20px;">
+		<ul class="nav nav-tabs ws-tab" role="tablist"><!-- nav nav-tabs -->
+	        <li role="presentation" class="active"><a href="#online" aria-controls="online" role="tab" data-toggle="tab">终端设备上线情况</a></li>
+	        <li role="presentation"><a href="#offline" aria-controls="offline" role="tab" data-toggle="tab">终端设备下线情况</a></li>
+	    </ul>
+	    <div class="tab-content">
+	        <div class="tab-pane active" id="online" role="tabpanel">
+	            <div class="panel panel-default tab_pane">
+	                <div class="panel-body">
+	                    <form  id="placeCodeForm" name="placeCodeForm" novalidate>
+							<div id="onlineSearch" class="collapse">
+								<div class="row" style="padding-top: 10px;">
+	                                <div class="col-sm-3">
+	                                    <div class="form-group">
+											<label class="col-sm-4 control-label elabel" for="onlinePlaceCode">场所编码：</label> 
+	                                        <div class="col-sm-8 ebody" ng-init="initselect2()">
+				                                <select id="onlinePlaceCode" class="js-data-example-ajax form-control input-sm " ng-model="onlineDatagrid.params.placeCode" >
+				                                    <option value="" selected="selected">请选择</option>
+				                                </select>
+				                            </div>
+	                                    </div>
+	                                </div>
+	                                <div class="col-sm-3">
+	                                    <div class="form-group">
+	                                        <label class="col-sm-4 control-label elabel" for="onlineStartTime">开始时间：</label>
+	                                        <div class="col-sm-8 ebody">
+	                                        	<input id="onlineStartTime" type="text" class="form-control input-sm" ng-model="onlineDatagrid.params.startTime" />
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="col-sm-3">
+	                                    <div class="form-group">
+	                                        <label class="col-sm-4 control-label elabel" for="onlineEndTime">结束时间：</label>
+	                                        <div class="col-sm-8 ebody">
+	                                        	<input id="onlineEndTime" type="text" class="form-control input-sm" ng-model="onlineDatagrid.params.endTime" />
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>   
+								<div class="btn_box mb20" style="margin-top: 20px;">
+									<button class="btn_blue" ng-click="getOnlinePaging()">查&nbsp;询</button>
+									<button class="btn_blue" ng-click="resetOn()">清&nbsp;空</button>
+								</div>
+							</div>
+							<div class="mb10 mt20">
+								 <div class="btn-group">
+									<button class="btn_blue dropdown-toggle" type="button" data-toggle="dropdown" ws-permcode="app.analysis.terminal.onoffline.exportOnLinePage,app.analysis.terminal.onoffline.exportOnLineCounts">导出Excel<span class="caret"></span></button>
+									<ul class="dropdown-menu" role="menu">
+									      <li><a href="" ng-click="exportPage('online')" ws-permcode="app.analysis.terminal.onoffline.exportOnLinePage">导出当前页面</a></li>
+									      <li><a ng-click="exportExcel('online')" href="" ws-permcode="app.analysis.terminal.onoffline.exportOnLineCounts">输入条数导出</a></li>
+								   </ul>
+								</div>
+								<button class="btn_blue right" data-toggle="collapse" data-target="#onlineSearch" aria-expanded="false" aria-controls="onlineSearch" >显示/隐藏搜索 </button>
+							</div>
+						</form>
+	                    <ws-datagrid configuration="onlineDatagrid" inner-ctrl="onlineInnerCtrl"></ws-datagrid>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="tab-pane" id="offline" role="tabpanel">
+	            <div class="panel panel-default tab_pane">
+	                <div class="panel-body">
+	                    <form  id="placeCodeForm" name="placeCodeForm" novalidate>
+	                        <div id="offlineSearch" class="collapse">
+	                            <div class="row" style="padding-top: 10px;">
+	                                <div class="col-sm-3">
+	                                    <div class="form-group">
+	                                        <label class="col-sm-4 control-label elabel" for="offlineplaceCode">场所编码：</label>
+	                                        <div class="col-sm-8 ebody" ng-init="initselect2()">
+		                                        <select id="offlinePlaceCode" class="js-data-example-ajax form-control input-sm" ng-model="offlineDatagrid.params.placeCode" style="width: 100%">
+				                                    <option value="" selected="selected">请选择</option>
+				                                </select>
+	                                       	</div>
+	                                    </div>
+	                                </div>
+	                                <div class="col-sm-3">
+	                                    <div class="form-group">
+	                                        <label class="col-sm-4 control-label elabel" for="offlineStartTime">开始时间：</label>
+	                                        <div class="col-sm-8 ebody">
+	                                        	<input id="offlineStartTime" type="text" class="form-control input-sm" ng-model="offlineDatagrid.params.startTime" />
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="col-sm-3">
+	                                    <div class="form-group">
+	                                        <label class="col-sm-4 control-label elabel" for="offlineEndTime">结束时间：</label>
+	                                        <div class="col-sm-8 ebody">
+	                                        	<input id="offlineEndTime" type="text" class="form-control input-sm" ng-model="offlineDatagrid.params.endTime" />
+	                                        </div>
+	                                    </div>
+	                                </div>
+		                         </div>
+								<div class="btn_box mb20" style="margin-top: 20px;">
+									<button class="btn_blue" ng-click="getOfflinePaging()">查&nbsp;询</button>
+									<button class="btn_blue" ng-click="resetOff()">清&nbsp;空</button>
+								</div>
+							</div>
+	                        <div class="mb10 mt20">
+								 <div class="btn-group">
+									<button class="btn_blue dropdown-toggle" type="button" data-toggle="dropdown" ws-permcode="app.analysis.terminal.onoffline.exportOnLinePage,app.analysis.terminal.onoffline.exportOnLineCounts">导出Excel<span class="caret"></span></button>
+									<ul class="dropdown-menu" role="menu">
+									      <li><a href="" ng-click="exportPage('offline')" ws-permcode="app.analysis.terminal.onoffline.exportOnLinePage">导出当前页面</a></li>
+										  <li><a ng-click="exportExcel('offline')" href="" ws-permcode="app.analysis.terminal.onoffline.exportOnLineCounts">输入条数导出</a></li>
+								   </ul>
+								</div>
+								<button class="btn_blue right" data-toggle="collapse" data-target="#offlineSearch" aria-expanded="false" aria-controls="offlineSearch" >显示/隐藏搜索 </button>
+							</div>
+	                    </form>
+	                    <ws-datagrid configuration="offlineDatagrid" inner-ctrl="offlineInnerCtrl"></ws-datagrid>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+    
+    
+    <!-- 详情 s-->
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="border-radius:10px;">
+                <div class="detail_top">
+					<div class="detail_top_l pl10"><img src="resources/images/detail_img1.png">详细信息</div>
+					<div class="detail_top_r">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+						</button>
+					</div>
+				</div>
+                <div class="modal-body">
+                    <form name="onofflineDetailForm" novalidate>
+	                    <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+				          <tr>
+				            <th width="13.3%" align="left">认证类型编码</th>
+				            <td width="20%" align="left" ng-bind="detail.auth_type"></td>
+				            <th width="13.3%" align="left">认证账号</th>
+				            <td width="20%" align="left" ng-bind="detail.auth_account"></td>
+				            <th width="13.4%" align="left">上网服务场所编码</th>
+				            <td width="20%" align="left" ng-bind="detail.netbar_wacode"></td>
+				          </tr>
+				          <tr>
+				            <th width="13.3%" align="left">会话ID</th>
+				            <td width="20%" align="left" ng-bind="detail.sessionid"></td>
+				            <th width="13.3%" align="left">X坐标</th>
+				            <td width="20%" align="left" ng-bind="detail.x_coordinate"></td>
+				            <th width="13.4%" align="left">Y坐标</th>
+				            <td width="20%" align="left"ng-bind="detail.y_coordinate"></td>
+				          </tr>
+				           <tr>
+				            <th width="13.3%" align="left">源外网IPv4地址</th>
+				            <td width="20%" align="left" ng-bind="detail.src_ip"></td>
+				            <th width="13.3%" align="left">源外网IPv4起始端口号</th>
+				            <td width="20%" align="left" ng-bind="detail.src_port_start"></td>
+				            <th width="13.4%" align="left">源外网IPv4结束端口号</th>
+				            <td width="20%" align="left" ng-bind="detail.src_port_end"></td>
+				          </tr>
+				           <tr>
+				            <th width="13.3%" align="left">源外网IPv6地址</th>
+				            <td width="20%" align="left" ng-bind="detail.src_ipv6"></td>
+				            <th width="13.3%" align="left">源外网IPv6起始端口号</th>
+				            <td width="20%" align="left" ng-bind="detail.src_port_start_v6"></td>
+				            <th width="13.4%" align="left">源外网IPv6结束端口号</th>
+				            <td width="20%" align="left" ng-bind="detail.src_port_end_v6"></td>
+				          </tr>
+				          <tr>
+				            <th width="13.3%" align="left">终端MAC地址</th>
+				            <td width="20%" align="left" ng-bind="detail.mac"></td>
+				            <th width="13.3%" align="left">AP设备编号</th>
+				            <td width="20%" align="left" ng-bind="detail.collection_equipment_id"></td>
+				            <th width="13.4%" align="left">AP设备MAC地址</th>
+				            <td width="20%" align="left" ng-bind="detail.ap_mac"></td>
+				          </tr>
+				          <tr>
+				            <th width="13.3%" align="left">移动AP经度</th>
+				            <td width="20%" align="left" ng-bind="detail.longitude"></td>
+				            <th width="13.3%" align="left">移动AP纬度</th>
+				            <td width="20%" align="left" ng-bind="detail.latitude"></td>
+				            <th width="13.4%" align="left">场强</th>
+				            <td width="20%" align="left" ng-bind="detail.terminal_fieldstrength"></td>
+				          </tr>
+				          <tr>
+				            <th width="13.3%" align="left">上线时间</th>
+				            <td width="20%" align="left" ng-bind="detail.start_time"></td>
+				            <th width="13.3%" align="left">场所内网IP内网</th>
+				            <td width="20%" align="left" ng-bind="detail.ip_address"></td>
+				            <th width="13.4%" align="left">终端名称</th>
+				            <td width="20%" align="left" ng-bind="detail.terminal_name"></td>
+				          </tr>
+				        </table>
+			        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情 E-->
+    <!-- 详情 下线的s-->
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="border-radius:10px;">
+                <div class="detail_top">
+					<div class="detail_top_l pl10"><img src="resources/images/detail_img1.png">详细信息</div>
+					<div class="detail_top_r">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+						</button>
+					</div>
+				</div>
+                <div class="modal-body">
+                    <form name="onofflineDetailForm" novalidate>
+                        <table width="100%" border="0" cellspacing="2" cellpadding="0" class="table_detail">
+				         <tr>
+<!-- 				           <th width="13.3%" align="left">认证类型编码</th> -->
+<!-- 				           <td width="20%" align="left" ng-bind="view.auth_type"></td> -->
+<!-- 				           <th width="13.3%" align="left">认证账号</th> -->
+<!-- 				           <td width="20%" align="left" ng-bind="view.auth_account"></td> -->
+				           <th width="13.4%" align="left">上网服务场所编码</th>
+				           <td width="20%" align="left" ng-bind="view.netbar_wacode"></td>
+				           <th width="13.3%" align="left">下线时间</th>
+				           <td width="20%" align="left" ng-bind="view.end_time"></td>
+				           <th width="13.3%" align="left">场所内网IP内网</th>
+				           <td width="20%" align="left" ng-bind="view.ip_address"></td>
+				         </tr>
+				         <tr>
+				           <th width="13.3%" align="left">会话ID</th>
+				           <td width="20%" align="left" ng-bind="view.sessionid"></td>
+				           <th width="13.3%" align="left">X坐标</th>
+				           <td width="20%" align="left" ng-bind="view.x_coordinate"></td>
+				           <th width="13.4%" align="left">Y坐标</th>
+				           <td width="20%" align="left" ng-bind="view.y_coordinate"></td>
+				         </tr>
+				          <tr>
+				           <th width="13.3%" align="left">源外网IPv4地址</th>
+				           <td width="20%" align="left" ng-bind="view.src_ip"></td>
+				           <th width="13.3%" align="left">源外网IPv4起始端口号</th>
+				           <td width="20%" align="left" ng-bind="view.src_port_start"></td>
+				           <th width="13.4%" align="left">源外网IPv4结束端口号</th>
+				           <td width="20%" align="left" ng-bind="view.src_port_end"></td>
+				         </tr>
+				          <tr>
+				           <th width="13.3%" align="left">源外网IPv6地址</th>
+				           <td width="20%" align="left" ng-bind="view.src_ipv6"></td>
+				           <th width="13.3%" align="left">源外网IPv6起始端口号</th>
+				           <td width="20%" align="left" ng-bind="view.src_port_start_v6"></td>
+				           <th width="13.4%" align="left">源外网IPv6结束端口号</th>
+				           <td width="20%" align="left" ng-bind="view.src_port_end_v6"></td>
+				         </tr>
+				         <tr>
+				           <th width="13.3%" align="left">终端MAC地址</th>
+				           <td width="20%" align="left" ng-bind="view.mac"></td>
+				           <th width="13.3%" align="left">AP设备编号</th>
+				           <td width="20%" align="left" ng-bind="view.collection_equipment_id"></td>
+				           <th width="13.4%" align="left">AP设备MAC地址</th>
+				           <td width="20%" align="left" ng-bind="view.ap_mac"></td>
+				         </tr>
+				         <tr>
+				           <th width="13.3%" align="left">移动AP经度</th>
+				           <td width="20%" align="left" ng-bind="view.longitude"></td>
+				           <th width="13.3%" align="left">移动AP纬度</th>
+				           <td width="20%" align="left" ng-bind="view.latitude"></td>
+				           <th width="13.4%" align="left">场强</th>
+				           <td width="20%" align="left" ng-bind="view.terminal_fieldstrength"></td>
+				         </tr>
+<!-- 				         <tr> -->
+<!-- 				         </tr> -->
+				       </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情 E-->
+    <!-- 导出 -->
+    <div class="modal fade" id="exportExcel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content" style="border-radius: 10px;">
+				<div class="detail_top">
+					<div class="detail_top_l pl10">数据导出</div>
+					<div class="detail_top_r">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+						</button>
+					</div>
+				</div>
+				<div class="modal-body" >
+					<form name="excelForm" novalidate>
+                      <section class="edit_main m10">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_edit">
+                                <tr>
+                                    <th><nobr>*</nobr>导出数据条数:</th>
+                                    <td> 
+                                        <input type="text" name="size" class="Input_edit"  ng-model="counts" required ng-pattern="/^(?!0)(?:[0-9]{1,3}|1000)$/" >
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+		             </form>
+					<div class="errMsg">
+						<div class="alert alert-danger" ng-messages="excelForm.size.$error" ng-show="excelForm.size.$dirty&&excelForm.size.$invalid" ng-message-multiple>
+							<div ng-message="required">导出数据条数为必填项</div>
+							<div ng-message="pattern">导出数据条数为数字并且小于1000</div>
+						</div>
+					</div>
+				</div>
+				<div class="mlP35 mb20 mt0">
+                    <button type="button" class="btn_blue" ng-click="resetExcel()">清空</button>
+                    <button id="excelSaveBtn" type="button" class="btn_blue" ng-click="excelSave()">导出</button>
+                    <button type="button" class="btn_blue" data-dismiss="modal">关闭</button>
+                </div>
+		   </div>
+		</div>
+	</div>
+</div>

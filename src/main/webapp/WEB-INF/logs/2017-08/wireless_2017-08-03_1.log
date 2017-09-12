@@ -1,0 +1,1092 @@
+2017-07-15 22:37:31 org.springframework.web.context.ContextLoader initWebApplicationContext
+INFO: Root WebApplicationContext: initialization started
+2017-07-15 22:37:32 org.springframework.web.context.support.XmlWebApplicationContext prepareRefresh
+INFO: Refreshing Root WebApplicationContext: startup date [Sat Jul 15 22:37:32 CST 2017]; root of context hierarchy
+2017-07-15 22:37:32 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring.xml]
+2017-07-15 22:37:32 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-hibernate.xml]
+2017-07-15 22:37:32 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-aop.xml]
+2017-07-15 22:37:33 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\baseinfo.properties]
+2017-07-15 22:37:33 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\db.properties]
+2017-07-15 22:37:33 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\systemName.properties]
+2017-07-15 22:37:33 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\upload.properties]
+2017-07-15 22:37:33 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
+INFO: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-07-15 22:37:34 org.hibernate.annotations.common.Version <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2017-07-15 22:37:34 org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {4.3.5.Final}
+2017-07-15 22:37:34 org.hibernate.cfg.Environment <clinit>
+INFO: HHH000206: hibernate.properties not found
+2017-07-15 22:37:34 org.hibernate.cfg.Environment buildBytecodeProvider
+INFO: HHH000021: Bytecode provider name : javassist
+2017-07-15 22:37:37 org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-07-15 22:37:38 org.hibernate.engine.transaction.internal.TransactionFactoryInitiator initiateService
+INFO: HHH000399: Using default transaction strategy (direct JDBC transactions)
+2017-07-15 22:37:38 org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory <init>
+INFO: HHH000397: Using ASTQueryTranslatorFactory
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000228: Running hbm2ddl schema update
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000102: Fetching database metadata
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000396: Updating schema
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_agency
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [parent_id, name, id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_ifp90ksyjhvmrpj6ek75axp4f]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary, fk_ifp90ksyjhvmrpj6ek75axp4f]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [create_user_id, amendment, examine_second_id, check_user_id, create_time, taxpayer_code, modify_time, agency_id, description, taxpayer_name, content, category_id, final_user_id, bus_time, id, examine_first_id, examine_third_id, status]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_giebrxt2045d4cff6ux3i7roq, fk_t245hsgumy4w4iurfwxp08ww7, fk_5jq6xfco0dvxo0ghhvhhxljke, fk_l8frvgne9h5nlhqa2ywjb354y, fk_b1y16aktmekc04lbku5ivn3o, fk_fhp2ex61tkxs30dst8j4d8y6o, fk_27t76umm5qc3yofssedk6ctlp, fk_ktjbp2uvfwq6y5ineogdfydkb]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_giebrxt2045d4cff6ux3i7roq, fk_t245hsgumy4w4iurfwxp08ww7, fk_5jq6xfco0dvxo0ghhvhhxljke, fk_l8frvgne9h5nlhqa2ywjb354y, fk_b1y16aktmekc04lbku5ivn3o, fk_fhp2ex61tkxs30dst8j4d8y6o, fk_27t76umm5qc3yofssedk6ctlp, primary, fk_ktjbp2uvfwq6y5ineogdfydkb]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_attachment
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [size, file_name, id, sort, bus_id, url]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_fkiixf8bch935tk2pqy60d1ak]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_fkiixf8bch935tk2pqy60d1ak, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_category
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id, category_type_id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_dklx69mkaxmpjv7fk3usuafg6]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_dklx69mkaxmpjv7fk3usuafg6, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_category_type
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_issue
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_examine
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [has_issue, description, id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_examine_issue
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [issue_id, examine_id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_iwo1d310wsnxtaoh06l43lt0k, fk_l8lnfflj31ayh9n906hkb62rw]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_iwo1d310wsnxtaoh06l43lt0k, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_action
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, method, modify_time, name, description, id, state_id, url]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_sr346moi6r0af42h0c4oewpxs]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_sr346moi6r0af42h0c4oewpxs, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_buslog
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [args, exception, create_time, signature, useragent, id, ipaddr, delflag, operation, content, isexception, username]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_group
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, parent_id, modify_time, name, description, id, type]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_cpe22l4nto9hpqhl9qh3drnbf]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_cpe22l4nto9hpqhl9qh3drnbf, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, modify_time, name, description, id, type]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role_action
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [role_id, action_id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_1hf86yu8eocekstw2yx8gsfsj, fk_d5e230ibgmxg5vc5vh1r2xj05]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_d5e230ibgmxg5vc5vh1r2xj05, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role_state
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [role_id, state_id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_p065tdrf5vsmf3mr09onrvpc7, fk_ibc9ejba7apih6t7bpn70w8nh]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_ibc9ejba7apih6t7bpn70w8nh, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_state
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [sequence, code, create_time, parent_id, modify_time, name, description, id, type]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_67ipcntthxycsejwkrl0y2hqr]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_67ipcntthxycsejwkrl0y2hqr, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [password, create_time, phone, agency_boss, modify_time, name, id_card, agency_id, id, type, email, username]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_380y82d9ohxrjxlk87obugqih]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_380y82d9ohxrjxlk87obugqih, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user_group
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [user_id, group_id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_robf30t37py3hntrn60wwgkjp, fk_elgojmklyc8imf5ud1xm9agwe]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_robf30t37py3hntrn60wwgkjp, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user_role
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [user_id, role_id]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_fxu3td9m5o7qov1kbdvmn0g0x, fk_fethvr269t6stivlddbo5pxry]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_fethvr269t6stivlddbo5pxry, primary]
+2017-07-15 22:37:39 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000232: Schema update complete
+2017-07-15 22:37:40 org.springframework.orm.hibernate4.HibernateTransactionManager afterPropertiesSet
+INFO: Using DataSource [org.apache.commons.dbcp.BasicDataSource@13c777ed] of Hibernate SessionFactory for HibernateTransactionManager
+2017-07-15 22:37:40 org.springframework.web.context.ContextLoader initWebApplicationContext
+INFO: Root WebApplicationContext: initialization completed in 8847 ms
+2017-07-15 22:37:40 org.springframework.web.servlet.DispatcherServlet initServletBean
+INFO: FrameworkServlet 'springMvc': initialization started
+2017-07-15 22:37:40 org.springframework.web.context.support.XmlWebApplicationContext prepareRefresh
+INFO: Refreshing WebApplicationContext for namespace 'springMvc-servlet': startup date [Sat Jul 15 22:37:40 CST 2017]; parent: Root WebApplicationContext
+2017-07-15 22:37:40 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-mvc.xml]
+2017-07-15 22:37:41 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
+INFO: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.list(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/current],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.current(AgencyQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/user/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.userlist(AgencyQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryController.list(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/list/all],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryController.listWithType()
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/type/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryTypeController.list()
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.add(BusinessModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/error],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingError(BusinessQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.del(java.lang.String[],javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/amendment],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingAmendment(BusinessQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/created],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingCreated(BusinessQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.edit(BusinessModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/examine/detail],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.examineDetail(java.lang.String,java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/commit/amendment],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.commitAmendment(java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.commit(java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/all],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingAll(BusinessQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/upload],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> BusinessController.attachmentUpload(org.springframework.web.multipart.MultipartFile,java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.attachmentList(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> BusinessController.attachmentDel(java.lang.String[],java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/issue/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusIssueController.list()
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/first],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingFirst(BusinessQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/second],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingSecond(BusinessQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/third],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingThird(BusinessQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/first/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitFirst(ExamineModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/third/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitThird(ExamineModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/second/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitSecond(ExamineModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/xianju],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.xianju(XianjuQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/fenju],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.fenju(FenjuQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/person],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.person(StatisticsQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String InitController.index()
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init/init],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json InitController.init(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init/process],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json InitController.initProcess(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/root],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.root(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/error/{code:\d{3}}],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String MainController.error(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/login],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.login(java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/logout],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.logout(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/authorization],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.authorization(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/verifyCode/verify],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.verifyCode(javax.servlet.http.HttpServletRequest,java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/verifyCode/image],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public void MainController.verifyImage(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.getPagingAction(ActionQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.addAction(ActionModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.editAction(ActionModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.delAction(java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/time/get],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.getTime()
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/time/set],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.setTime(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.getPaging(BusinessLogQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.logicalDelete(java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.getTypes(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.getPaging(GroupQuery,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.deleteGroups(java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.editGroup(GroupModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.addGroup(GroupModel,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/exist],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.existGroupByName(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.addRole(RoleModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.getTypes(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.getPaging(RoleQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/state/save],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.saveState(java.lang.String,java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/action/save],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.saveAction(java.lang.String,java.lang.String[],java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.editRole(RoleModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/exist],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.existRoleByName(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.deleteRoles(java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/hierarchysubsystem],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getHierarchySubsystemById(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.addState(StateModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/menus],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.menus(javax.servlet.http.HttpServletRequest,java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/tree],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getStateTree(java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getPagingState(StateQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/subsystem],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.subsystem(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.editState(StateModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.delState(java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.addUser(UserModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/info],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getInfo(UserQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getPaging(UserQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.editUserModel(UserModel)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/password/modify],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.modPassWord(javax.servlet.http.HttpServletRequest,UserQuery)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getUserTypes(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.deleteUsers(java.lang.String)
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/group/remove],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userRemoveGroups(java.lang.String,java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/role/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userAddRoles(java.lang.String,java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/role/remove],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userRemoveRoles(java.lang.String,java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/group/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userAddGroups(java.lang.String,java.lang.String[])
+2017-07-15 22:37:42 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/password/reset],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.initPassWord(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:37:43 org.springframework.web.servlet.handler.SimpleUrlHandlerMapping registerHandler
+INFO: Mapped URL path [/**] onto handler 'org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler#0'
+2017-07-15 22:37:43 org.springframework.web.servlet.DispatcherServlet initServletBean
+INFO: FrameworkServlet 'springMvc': initialization completed in 2945 ms
+2017-07-15 22:39:55 org.springframework.web.context.ContextLoader initWebApplicationContext
+INFO: Root WebApplicationContext: initialization started
+2017-07-15 22:39:55 org.springframework.web.context.support.XmlWebApplicationContext prepareRefresh
+INFO: Refreshing Root WebApplicationContext: startup date [Sat Jul 15 22:39:55 CST 2017]; root of context hierarchy
+2017-07-15 22:39:55 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring.xml]
+2017-07-15 22:39:55 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-hibernate.xml]
+2017-07-15 22:39:56 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-aop.xml]
+2017-07-15 22:39:56 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\baseinfo.properties]
+2017-07-15 22:39:56 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\db.properties]
+2017-07-15 22:39:56 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\systemName.properties]
+2017-07-15 22:39:56 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\upload.properties]
+2017-07-15 22:39:56 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
+INFO: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-07-15 22:39:57 org.hibernate.annotations.common.Version <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2017-07-15 22:39:57 org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {4.3.5.Final}
+2017-07-15 22:39:57 org.hibernate.cfg.Environment <clinit>
+INFO: HHH000206: hibernate.properties not found
+2017-07-15 22:39:57 org.hibernate.cfg.Environment buildBytecodeProvider
+INFO: HHH000021: Bytecode provider name : javassist
+2017-07-15 22:39:59 org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-07-15 22:39:59 org.hibernate.engine.transaction.internal.TransactionFactoryInitiator initiateService
+INFO: HHH000399: Using default transaction strategy (direct JDBC transactions)
+2017-07-15 22:39:59 org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory <init>
+INFO: HHH000397: Using ASTQueryTranslatorFactory
+2017-07-15 22:40:00 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000228: Running hbm2ddl schema update
+2017-07-15 22:40:00 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000102: Fetching database metadata
+2017-07-15 22:40:00 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000396: Updating schema
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_agency
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [parent_id, name, id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_ifp90ksyjhvmrpj6ek75axp4f]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary, fk_ifp90ksyjhvmrpj6ek75axp4f]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [create_user_id, amendment, examine_second_id, check_user_id, create_time, taxpayer_code, modify_time, agency_id, description, taxpayer_name, content, category_id, final_user_id, bus_time, id, examine_first_id, examine_third_id, amendment_code, status]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_giebrxt2045d4cff6ux3i7roq, fk_t245hsgumy4w4iurfwxp08ww7, fk_5jq6xfco0dvxo0ghhvhhxljke, fk_l8frvgne9h5nlhqa2ywjb354y, fk_b1y16aktmekc04lbku5ivn3o, fk_fhp2ex61tkxs30dst8j4d8y6o, fk_27t76umm5qc3yofssedk6ctlp, fk_ktjbp2uvfwq6y5ineogdfydkb]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_giebrxt2045d4cff6ux3i7roq, fk_t245hsgumy4w4iurfwxp08ww7, fk_5jq6xfco0dvxo0ghhvhhxljke, fk_l8frvgne9h5nlhqa2ywjb354y, fk_b1y16aktmekc04lbku5ivn3o, fk_fhp2ex61tkxs30dst8j4d8y6o, fk_27t76umm5qc3yofssedk6ctlp, primary, fk_ktjbp2uvfwq6y5ineogdfydkb]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_attachment
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [size, file_name, id, sort, bus_id, url]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_fkiixf8bch935tk2pqy60d1ak]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_fkiixf8bch935tk2pqy60d1ak, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_category
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id, category_type_id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_dklx69mkaxmpjv7fk3usuafg6]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_dklx69mkaxmpjv7fk3usuafg6, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_category_type
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_issue
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_examine
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [has_issue, description, id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_examine_issue
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [issue_id, examine_id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_iwo1d310wsnxtaoh06l43lt0k, fk_l8lnfflj31ayh9n906hkb62rw]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_iwo1d310wsnxtaoh06l43lt0k, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_action
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, method, modify_time, name, description, id, state_id, url]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_sr346moi6r0af42h0c4oewpxs]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_sr346moi6r0af42h0c4oewpxs, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_buslog
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [args, exception, create_time, signature, useragent, id, ipaddr, delflag, operation, content, isexception, username]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_group
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, parent_id, modify_time, name, description, id, type]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_cpe22l4nto9hpqhl9qh3drnbf]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_cpe22l4nto9hpqhl9qh3drnbf, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, modify_time, name, description, id, type]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role_action
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [role_id, action_id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_1hf86yu8eocekstw2yx8gsfsj, fk_d5e230ibgmxg5vc5vh1r2xj05]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_d5e230ibgmxg5vc5vh1r2xj05, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role_state
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [role_id, state_id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_p065tdrf5vsmf3mr09onrvpc7, fk_ibc9ejba7apih6t7bpn70w8nh]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_ibc9ejba7apih6t7bpn70w8nh, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_state
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [sequence, code, create_time, parent_id, modify_time, name, description, id, type]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_67ipcntthxycsejwkrl0y2hqr]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_67ipcntthxycsejwkrl0y2hqr, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [password, create_time, phone, agency_boss, modify_time, name, id_card, agency_id, id, type, email, username]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_380y82d9ohxrjxlk87obugqih]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_380y82d9ohxrjxlk87obugqih, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user_group
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [user_id, group_id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_robf30t37py3hntrn60wwgkjp, fk_elgojmklyc8imf5ud1xm9agwe]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_robf30t37py3hntrn60wwgkjp, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user_role
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [user_id, role_id]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_fxu3td9m5o7qov1kbdvmn0g0x, fk_fethvr269t6stivlddbo5pxry]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_fethvr269t6stivlddbo5pxry, primary]
+2017-07-15 22:40:01 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000232: Schema update complete
+2017-07-15 22:40:02 org.springframework.orm.hibernate4.HibernateTransactionManager afterPropertiesSet
+INFO: Using DataSource [org.apache.commons.dbcp.BasicDataSource@150d5be4] of Hibernate SessionFactory for HibernateTransactionManager
+2017-07-15 22:40:02 org.springframework.web.context.ContextLoader initWebApplicationContext
+INFO: Root WebApplicationContext: initialization completed in 7589 ms
+2017-07-15 22:40:02 org.springframework.web.servlet.DispatcherServlet initServletBean
+INFO: FrameworkServlet 'springMvc': initialization started
+2017-07-15 22:40:02 org.springframework.web.context.support.XmlWebApplicationContext prepareRefresh
+INFO: Refreshing WebApplicationContext for namespace 'springMvc-servlet': startup date [Sat Jul 15 22:40:02 CST 2017]; parent: Root WebApplicationContext
+2017-07-15 22:40:02 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-mvc.xml]
+2017-07-15 22:40:03 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
+INFO: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.list(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/current],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.current(AgencyQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/user/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.userlist(AgencyQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryController.list(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/list/all],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryController.listWithType()
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/type/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryTypeController.list()
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.add(BusinessModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/error],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingError(BusinessQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.del(java.lang.String[],javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/created],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingCreated(BusinessQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.edit(BusinessModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/amendment],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingAmendment(BusinessQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/examine/detail],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.examineDetail(java.lang.String,java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/commit/amendment],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.commitAmendment(java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.attachmentList(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/all],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingAll(BusinessQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/upload],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> BusinessController.attachmentUpload(org.springframework.web.multipart.MultipartFile,java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.commit(java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> BusinessController.attachmentDel(java.lang.String[],java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/issue/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusIssueController.list()
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/third/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitThird(ExamineModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/second/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitSecond(ExamineModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/first/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitFirst(ExamineModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/third],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingThird(BusinessQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/first],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingFirst(BusinessQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/second],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingSecond(BusinessQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/xianju],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.xianju(XianjuQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/fenju],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.fenju(FenjuQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/person],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.person(StatisticsQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String InitController.index()
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init/init],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json InitController.init(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init/process],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json InitController.initProcess(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/root],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.root(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/error/{code:\d{3}}],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String MainController.error(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/verifyCode/image],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public void MainController.verifyImage(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/verifyCode/verify],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.verifyCode(javax.servlet.http.HttpServletRequest,java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/login],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.login(java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/logout],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.logout(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/authorization],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.authorization(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.delAction(java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.editAction(ActionModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.getPagingAction(ActionQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.addAction(ActionModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/time/get],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.getTime()
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/time/set],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.setTime(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.getPaging(BusinessLogQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.logicalDelete(java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/exist],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.existGroupByName(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.getTypes(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.getPaging(GroupQuery,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.editGroup(GroupModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.deleteGroups(java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.addGroup(GroupModel,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.deleteRoles(java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.editRole(RoleModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/exist],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.existRoleByName(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.addRole(RoleModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.getTypes(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.getPaging(RoleQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/state/save],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.saveState(java.lang.String,java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/action/save],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.saveAction(java.lang.String,java.lang.String[],java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/subsystem],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.subsystem(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.addState(StateModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.editState(StateModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getPagingState(StateQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/menus],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.menus(javax.servlet.http.HttpServletRequest,java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.delState(java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/tree],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getStateTree(java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/hierarchysubsystem],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getHierarchySubsystemById(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/info],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getInfo(UserQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/group/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userAddGroups(java.lang.String,java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getUserTypes(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/group/remove],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userRemoveGroups(java.lang.String,java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.deleteUsers(java.lang.String)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/role/remove],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userRemoveRoles(java.lang.String,java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/password/reset],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.initPassWord(javax.servlet.http.HttpServletRequest)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/role/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userAddRoles(java.lang.String,java.lang.String[])
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getPaging(UserQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.editUserModel(UserModel)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/password/modify],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.modPassWord(javax.servlet.http.HttpServletRequest,UserQuery)
+2017-07-15 22:40:04 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.addUser(UserModel)
+2017-07-15 22:40:06 org.springframework.web.servlet.handler.SimpleUrlHandlerMapping registerHandler
+INFO: Mapped URL path [/**] onto handler 'org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler#0'
+2017-07-15 22:40:06 org.springframework.web.servlet.DispatcherServlet initServletBean
+INFO: FrameworkServlet 'springMvc': initialization completed in 3494 ms
+2017-07-17 22:52:36 org.springframework.web.context.ContextLoader initWebApplicationContext
+INFO: Root WebApplicationContext: initialization started
+2017-07-17 22:52:36 org.springframework.web.context.support.XmlWebApplicationContext prepareRefresh
+INFO: Refreshing Root WebApplicationContext: startup date [Mon Jul 17 22:52:36 CST 2017]; root of context hierarchy
+2017-07-17 22:52:36 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring.xml]
+2017-07-17 22:52:37 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-hibernate.xml]
+2017-07-17 22:52:37 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-aop.xml]
+2017-07-17 22:52:37 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\baseinfo.properties]
+2017-07-17 22:52:37 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\db.properties]
+2017-07-17 22:52:37 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\systemName.properties]
+2017-07-17 22:52:37 org.springframework.context.support.PropertySourcesPlaceholderConfigurer loadProperties
+INFO: Loading properties file from file [D:\my-idea\common-web2\common-web\web\target\classes\properties\upload.properties]
+2017-07-17 22:52:37 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
+INFO: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-07-17 22:52:38 org.hibernate.annotations.common.Version <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2017-07-17 22:52:38 org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {4.3.5.Final}
+2017-07-17 22:52:38 org.hibernate.cfg.Environment <clinit>
+INFO: HHH000206: hibernate.properties not found
+2017-07-17 22:52:38 org.hibernate.cfg.Environment buildBytecodeProvider
+INFO: HHH000021: Bytecode provider name : javassist
+2017-07-17 22:52:39 org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-07-17 22:52:40 org.hibernate.engine.transaction.internal.TransactionFactoryInitiator initiateService
+INFO: HHH000399: Using default transaction strategy (direct JDBC transactions)
+2017-07-17 22:52:40 org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory <init>
+INFO: HHH000397: Using ASTQueryTranslatorFactory
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000228: Running hbm2ddl schema update
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000102: Fetching database metadata
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000396: Updating schema
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_agency
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [parent_id, name, id]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_ifp90ksyjhvmrpj6ek75axp4f]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary, fk_ifp90ksyjhvmrpj6ek75axp4f]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [create_user_id, amendment, examine_second_id, check_user_id, create_time, taxpayer_code, modify_time, agency_id, description, taxpayer_name, content, category_id, final_user_id, bus_time, id, examine_first_id, examine_third_id, amendment_code, status]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_giebrxt2045d4cff6ux3i7roq, fk_t245hsgumy4w4iurfwxp08ww7, fk_5jq6xfco0dvxo0ghhvhhxljke, fk_l8frvgne9h5nlhqa2ywjb354y, fk_b1y16aktmekc04lbku5ivn3o, fk_fhp2ex61tkxs30dst8j4d8y6o, fk_27t76umm5qc3yofssedk6ctlp, fk_ktjbp2uvfwq6y5ineogdfydkb]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_giebrxt2045d4cff6ux3i7roq, fk_t245hsgumy4w4iurfwxp08ww7, fk_5jq6xfco0dvxo0ghhvhhxljke, fk_l8frvgne9h5nlhqa2ywjb354y, fk_b1y16aktmekc04lbku5ivn3o, fk_fhp2ex61tkxs30dst8j4d8y6o, fk_27t76umm5qc3yofssedk6ctlp, primary, fk_ktjbp2uvfwq6y5ineogdfydkb]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_attachment
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [size, file_name, id, sort, bus_id, url]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_fkiixf8bch935tk2pqy60d1ak]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_fkiixf8bch935tk2pqy60d1ak, primary]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_category
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id, category_type_id]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_dklx69mkaxmpjv7fk3usuafg6]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_dklx69mkaxmpjv7fk3usuafg6, primary]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_category_type
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_bus_issue
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [name, id]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_examine
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [has_issue, description, id]
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-17 22:52:40 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.bus_tax_examine_issue
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [issue_id, examine_id]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_iwo1d310wsnxtaoh06l43lt0k, fk_l8lnfflj31ayh9n906hkb62rw]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_iwo1d310wsnxtaoh06l43lt0k, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_action
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, method, modify_time, name, description, id, state_id, url]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_sr346moi6r0af42h0c4oewpxs]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_sr346moi6r0af42h0c4oewpxs, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_buslog
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [args, exception, create_time, signature, useragent, id, ipaddr, delflag, operation, content, isexception, username]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_group
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, parent_id, modify_time, name, description, id, type]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_cpe22l4nto9hpqhl9qh3drnbf]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_cpe22l4nto9hpqhl9qh3drnbf, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [code, create_time, modify_time, name, description, id, type]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: []
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role_action
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [role_id, action_id]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_1hf86yu8eocekstw2yx8gsfsj, fk_d5e230ibgmxg5vc5vh1r2xj05]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_d5e230ibgmxg5vc5vh1r2xj05, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_role_state
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [role_id, state_id]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_p065tdrf5vsmf3mr09onrvpc7, fk_ibc9ejba7apih6t7bpn70w8nh]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_ibc9ejba7apih6t7bpn70w8nh, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_state
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [sequence, code, create_time, parent_id, modify_time, name, description, id, type]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_67ipcntthxycsejwkrl0y2hqr]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_67ipcntthxycsejwkrl0y2hqr, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [password, create_time, phone, agency_boss, modify_time, name, id_card, agency_id, id, type, email, username]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_380y82d9ohxrjxlk87obugqih]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_380y82d9ohxrjxlk87obugqih, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user_group
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [user_id, group_id]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_robf30t37py3hntrn60wwgkjp, fk_elgojmklyc8imf5ud1xm9agwe]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_robf30t37py3hntrn60wwgkjp, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000261: Table found: tax.sys_user_role
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000037: Columns: [user_id, role_id]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000108: Foreign keys: [fk_fxu3td9m5o7qov1kbdvmn0g0x, fk_fethvr269t6stivlddbo5pxry]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: HHH000126: Indexes: [fk_fethvr269t6stivlddbo5pxry, primary]
+2017-07-17 22:52:41 org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: HHH000232: Schema update complete
+2017-07-17 22:52:42 org.springframework.orm.hibernate4.HibernateTransactionManager afterPropertiesSet
+INFO: Using DataSource [org.apache.commons.dbcp.BasicDataSource@ef07d02] of Hibernate SessionFactory for HibernateTransactionManager
+2017-07-17 22:52:42 org.springframework.web.context.ContextLoader initWebApplicationContext
+INFO: Root WebApplicationContext: initialization completed in 5458 ms
+2017-07-17 22:52:42 org.springframework.web.servlet.DispatcherServlet initServletBean
+INFO: FrameworkServlet 'springMvc': initialization started
+2017-07-17 22:52:42 org.springframework.web.context.support.XmlWebApplicationContext prepareRefresh
+INFO: Refreshing WebApplicationContext for namespace 'springMvc-servlet': startup date [Mon Jul 17 22:52:42 CST 2017]; parent: Root WebApplicationContext
+2017-07-17 22:52:42 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [spring-mvc.xml]
+2017-07-17 22:52:42 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
+INFO: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.list(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/current],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.current(AgencyQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/agency/user/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json AgencyController.userlist(AgencyQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryController.list(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/list/all],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryController.listWithType()
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/category/type/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusCategoryTypeController.list()
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.add(BusinessModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/error],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingError(BusinessQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.del(java.lang.String[],javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/amendment],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingAmendment(BusinessQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.edit(BusinessModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/created],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingCreated(BusinessQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/commit/amendment],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.commitAmendment(java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/examine/detail],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.examineDetail(java.lang.String,java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> BusinessController.attachmentDel(java.lang.String[],java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.attachmentList(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/attachment/upload],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> BusinessController.attachmentUpload(org.springframework.web.multipart.MultipartFile,java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/paging/all],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.pagingAll(BusinessQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessController.commit(java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/business/issue/list],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusIssueController.list()
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/third],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingThird(BusinessQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/first],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingFirst(BusinessQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/paging/second],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.pagingSecond(BusinessQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/first/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitFirst(ExamineModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/second/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitSecond(ExamineModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/examine/third/commit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ExamineController.commitThird(ExamineModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/xianju],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.xianju(XianjuQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/fenju],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.fenju(FenjuQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/tax/statistics/person],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StatisticsController.person(StatisticsQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String InitController.index()
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init/init],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json InitController.init(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/init/process],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json InitController.initProcess(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/root],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.root(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/error/{code:\d{3}}],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String MainController.error(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/verifyCode/verify],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.verifyCode(javax.servlet.http.HttpServletRequest,java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/verifyCode/image],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public void MainController.verifyImage(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/logout],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.logout(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/login],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.login(java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/authorization],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json MainController.authorization(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.editAction(ActionModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.delAction(java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.addAction(ActionModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/action/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json ActionController.getPagingAction(ActionQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/time/get],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.getTime()
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/time/set],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.setTime(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.getPaging(BusinessLogQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/log/business/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json BusinessLogController.logicalDelete(java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.getPaging(GroupQuery,javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.editGroup(GroupModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.deleteGroups(java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.addGroup(GroupModel,javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/exist],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.existGroupByName(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/group/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json GroupController.getTypes(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.addRole(RoleModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.getPaging(RoleQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/state/save],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.saveState(java.lang.String,java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/action/save],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.saveAction(java.lang.String,java.lang.String[],java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.editRole(RoleModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.deleteRoles(java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/exist],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.existRoleByName(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/role/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json RoleController.getTypes(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.editState(StateModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/tree],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getStateTree(java.lang.String,javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/subsystem],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.subsystem(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/menus],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.menus(javax.servlet.http.HttpServletRequest,java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.addState(StateModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getPagingState(StateQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.delState(java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/state/hierarchysubsystem],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json StateController.getHierarchySubsystemById(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/info],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getInfo(UserQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/paging],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getPaging(UserQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/password/modify],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.modPassWord(javax.servlet.http.HttpServletRequest,UserQuery)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/edit],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.editUserModel(UserModel)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/group/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userAddGroups(java.lang.String,java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/group/remove],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userRemoveGroups(java.lang.String,java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/types],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.getUserTypes(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/del],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.deleteUsers(java.lang.String)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/role/remove],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userRemoveRoles(java.lang.String,java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/password/reset],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.initPassWord(javax.servlet.http.HttpServletRequest)
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/role/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.userAddRoles(java.lang.String,java.lang.String[])
+2017-07-17 22:52:43 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping registerHandlerMethod
+INFO: Mapped "{[/system/user/add],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.tendyron.wifi.web.model.Json UserController.addUser(UserModel)
+2017-07-17 22:52:44 org.springframework.web.servlet.handler.SimpleUrlHandlerMapping registerHandler
+INFO: Mapped URL path [/**] onto handler 'org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler#0'
+2017-07-17 22:52:44 org.springframework.web.servlet.DispatcherServlet initServletBean
+INFO: FrameworkServlet 'springMvc': initialization completed in 2612 ms

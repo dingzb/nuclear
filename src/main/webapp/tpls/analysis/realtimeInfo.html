@@ -1,0 +1,41 @@
+<style type="text/css">
+
+</style>
+<!-- 实时信息 -->
+<div ng-controller="anaRealTimeInfoController">
+    <div class="row">
+    	<div class="col-md-9">
+    		<div class="panel panel-default" style="margin-bottom: 0px">
+		        <div class="panel-body" style="padding:0px;">
+		        	<div id="allmap" ng-init="initMap()">&nbsp;</div>
+		        </div>
+		    </div>
+    	</div>
+    	<div class="col-md-3" style="padding-left: 0px">
+    		<div class="panel panel-default">
+		        <div class="panel-body" ng-init="initList()">
+					<div id="infoMsg" style="overflow-y: hidden">
+						<ul class="list-group">
+			        		<li class="list-group-item" ng-repeat="row in rows">
+								<span class="glyphicon glyphicon-map-marker"></span>&nbsp; <span ng-bind="row.placeName"></span><br>
+								<span class="glyphicon glyphicon-cloud"></span>&nbsp; <span ng-bind="row.ssid"></span><br>
+								<span class="glyphicon glyphicon-phone"></span>&nbsp; <span ng-bind="row.userMac"></span><br>
+								<span class="glyphicon glyphicon-time"></span>&nbsp; <span ng-bind="row.arriveTime"></span>
+			        		</li>
+			        	</ul>
+					</div>
+		        </div>
+		    </div>
+    	</div>
+    </div>
+</div>
+<script>
+$(function () {
+	$("#allmap").height($(window).height()-100);
+	$("#infoMsg").height($(window).height()-130);
+	$(window).resize(function(){
+		$("#allmap").height($(window).height()-100);
+		$("#infoMsg").height($(window).height()-130);
+	});
+});
+</script>
