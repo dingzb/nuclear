@@ -13,6 +13,9 @@ angular.module('ws.stateConfig').config(['$stateProvider', function ($stateProvi
             },
             'right@main.activity': {
                 templateUrl: 'tpls/activity/welcome.html'
+            },
+            'msg@main.activity': {
+                templateUrl: 'tpls/activity/msg.html'
             }
         }
     });

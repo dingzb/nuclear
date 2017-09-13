@@ -98,6 +98,7 @@ angular.module('ws.app').service('stateSer', ['$http', function ($http) {
             $scope.state.name = checkeds[0].name;
             $scope.state.code = checkeds[0].code;
             $scope.state.sequence = checkeds[0].sequence;
+            $scope.state.icon = checkeds[0].icon;
             $scope.state.description = checkeds[0].description;
 
 
@@ -264,6 +265,13 @@ angular.module('ws.app').service('stateSer', ['$http', function ($http) {
         }, {
             field: 'code',
             title: '编码(State)'
+        }, {
+            field: 'icon',
+            title: '图标',
+            formatter: function (row) {
+                icon = row['icon'];
+                return icon ? '<span class="fa '+ icon +' fa-fw"></span><code>' + icon + '</code>' : '无';
+            }
         }, {
             field: 'sequence',
             title: '排序'

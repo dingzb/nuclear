@@ -82,7 +82,7 @@ public class StateDaoImpl extends BaseDaoImpl<StateEntity> implements StateDao {
     public List<StateEntity> getByRoleIds(Set<String> roleIds) {
         if (roleIds.isEmpty())
             return new ArrayList<StateEntity>();
-        String hql = "select new StateEntity(state.id, state.name, state.code, state.type, state.sequence)"
+        String hql = "select new StateEntity(state.id, state.name, state.code, state.type, state.sequence, state.icon)"
                 + " from StateEntity state left join state.roles role where role.id in (:roleIds)"
                 + " group by state.id";
         Map<String, Object> params = new HashMap<>();

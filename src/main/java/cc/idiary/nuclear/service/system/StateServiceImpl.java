@@ -77,8 +77,7 @@ public class StateServiceImpl extends BaseServiceImpl<StateEntity> implements St
             throw new ServiceException();
         }
         if (exist)
-            throw new ServiceException("Code名称为" + stateModel.getCode()
-                    + "的state已经存在");
+            throw new ServiceException("Code名称为" + stateModel.getCode() + "的state已经存在");
         try {
             BeanUtils.copyProperties(stateModel, stateEntity);
 
@@ -130,6 +129,7 @@ public class StateServiceImpl extends BaseServiceImpl<StateEntity> implements St
             stateEntity.setName(stateModel.getName());
             stateEntity.setCode(stateModel.getCode());
             stateEntity.setSequence(stateModel.getSequence());
+            stateEntity.setIcon(stateModel.getIcon());
             stateEntity.setDescription(stateModel.getDescription());
             stateEntity.setModifyTime(new Date());
             stateEntity.setParent(parent);

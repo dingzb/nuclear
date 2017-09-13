@@ -124,6 +124,14 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-2 control-label" for="menugroupDescription">图标</label>
+                            <div class="col-sm-7">
+                                <input id="menugroupIcon" name="icon" type="text"
+                                       class="form-control"
+                                       ng-model="state.icon" placeholder="图标"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-2 control-label" for="menugroupDescription">描述</label>
                             <div class="col-sm-7">
 										<textarea id="menugroupDescription" name="description" type="text"
@@ -224,6 +232,14 @@
                                         ng-show="editMenugroup.menugroupSequence.$error.pattern">只能为数字</span> <span
                                         ng-show="editMenugroup.menugroupSequence.$error.required">不能为空</span>
                                 </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="menugroupDescription">图标</label>
+                            <div class="col-sm-7">
+                                <input id="menugroupIcon" name="icon" type="text"
+                                       class="form-control"
+                                       ng-model="state.icon" placeholder="图标"/>
                             </div>
                         </div>
                         <div class="form-group">

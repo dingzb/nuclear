@@ -19,6 +19,7 @@ public class StateModel extends BaseModel implements Comparable<StateModel> {
 	private String code;
 	private Integer sequence;
 	private String description;
+	private String icon;
 	// 0：normalState 1：menuGroup 2：subSystem null:virtual没有视图
 	private Integer type;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", locale = "zh", timezone = "GMT+8")
@@ -147,14 +148,31 @@ public class StateModel extends BaseModel implements Comparable<StateModel> {
 		return this.sequence.compareTo(o.sequence);
 	}
 
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
 	@Override
 	public String toString() {
-		return "StateModel [" + super.toString() + " parentId=" + parentId
-				+ ", name=" + name + ", code=" + code + ", sequence=" + sequence
-				+ ", description=" + description + ", type=" + type
-				+ ", createTime=" + createTime + ", modifyTime=" + modifyTime
-				+ ", childrenIds=" + childrenIds + ", children=" + children
-				+ ", actionIds=" + actionIds + ", roleIds=" + roleIds
-				+ ", checked=" + checked + "]";
+		return "StateModel{" +
+				"parentId='" + parentId + '\'' +
+				", name='" + name + '\'' +
+				", code='" + code + '\'' +
+				", sequence=" + sequence +
+				", description='" + description + '\'' +
+				", icon='" + icon + '\'' +
+				", type=" + type +
+				", createTime=" + createTime +
+				", modifyTime=" + modifyTime +
+				", childrenIds=" + childrenIds +
+				", children=" + children +
+				", actionIds=" + actionIds +
+				", roleIds=" + roleIds +
+				", checked=" + checked +
+				'}';
 	}
 }

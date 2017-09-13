@@ -33,6 +33,7 @@ public class StateEntity extends BaseEntity implements Serializable {
 	private String code;
 	private Integer sequence;
 	private String description;
+	private String icon;
 	private Integer type; // 0：normalState 1：menuGroup 2：subSystem
 							// null:virtual(没有视图)
 	private Date createTime;
@@ -56,12 +57,13 @@ public class StateEntity extends BaseEntity implements Serializable {
 	 * @param sequence
 	 */
 	public StateEntity(String id, String name, String code, Integer type,
-			Integer sequence) {
+			Integer sequence, String icon) {
 		setId(id);
 		this.name = name;
 		this.code = code;
 		this.type = type;
 		this.sequence = sequence;
+		this.icon = icon;
 	}
 
 	/** minimal constructor */
@@ -127,6 +129,15 @@ public class StateEntity extends BaseEntity implements Serializable {
 
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
+	}
+
+	@Column(name = "icon", length = 64)
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 	@Column(name = "description", length = 500)
