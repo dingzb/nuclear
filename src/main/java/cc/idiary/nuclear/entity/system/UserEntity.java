@@ -1,9 +1,8 @@
 package cc.idiary.nuclear.entity.system;
 
-import cc.idiary.nuclear.entity.business.tax.BusinessEntity;
-import cc.idiary.nuclear.entity.BaseEntity;
 import cc.idiary.nuclear.config.UserType;
-import cc.idiary.nuclear.entity.business.tax.AgencyEntity;
+import cc.idiary.nuclear.entity.BaseEntity;
+import cc.idiary.nuclear.entity.selection.ActivityEntity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -34,10 +33,8 @@ public class UserEntity extends BaseEntity implements java.io.Serializable {
     private Set<GroupEntity> groups = new HashSet<GroupEntity>(0);
     private Set<RoleEntity> roles = new HashSet<RoleEntity>(0);
 
-    //for tax
-    private AgencyEntity agency;
-    private Boolean agencyBoss;
-    private Set<BusinessEntity> createBusinesses;
+    //for selection
+    private Set<ActivityEntity> activities;
 
     public UserEntity() {
     }
@@ -176,32 +173,14 @@ public class UserEntity extends BaseEntity implements java.io.Serializable {
         this.type = type;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "agency_id")
-    public AgencyEntity getAgency() {
-        return agency;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "createUser")
+    public Set<ActivityEntity> getActivities() {
+        return activities;
     }
 
-    public void setAgency(AgencyEntity agency) {
-        this.agency = agency;
-    }
-
-    @Column(name = "agency_boss")
-    public Boolean getAgencyBoss() {
-        return agencyBoss;
-    }
-
-    public void setAgencyBoss(Boolean agencyBoss) {
-        this.agencyBoss = agencyBoss;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "create")
-    public Set<BusinessEntity> getCreateBusinesses() {
-        return createBusinesses;
-    }
-
-    public void setCreateBusinesses(Set<BusinessEntity> createBusinesses) {
-        this.createBusinesses = createBusinesses;
+    public void setActivities(Set<ActivityEntity> activities) {
+        this.activities = activities;
     }
 
     @Override

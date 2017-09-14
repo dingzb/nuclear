@@ -2,7 +2,6 @@ package cc.idiary.nuclear.model.system;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cc.idiary.nuclear.model.BaseModel;
-import cc.idiary.nuclear.model.business.tax.AgencyModel;
 
 import java.util.Date;
 import java.util.Set;
@@ -24,11 +23,6 @@ public class UserModel extends BaseModel {
 	private Set<String> groupIds;
 	private Integer placeCount;
 	private Boolean selected;//datagrid选中
-
-//	for agency
-	private AgencyModel agency;
-	private String agencyId;
-	private Boolean agencyBoss; //是否是用户所处机构负责人
 
 	public Integer getPlaceCount() {
 		return placeCount;
@@ -133,31 +127,6 @@ public class UserModel extends BaseModel {
 	public void setSelected(Boolean selected) {
 		this.selected = selected;
 	}
-
-	public AgencyModel getAgency() {
-		return agency;
-	}
-
-	public void setAgency(AgencyModel agency) {
-		this.agency = agency;
-	}
-
-    public String getAgencyId() {
-        return agencyId;
-    }
-
-    public void setAgencyId(String agencyId) {
-        this.agencyId = agencyId;
-    }
-
-
-    public Boolean getAgencyBoss() {
-        return agencyBoss;
-    }
-
-    public void setAgencyBoss(Boolean agencyBoss) {
-        this.agencyBoss = agencyBoss;
-    }
 
     @Override
 	public String toString() {

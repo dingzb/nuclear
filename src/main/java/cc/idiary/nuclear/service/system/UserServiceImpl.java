@@ -4,19 +4,15 @@ import cc.idiary.nuclear.config.BaseInfo;
 import cc.idiary.nuclear.config.GroupType;
 import cc.idiary.nuclear.config.RoleType;
 import cc.idiary.nuclear.config.UserType;
-import cc.idiary.nuclear.dao.business.tax.AgencyDao;
 import cc.idiary.nuclear.dao.system.GroupDao;
 import cc.idiary.nuclear.dao.system.RoleDao;
 import cc.idiary.nuclear.dao.system.UserDao;
-import cc.idiary.nuclear.entity.business.tax.AgencyEntity;
-import cc.idiary.nuclear.entity.business.tax.BusinessEntity;
 import cc.idiary.nuclear.entity.system.GroupEntity;
 import cc.idiary.nuclear.entity.system.RoleEntity;
 import cc.idiary.nuclear.entity.system.UserEntity;
 import cc.idiary.nuclear.logger.BusinessLog;
 import cc.idiary.nuclear.logger.LogOperationType;
 import cc.idiary.nuclear.model.PagingModel;
-import cc.idiary.nuclear.model.business.tax.AgencyModel;
 import cc.idiary.nuclear.model.system.UserModel;
 import cc.idiary.nuclear.query.system.UserQuery;
 import cc.idiary.nuclear.service.BaseServiceImpl;
@@ -45,8 +41,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserEntity> implements User
     private RoleDao roleDao;
     @Autowired
     private GroupDao groupDao;
-    @Autowired
-    private AgencyDao agencyDao;
 
     @BusinessLog(content = "用户登录", operation = LogOperationType.LOGIN)
     @Override
@@ -153,15 +147,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserEntity> implements User
             for (UserEntity tmp : tmpList) {
                 UserModel row = new UserModel();
                 BeanUtils.copyProperties(tmp, row);
-                AgencyEntity agencyEntity = tmp.getAgency();
-                if (agencyEntity != null) {
-                    AgencyModel agencyModel = new AgencyModel();
-                    if (agencyEntity.getParent() == null) {
-                        agencyModel.setLevel(0);
-                    }
-                    BeanUtils.copyProperties(agencyEntity, agencyModel);
-                    row.setAgency(agencyModel);
-                }
                 row.setType(tmp.getType().toString());
                 rows.add(row);
             }
@@ -189,10 +174,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserEntity> implements User
         if (StringTools.isEmpty(userModel.getType())) {
 //            throw new ServiceException("用户类型不能为空");
             userModel.setType(UserType.NORMAL.toString());
-        }
-
-        if (StringTools.isEmpty(userModel.getAgencyId())) {
-            throw new ServiceException("机构不能为空");
         }
 
         // 判断用户名是否存在
@@ -268,15 +249,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserEntity> implements User
             }
         }
 
-        try {
-            //设置机构
-            AgencyEntity agencyEntity = agencyDao.getById(userModel.getAgencyId());
-            userEntity.setAgency(agencyEntity);
-        } catch (Exception e) {
-            logger.catching(e);
-            throw new ServiceException();
-        }
-
         Serializable result = null;
         try {
             groupDao.save(group);
@@ -302,9 +274,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserEntity> implements User
         if (StringTools.isEmpty(userModel.getName())) {
             throw new ServiceException("名称不能为空");
         }
-        if (StringTools.isEmpty(userModel.getAgencyId())) {
-            throw new ServiceException("机构不能为空");
-        }
         UserEntity userEntity = null;
         try {
             userEntity = userDao.getById(userModel.getId());
@@ -323,13 +292,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserEntity> implements User
             if (!StringTools.isEmpty(userModel.getPhone())) {
                 userEntity.setPhone(userModel.getPhone());
             }
-            if (userModel.getAgencyBoss() != null) {
-                userEntity.setAgencyBoss(userModel.getAgencyBoss());
-            }
-
-            AgencyEntity agencyEntity = agencyDao.getById(userModel.getAgencyId());
-            userEntity.setAgency(agencyEntity);
-
             userEntity.setModifyTime(new Date());
             userDao.update(userEntity);
         } catch (Exception e) {
@@ -349,13 +311,9 @@ public class UserServiceImpl extends BaseServiceImpl<UserEntity> implements User
 
         try {
             user = userDao.getById(userId);
-            Set<BusinessEntity> businesses = user.getCreateBusinesses();
         } catch (Exception e) {
             logger.catching(e);
             throw new ServiceException();
-        }
-        if (user.getCreateBusinesses() != null && !user.getCreateBusinesses().isEmpty()) {
-            throw new ServiceException("用户存在已经创建的业务，请先删除关联业务");
         }
         try {
             // TODO

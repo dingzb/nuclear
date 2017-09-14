@@ -34,8 +34,7 @@
 		<!-- 配置hibernate自动扫描包 -->
 		<property name="packagesToScan">
 			<list>
-				<value>cc.idiary.nuclear.entity.system</value>
-				<value>cc.idiary.nuclear.entity.business</value>
+				<value>cc.idiary.nuclear.entity</value>
 			</list>
 		</property>
 	</bean>

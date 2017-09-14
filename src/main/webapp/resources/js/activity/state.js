@@ -18,5 +18,14 @@ angular.module('ws.stateConfig').config(['$stateProvider', function ($stateProvi
                 templateUrl: 'tpls/activity/msg.html'
             }
         }
+    }).state('main.activity.config', {
+        url: '/config'
+    }).state('main.activity.config.create', {
+        url: '/create',
+        views: {
+            'right@main.activity': {
+                templateUrl: 'tpls/activity/config/create.html'
+            }
+        }
     });
 }]);

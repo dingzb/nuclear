@@ -1,7 +1,5 @@
 package cc.idiary.nuclear.model;
 
-import cc.idiary.nuclear.model.business.tax.BusAttachmentModel;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,11 +13,6 @@ public class FileInputResponseBuilder {
 
     public FileInputResponseBuilder setError(String msg){
         json.put("error", msg);
-        return this;
-    }
-
-    public FileInputResponseBuilder addPreviewItem(BusAttachmentModel attachment){
-        addPreviewItem(attachment.getUrl(), attachment.getFileName(), attachment.getSize(), attachment.getId());
         return this;
     }
 
