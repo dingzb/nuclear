@@ -2,39 +2,26 @@
  * main app
  */
 
-angular.module('ws.app', [
-    'ws.basic',
-    'ws.permission',
-    'ws.menus',
-    'ws.login',
-    'ws.datagrid',
-    'ws.stateConfig',
-    'ui.router',
-    'ngGrid',
-    'ngMessages',
-    'ui.bootstrap',
-    'ui.tree',
-    'ngFileUpload',
-    'pascalprecht.translate']).config(['$httpProvider', '$translateProvider', function ($httpProvider, $translateProvider) { //全局$http.post配置
-    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-    $httpProvider.defaults.transformRequest = function (data) {
-        if (data === undefined)
-            return data;
-        return $.param(data);
-    };
+angular.module('ws.app', ['ws.basic', 'ws.permission', 'ws.menus', 'ws.login', 'ws.datagrid', 'ws.stateConfig', 'ui.router', 'ngGrid', 'ngMessages', 'ui.bootstrap', 'ui.tree', 'ngFileUpload', 'pascalprecht.translate'])
+    .config(['$httpProvider', '$translateProvider', function ($httpProvider, $translateProvider) {
+        //全局$http.post配置
+        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+        $httpProvider.defaults.transformRequest = function (data) {
+            if (data === undefined)
+                return data;
+            return $.param(data);
+        };
 
-    var lang = ($.cookie('clientlanguage') || navigator.language || 'zh_CN').replace('-', '_');
-    $translateProvider.preferredLanguage(lang);
-    $translateProvider.useStaticFilesLoader({
-        prefix: '/locale/',
-        suffix: '.json'
-    });
+        //国际化配置
+        var lang = ($.cookie('clientlanguage') || navigator.language || 'zh_CN').replace('-', '_');
+        $translateProvider.preferredLanguage(lang);
+        $translateProvider.useStaticFilesLoader({
+            prefix: '/locale/',
+            suffix: '.json'
+        });
+    }])
 
-}])
-
-/**
- * state变化时激活变化的state菜单
- */
+     //state变化时激活变化的state菜单
     .run(['$rootScope', '$state', 'activeServ', function ($rootScope, $state, activeServ) {
         $rootScope.$on('$stateChangeStart', function (evt, toState, toParams, fromState, fromParams) {
             angular.state = {

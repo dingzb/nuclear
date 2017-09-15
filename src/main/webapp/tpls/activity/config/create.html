@@ -1,31 +1,25 @@
-<div ng-controller="actCreateCtrl" style="width: 500px; padding: 20px 10px;">
-    <form class="form-horizontal" id="createActivity" name="createForm" novalidate>
-        <!--<table>-->
-            <!--<thead>-->
-                <!--<tr>-->
-                    <!--<th>创建评审活动</th>-->
-                <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-                <!--<tr>-->
-                    <!--<td><label for="name">名称</label></td>-->
-                    <!--<td><input type="text" class="form-control input-sm" id="name" placeholder="名称"></td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td></td>-->
-                    <!--<td><button type="submit" class="btn btn-info btn-sm">创建活动</button></td>-->
-                <!--</tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
+<div ng-controller="actCreateCtrl" style="padding: 20px 10px;">
+
+    <div ng-if="curAct" class="alert alert-warning">
+        由&nbsp;<span style="font-weight: bold;">{{curAct.createUserName}}</span>&nbsp;创建于
+        &nbsp;<span style="text-decoration-line: underline">{{curAct.createTime}}</span>&nbsp;
+        的《{{curAct.name}}》正在进行，无需创建新活动。
+    </div>
+
+    <div ng-if="curAct === undefined" class="alert alert-info">
+        正在查询活动状态...
+    </div>
+
+    <form class="form-horizontal" id="createActivity" name="createForm" novalidate ng-if="curAct === null" style="width: 500px;">
         <div class="form-group form-group-sm">
             <label for="name" class="col-xs-2 control-label" style="padding-top: 4px;">名称</label>
             <div class="col-xs-10">
-                <input type="text" class="form-control" id="name" placeholder="名称">
+                <input type="text" class="form-control" id="name" placeholder="名称" ng-model="activity.name">
             </div>
         </div>
         <div class="form-group form-group-sm">
             <div class="col-xs-offset-2 col-xs-10">
-                <button type="submit" class="btn btn-info btn-sm">创建活动</button>
+                <button type="submit" class="btn btn-info btn-sm" ng-click="create()">创建活动</button>
             </div>
         </div>
     </form>

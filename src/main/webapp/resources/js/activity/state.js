@@ -27,5 +27,12 @@ angular.module('ws.stateConfig').config(['$stateProvider', function ($stateProvi
                 templateUrl: 'tpls/activity/config/create.html'
             }
         }
+    }).state('main.activity.config.criterion', {
+        url: '/criterion',
+        views: {
+            'right@main.activity': {
+                templateUrl: 'tpls/activity/config/criterion.html'
+            }
+        }
     });
 }]);
