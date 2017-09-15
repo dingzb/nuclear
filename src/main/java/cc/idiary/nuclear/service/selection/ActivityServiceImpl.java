@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service("activityService")
 public class ActivityServiceImpl extends BaseServiceImpl<ActivityEntity> implements ActivityService {
@@ -35,14 +37,14 @@ public class ActivityServiceImpl extends BaseServiceImpl<ActivityEntity> impleme
     @Override
     @Transactional
     public boolean create(ActivityModel activity) throws ServiceException {
-        if (StringTools.isEmpty(activity.getName())){
+        if (StringTools.isEmpty(activity.getName())) {
             throw new ServiceException("名称不能为空");
         }
         ActivityEntity activityEntity = new ActivityEntity();
         activityEntity.setId(StringTools.randomUUID());
         activityEntity.setName(activity.getName());
         UserEntity user = userDao.getById(activity.getUserId());
-        if (user != null){
+        if (user != null) {
             activityEntity.setCreateUser(user);
         }
         Date now = new Date();
@@ -61,9 +63,9 @@ public class ActivityServiceImpl extends BaseServiceImpl<ActivityEntity> impleme
     @Override
     public ActivityModel current() throws ServiceException {
         ActivityEntity acte = null;
-        try{
+        try {
             acte = activityDao.current();
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error("", e);
             throw new ServiceException();
         }
@@ -73,12 +75,38 @@ public class ActivityServiceImpl extends BaseServiceImpl<ActivityEntity> impleme
             actm.setCreateTime(acte.getCreateTime());
             actm.setStage(acte.getStage());
             UserEntity creator = acte.getCreateUser();
-            if (creator != null){
+            if (creator != null) {
                 actm.setCreateUserName(acte.getCreateUser().getName());
             }
             return actm;
         } else {
             return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<ActivityModel> list() throws ServiceException {
+        List<ActivityModel> actms = new ArrayList<>();
+        try {
+            List<ActivityEntity> actes = activityDao.getList();
+            if (actes != null) {
+
+                for (ActivityEntity acte : actes) {
+                    ActivityModel actm = new ActivityModel();
+                    actm.setName(acte.getName());
+                    actm.setCreateTime(acte.getCreateTime());
+                    actm.setStage(acte.getStage());
+                    UserEntity creator = acte.getCreateUser();
+                    if (creator != null) {
+                        actm.setCreateUserName(acte.getCreateUser().getName());
+                    }
+                    actms.add(actm);
+                }
+            }
+            return actms;
+        } catch (Exception e) {
+            throw new ServiceException();
         }
     }
 }

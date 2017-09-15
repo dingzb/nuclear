@@ -5,6 +5,8 @@ import cc.idiary.nuclear.model.selection.ActivityModel;
 import cc.idiary.nuclear.service.BaseService;
 import cc.idiary.nuclear.service.ServiceException;
 
+import java.util.List;
+
 public interface ActivityService extends BaseService<ActivityEntity> {
 
     /**
@@ -23,6 +25,14 @@ public interface ActivityService extends BaseService<ActivityEntity> {
      * @throws ServiceException
      */
     ActivityModel current() throws ServiceException;
+
+    /**
+     * 获取所有活动列表
+     *
+     * @return
+     * @throws ServiceException
+     */
+    List<ActivityModel> list() throws ServiceException;
 //    List<StageModel> stages();
 
 }

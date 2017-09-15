@@ -8,31 +8,40 @@ import cc.idiary.nuclear.service.selection.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller("activityController")
-@RequestMapping("activity")
-public class ActivityController extends BaseController {
-
+@Controller("ActConfigController")
+@RequestMapping("activity/config")
+public class ActConfigController extends BaseController {
     private final ActivityService activityService;
 
     @Autowired
-    public ActivityController(ActivityService activityService) {
+    public ActConfigController(ActivityService activityService) {
         this.activityService = activityService;
     }
 
-
     /**
-     * 获取当前正在进行的活动，用来在活动子系统中判断是否要激活活动的一系列操作。
+     * 创建活动
      *
+     * @param activity
      * @return
      */
-    @RequestMapping("current")
+    @RequestMapping("create/create")
     @ResponseBody
-    public Json current() {
+    public Json create(ActivityModel activity) {
         try {
-            return success(activityService.current());
+            activityService.create(activity);
+            return success("创建成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("create/list")
+    @ResponseBody
+    public Json list() {
+        try {
+            return success(activityService.list());
         } catch (ServiceException e) {
             return fail(e);
         }
