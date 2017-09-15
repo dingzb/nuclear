@@ -1,4 +1,4 @@
-angular.module('ws.app').controller('actCreateCtrl', ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {
+angular.module('ws.app').controller('actCriterionCtrl', ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {
 //初始化组列表
     $scope.datagrid = {
         url: 'app/system/group/paging',

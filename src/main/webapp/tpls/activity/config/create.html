@@ -17,6 +17,28 @@
                 <input type="text" class="form-control" id="name" placeholder="名称" ng-model="activity.name">
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="copyHistory"> 复制以往活动的配置
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" ng-show="copyHistory">
+            <label for="history" class="col-xs-2 control-label" style="padding-top: 4px;">以往活动</label>
+            <div class="col-xs-10">
+                <!--<select id="searcheMenugroupSubsystemId" type="text" class="form-control input-sm"-->
+                        <!--ng-model="datagrid.params.parentId">-->
+                    <!--<option value="">-请选择-</option>-->
+                    <!--<option ng-repeat="sub in subsystem" value="{{sub.id}}" ng-bind="sub.name"></option>-->
+                <!--</select>-->
+                <select id="history" class="form-control">
+                    <option ng-repeat="act in acts" value="{{act.id}}" ng-bind="act.name"></option>
+                </select>
+            </div>
+        </div>
         <div class="form-group form-group-sm">
             <div class="col-xs-offset-2 col-xs-10">
                 <button type="submit" class="btn btn-info btn-sm" ng-click="create()">创建活动</button>
