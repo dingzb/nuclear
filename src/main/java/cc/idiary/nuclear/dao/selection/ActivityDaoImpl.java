@@ -35,4 +35,9 @@ public class ActivityDaoImpl extends BaseDaoImpl<ActivityEntity> implements Acti
             return acts.get(0);
         }
     }
+
+    @Override
+    public boolean existByName(String name) {
+        return existBy("name", name);
+    }
 }

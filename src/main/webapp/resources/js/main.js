@@ -5,11 +5,13 @@
 angular.module('ws.app').controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
 
     //获取当前正在进行的活动
-    $scope.refreshCurAct = function () {
+    $scope.refreshCurAct = function (fn) {
         $http.post('app/activity/current',{}).success(function (data) {
-            console.info(data);
             if (data.success){
                 $scope.curAct = data.data;
+                if (typeof fn === 'function') {
+                    fn();
+                }
             } else {
                 $scope.alert(data.message, 'error');
             }

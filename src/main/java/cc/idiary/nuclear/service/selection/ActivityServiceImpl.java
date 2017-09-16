@@ -12,6 +12,7 @@ import cc.idiary.nuclear.service.ServiceException;
 import cc.idiary.utils.common.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,9 @@ public class ActivityServiceImpl extends BaseServiceImpl<ActivityEntity> impleme
     public boolean create(ActivityModel activity) throws ServiceException {
         if (StringTools.isEmpty(activity.getName())) {
             throw new ServiceException("名称不能为空");
+        }
+        if (activityDao.existByName(activity.getName())) {
+            throw new ServiceException("名称已经存在");
         }
         ActivityEntity activityEntity = new ActivityEntity();
         activityEntity.setId(StringTools.randomUUID());
@@ -71,9 +75,7 @@ public class ActivityServiceImpl extends BaseServiceImpl<ActivityEntity> impleme
         }
         if (acte != null) {
             ActivityModel actm = new ActivityModel();
-            actm.setName(acte.getName());
-            actm.setCreateTime(acte.getCreateTime());
-            actm.setStage(acte.getStage());
+            BeanUtils.copyProperties(acte, actm);
             UserEntity creator = acte.getCreateUser();
             if (creator != null) {
                 actm.setCreateUserName(acte.getCreateUser().getName());

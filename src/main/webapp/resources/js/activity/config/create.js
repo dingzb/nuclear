@@ -10,6 +10,8 @@ angular.module('ws.app').controller('actCreateCtrl', ['$rootScope', '$scope', '$
         name: new Date().getFullYear() + '年度中国核能行业协会科学技术奖专业评审会'
     };
 
+    $scope.refreshCurAct();
+
     $http.post('app/activity/config/create/list', {}).success(function (data) {
         if (data.success) {
             $scope.acts = data.data;
@@ -27,7 +29,7 @@ angular.module('ws.app').controller('actCreateCtrl', ['$rootScope', '$scope', '$
                     $scope.refreshCurAct();
                 });
             } else {
-                $scope.alert(data, 'error');
+                $scope.alert(data.message, 'error');
             }
         }).error(function (data) {
             $scope.alert(data, 'error');

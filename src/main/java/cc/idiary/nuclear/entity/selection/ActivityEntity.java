@@ -6,6 +6,7 @@ import cc.idiary.nuclear.entity.system.UserEntity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "sel_activity")
@@ -25,6 +26,8 @@ public class ActivityEntity extends BaseEntity implements Serializable {
     private StageEntity finalStage;
     private StageEntity publicityStage;
     private StageEntity finishStage;
+
+    private Set<CheckCriterionEntity> checkCriterion;
 
     @Column(name = "name", length = 64)
     public String getName() {
@@ -141,5 +144,14 @@ public class ActivityEntity extends BaseEntity implements Serializable {
 
     public void setFinishStage(StageEntity finishStage) {
         this.finishStage = finishStage;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
+    public Set<CheckCriterionEntity> getCheckCriterion() {
+        return checkCriterion;
+    }
+
+    public void setCheckCriterion(Set<CheckCriterionEntity> checkCriterion) {
+        this.checkCriterion = checkCriterion;
     }
 }

@@ -8,7 +8,14 @@ public interface ActivityDao extends BaseDao<ActivityEntity> {
 
     /**
      * 获取当前正在进行的活动
-     * @return
+     * @return 若没有正在进行的活动则返回null。
      */
     ActivityEntity current();
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    boolean existByName(String name);
 }
