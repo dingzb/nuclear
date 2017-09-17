@@ -1,4 +1,4 @@
-<div ng-controller="actCriterionCtrl">
+<div ng-controller="actCheckCriterionCtrl">
     <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
         <div class="form-inline" id="showOrHide">
             <div class="ws-search-input-group">
@@ -41,7 +41,7 @@
                             <div class="col-sm-7">
                                 <input id="add-name" name="name" type="text" class="form-control input-sm"
                                        ng-model="criterion.name"
-                                       placeholder="必填，不可重复" ws-unique="app/activity/config/criterion/exist?name"
+                                       placeholder="必填，不可重复" ws-unique="app/activity/config/check/criterion/exist?name"
                                        required
                                        maxlength="64"><span class="glyphicon glyphicon-remove form-control-feedback"
                                                             aria-hidden="true"
@@ -94,7 +94,7 @@
                             <div class="col-sm-7">
                                 <input id="edit-name" name="name" type="text" class="form-control input-sm"
                                        ng-model="criterion.name" placeholder="必填，不可重复"
-                                       ws-unique="app/activity/config/criterion/exist?name" required maxlength="64">
+                                       ws-unique="app/activity/config/check/criterion/exist?name" required maxlength="64">
                                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
                                       ng-show="editForm.name.$dirty && editForm.name.$invalid"></span>
                             </div>
