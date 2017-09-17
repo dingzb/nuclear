@@ -14,7 +14,9 @@ angular.module('ws.app').controller('actCriterionCtrl', ['$rootScope', '$scope',
     $scope.datagrid = {
         url: 'app/activity/config/criterion/paging',
         method: 'post',
-        params: {},
+        params: {
+            current: true
+        },
         columns: [{
             field: 'name',
             title: '名称',
@@ -39,19 +41,19 @@ angular.module('ws.app').controller('actCriterionCtrl', ['$rootScope', '$scope',
     };
 
     $scope.rest = function () {
-        $scope.criterion =  {
+        $scope.criterion = {
             name: '',
             description: ''
         };
         $scope.addForm.$setPristine();
     };
 
-    $scope.showAdd = function(){
+    $scope.showAdd = function () {
         $scope.rest();
         $("#addModal").modal('show');
     };
 
-    $scope.showEdit = function(){
+    $scope.showEdit = function () {
         var checked = $scope.innerCtrl.getChecked();
         if (checked.length === 1) {
             $scope.criterion = {

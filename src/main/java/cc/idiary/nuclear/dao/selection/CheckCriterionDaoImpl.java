@@ -1,5 +1,6 @@
 package cc.idiary.nuclear.dao.selection;
 
+import cc.idiary.nuclear.config.ActivityStage;
 import cc.idiary.nuclear.dao.BaseDaoImpl;
 import cc.idiary.nuclear.entity.selection.CheckCriterionEntity;
 import cc.idiary.nuclear.query.BaseQuery;
@@ -20,12 +21,21 @@ public class CheckCriterionDaoImpl extends BaseDaoImpl<CheckCriterionEntity> imp
 
     @Override
     protected StringBuilder getExtensionSql(BaseQuery query, Map<String, Object> params) {
-        CheckCriterionQuery userQuery = (CheckCriterionQuery) query;
+        CheckCriterionQuery ccQuery = (CheckCriterionQuery) query;
         StringBuilder hqlsb = new StringBuilder(" from CheckCriterionEntity {0} where 1=1");
 
-        if (!StringTools.isEmpty(userQuery.getName())) {
+        if (!StringTools.isEmpty(ccQuery.getName())) {
             hqlsb.append(" and {0}.name like :name");
-            params.put("name", "%" + userQuery.getName() + "%");
+            params.put("name", "%" + ccQuery.getName() + "%");
+        }
+
+        if (!StringTools.isEmpty(ccQuery.getActivityId())) {
+            hqlsb.append(" and {0}.activity.id = :activityId");
+            params.put("activityId", ccQuery.getActivityId());
+        }
+
+        if (ccQuery.getCurrent()) {
+            hqlsb.append(" and {0}.activity.stage != ").append(ActivityStage.FINISH.getValue());
         }
 
         return hqlsb;

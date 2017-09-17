@@ -54,7 +54,7 @@
                         <value>app/logout</value>
                         <value>app/authorization</value>
                         <value>app/test/\w*</value>
-                        <!--<value>app/tax(/\w*)*</value>-->
+                        <value>app/activity/current.js</value>
                     </list>
                 </property>
                 <property name="noPermissionUrls">

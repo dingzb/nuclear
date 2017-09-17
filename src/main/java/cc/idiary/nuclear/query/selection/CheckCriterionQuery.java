@@ -6,6 +6,7 @@ import cc.idiary.nuclear.query.PagingQuery;
 public class CheckCriterionQuery extends PagingQuery {
     private String name;
     private String activityId;
+    private Boolean current;    //是否查询当前正在进行中的活动
 
     public String getName() {
         return name;
@@ -21,5 +22,13 @@ public class CheckCriterionQuery extends PagingQuery {
 
     public void setActivityId(String activityId) {
         this.activityId = activityId;
+    }
+
+    public Boolean getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Boolean current) {
+        this.current = current;
     }
 }

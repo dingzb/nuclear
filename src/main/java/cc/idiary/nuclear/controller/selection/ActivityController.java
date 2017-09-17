@@ -37,4 +37,16 @@ public class ActivityController extends BaseController {
             return fail(e);
         }
     }
+
+    @RequestMapping(value = "current.js")
+    @ResponseBody
+    public String currentJs() {
+        StringBuilder js = new StringBuilder("curAct = {};");
+        Json current = current();
+        if (current.getSuccess() && current.getData() != null) {
+            ActivityModel curAct = ((ActivityModel)current().getData());
+            js.append("\ncurAct.id = '").append(curAct.getId()).append("'");
+        }
+        return js.toString();
+    }
 }

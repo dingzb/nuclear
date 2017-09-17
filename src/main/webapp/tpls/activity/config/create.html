@@ -1,6 +1,6 @@
 <div ng-controller="actCreateCtrl" style="padding: 20px 10px;">
 
-    <div ng-if="curAct" class="alert alert-warning">
+    <div ng-if="curAct.id" class="alert alert-warning">
         由&nbsp;<span style="font-weight: bold;">{{curAct.createUserName}}</span>&nbsp;创建于
         &nbsp;<span style="text-decoration-line: underline">{{curAct.createTime}}</span>&nbsp;
         的《{{curAct.name}}》正在进行，无需创建新活动。
@@ -10,7 +10,7 @@
         正在查询活动状态...
     </div>
 
-    <form class="form-horizontal" id="createActivity" name="createForm" novalidate ng-if="curAct === null" style="width: 500px;">
+    <form class="form-horizontal" id="createActivity" name="createForm" novalidate ng-if="!curAct.id" style="width: 500px;">
         <div class="form-group form-group-sm">
             <label for="name" class="col-xs-2 control-label" style="padding-top: 4px;">名称</label>
             <div class="col-xs-10">
