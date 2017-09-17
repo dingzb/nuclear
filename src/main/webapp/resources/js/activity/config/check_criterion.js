@@ -1,4 +1,4 @@
-angular.module('ws.app').controller('actCriterionCtrl', ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {
+angular.module('ws.app').controller('actCheckCriterionCtrl', ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {
 
     $scope.searchParams = {};
 
@@ -12,7 +12,7 @@ angular.module('ws.app').controller('actCriterionCtrl', ['$rootScope', '$scope',
 
     //初始化组列表
     $scope.datagrid = {
-        url: 'app/activity/config/criterion/paging',
+        url: 'app/activity/config/check/criterion/paging',
         method: 'post',
         params: {
             current: true
@@ -73,7 +73,7 @@ angular.module('ws.app').controller('actCriterionCtrl', ['$rootScope', '$scope',
             return false;
         }
 
-        $http.post("app/activity/config/criterion/add", $.extend({
+        $http.post("app/activity/config/check/criterion/add", $.extend({
             activityId: $scope.curAct.id ? $scope.curAct.id : ''
         }, $scope.criterion)).success(function (data) {
             if (data.success) {
@@ -94,7 +94,7 @@ angular.module('ws.app').controller('actCriterionCtrl', ['$rootScope', '$scope',
             return false;
         }
 
-        $http.post("app/activity/config/criterion/edit", $scope.criterion).success(function (data) {
+        $http.post("app/activity/config/check/criterion/edit", $scope.criterion).success(function (data) {
             if (data.success) {
                 $scope.innerCtrl.load($scope.datagrid.params);
                 $scope.alert(data.message);
@@ -122,7 +122,7 @@ angular.module('ws.app').controller('actCriterionCtrl', ['$rootScope', '$scope',
             if (!y) {
                 return;
             }
-            $http.post('app/activity/config/criterion/del', {
+            $http.post('app/activity/config/check/criterion/del', {
                 'ids': ids
             }).success(function (data) {
                 if (data.success) {

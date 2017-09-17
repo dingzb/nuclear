@@ -53,7 +53,7 @@ public class ActConfigController extends BaseController {
         }
     }
 
-    @RequestMapping("criterion/paging")
+    @RequestMapping("check/criterion/paging")
     @ResponseBody
     public Json checkCriterionPaging(CheckCriterionQuery query){
         try {
@@ -63,7 +63,7 @@ public class ActConfigController extends BaseController {
         }
     }
 
-    @RequestMapping("criterion/add")
+    @RequestMapping("check/criterion/add")
     @ResponseBody
     public Json addCheckCriterion(CheckCriterionModel checkCriterion){
         try {
@@ -74,7 +74,7 @@ public class ActConfigController extends BaseController {
         }
     }
 
-    @RequestMapping("criterion/edit")
+    @RequestMapping("check/criterion/edit")
     @ResponseBody
     public Json editCheckCriterion(CheckCriterionModel checkCriterion){
         try {
@@ -85,7 +85,7 @@ public class ActConfigController extends BaseController {
         }
     }
 
-    @RequestMapping("criterion/del")
+    @RequestMapping("check/criterion/del")
     @ResponseBody
     public Json delCheckCriterion(@RequestParam("ids[]") String[] ids){
         try {
@@ -96,7 +96,7 @@ public class ActConfigController extends BaseController {
         }
     }
 
-    @RequestMapping("criterion/exist")
+    @RequestMapping("check/criterion/exist")
     @ResponseBody
     public Json criterionExistByName(String name){
         try {

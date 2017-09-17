@@ -27,11 +27,18 @@ angular.module('ws.stateConfig').config(['$stateProvider', function ($stateProvi
                 templateUrl: 'tpls/activity/config/create.html'
             }
         }
-    }).state('main.activity.config.criterion', {
-        url: '/criterion',
+    }).state('main.activity.config.check_criterion', {
+        url: '/check/criterion',
         views: {
             'right@main.activity': {
-                templateUrl: 'tpls/activity/config/criterion.html'
+                templateUrl: 'tpls/activity/config/check_criterion.html'
+            }
+        }
+    }).state('main.activity.config.award', {
+        url: '/award',
+        views: {
+            'right@main.activity': {
+                templateUrl: 'tpls/activity/config/award.html'
             }
         }
     });
