@@ -1,0 +1,131 @@
+<div ng-controller="actAwardsCtrl">
+    <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
+        <div class="form-inline" id="showOrHide">
+            <div class="ws-search-input-group">
+                <div class="form-group">
+                    <label for="name">名称</label>
+                    <input class="form-control input-sm" type="text" placeholder="名称" id="name"
+                           ng-model="searchParams.name">
+                </div>
+                <div class="ws-search-btn-group ws-inline">
+                    <button class="btn btn-info btn-sm" type="submit" ng-click="search()">查询</button>
+                    <button class="btn btn-info btn-sm" type="button" ng-click="searchRest()">清空</button>
+                    <span class="ws-split2"></span>
+                    <button class="btn btn-info btn-sm" type="button" ng-click="showAdd()"
+                            ws-permcode="system.permission.group.add">添加
+                    </button>
+                    <button class="btn btn-info btn-sm" type="button" ng-click="showEdit()"
+                            ws-permcode="system.permission.group.edit">编辑
+                    </button>
+                    <button class="btn btn-danger btn-sm" type="button" ng-click="del()"
+                            ws-permcode="system.permission.group.del">删除
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ws-datagrid>
+    <div class="modal fade" id="addModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">添加形审标准</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="addCriterion" name="addForm" novalidate>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : addForm.name.$dirty && addForm.name.$invalid}">
+                            <label class="col-sm-2 control-label" for="add-name">名称</label>
+                            <div class="col-sm-7">
+                                <input id="add-name" name="name" type="text" class="form-control input-sm"
+                                       ng-model="criterion.name"
+                                       placeholder="必填，不可重复" ws-unique="app/activity/config/criterion/exist?name"
+                                       required
+                                       maxlength="64"><span class="glyphicon glyphicon-remove form-control-feedback"
+                                                            aria-hidden="true"
+                                                            ng-show="addForm.name.$dirty && addForm.name.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <img ng-show="addForm.name.uniqueAajax" alt="" style="width: 16px; height: 16px;"
+                                     src="resources/image/wait.gif">
+                                <p ng-show="addForm.name.$dirty && addForm.name.$invalid" class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;
+                                    <span ng-show="addForm.name.$error.required">不能为空</span>
+                                    <span ng-show="addForm.name.$error.unique">名称重复</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="add-description">描述</label>
+                            <div class="col-sm-7">
+                                <input id="add-description" name="description" type="text"
+                                       class="form-control  input-sm"
+                                       ng-model="criterion.description" placeholder="简要说明" maxlength="50">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="reset()">清空</button>
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal" ng-click="reset()">关闭
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="add()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">编辑形审标准</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="editGroup" name="editForm" novalidate>
+                        <div class="form-group"
+                             ng-class="{'has-error has-feedback' : editForm.name.$dirty && editForm.name.$invalid}">
+                            <label class="col-sm-2 control-label" for="add-name">名称</label>
+                            <div class="col-sm-7">
+                                <input id="edit-name" name="name" type="text" class="form-control input-sm"
+                                       ng-model="criterion.name" placeholder="必填，不可重复"
+                                       ws-unique="app/activity/config/criterion/exist?name" required maxlength="64">
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
+                                      ng-show="editForm.name.$dirty && editForm.name.$invalid"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <img ng-show="editForm.name.uniqueAajax" alt="" style="width: 16px; height: 16px;"
+                                     src="resources/image/wait.gif">
+                                <p ng-show="editForm.name.$dirty && editForm.name.$invalid" class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;
+                                    <span ng-show="editForm.name.$error.required">不能为空</span>
+                                    <span ng-show="editForm.name.$error.unique">名称重复</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="edit-description">描述</label>
+                            <div class="col-sm-7">
+                                <input id="edit-description" name="description" type="text"
+                                       class="form-control input-sm"
+                                       ng-model="criterion.description" placeholder="简要说明" maxlength="50">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="reset()">清空</button>
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal" ng-click="reset()">关闭
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="edit()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
