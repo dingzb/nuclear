@@ -1,10 +1,12 @@
 package cc.idiary.nuclear.entity.selection;
 
+import cc.idiary.nuclear.entity.BaseEntity;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "sel_award_criterion")
-public class AwardCriterionEntity {
+public class AwardCriterionEntity extends BaseEntity {
 
     private String name;
     private String criterion;

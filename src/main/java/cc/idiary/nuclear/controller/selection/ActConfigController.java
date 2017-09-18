@@ -3,10 +3,14 @@ package cc.idiary.nuclear.controller.selection;
 import cc.idiary.nuclear.controller.BaseController;
 import cc.idiary.nuclear.model.Json;
 import cc.idiary.nuclear.model.selection.ActivityModel;
+import cc.idiary.nuclear.model.selection.AwardModel;
 import cc.idiary.nuclear.model.selection.CheckCriterionModel;
+import cc.idiary.nuclear.query.selection.AwardQuery;
 import cc.idiary.nuclear.query.selection.CheckCriterionQuery;
 import cc.idiary.nuclear.service.ServiceException;
 import cc.idiary.nuclear.service.selection.ActivityService;
+import cc.idiary.nuclear.service.selection.AwardService;
+import cc.idiary.nuclear.service.selection.AwardTypeService;
 import cc.idiary.nuclear.service.selection.CheckCriterionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,13 +23,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ActConfigController extends BaseController {
     private final ActivityService activityService;
     private final CheckCriterionService checkCriterionService;
+    private final AwardService awardService;
+    private final AwardTypeService awardTypeService;
 
     @Autowired
-    public ActConfigController(ActivityService activityService, CheckCriterionService checkCriterionService) {
+    public ActConfigController(ActivityService activityService, CheckCriterionService checkCriterionService, AwardService awardService, AwardTypeService awardTypeService) {
         this.activityService = activityService;
         this.checkCriterionService = checkCriterionService;
+        this.awardService = awardService;
+        this.awardTypeService = awardTypeService;
     }
 
+    //////// create activity
     /**
      * 创建活动
      *
@@ -34,7 +43,7 @@ public class ActConfigController extends BaseController {
      */
     @RequestMapping("create/create")
     @ResponseBody
-    public Json create(ActivityModel activity) {
+    public Json createActivity(ActivityModel activity) {
         try {
             activityService.create(activity);
             return success("创建成功");
@@ -45,7 +54,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("create/list")
     @ResponseBody
-    public Json list() {
+    public Json listActivity() {
         try {
             return success(activityService.list());
         } catch (ServiceException e) {
@@ -53,9 +62,10 @@ public class ActConfigController extends BaseController {
         }
     }
 
+    //// 审核标准
     @RequestMapping("check/criterion/paging")
     @ResponseBody
-    public Json checkCriterionPaging(CheckCriterionQuery query){
+    public Json pagingCheckCriterion(CheckCriterionQuery query){
         try {
             return success(checkCriterionService.paging(query));
         } catch (ServiceException e) {
@@ -98,9 +108,73 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("check/criterion/exist")
     @ResponseBody
-    public Json criterionExistByName(String name){
+    public Json existByNameCriterion(String name){
         try {
             return success(checkCriterionService.existByName(name));
+        } catch (ServiceException e) {
+            return fail();
+        }
+    }
+
+    //////奖项管理
+    @RequestMapping("award/paging")
+    @ResponseBody
+    public Json pagingAward(AwardQuery query){
+        try {
+            return success(awardService.paging(query));
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("award/add")
+    @ResponseBody
+    public Json addAward(AwardModel award){
+        try {
+            awardService.add(award);
+            return success("添加成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("award/edit")
+    @ResponseBody
+    public Json editAward(AwardModel award){
+        try {
+            awardService.edit(award);
+            return success("编辑成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("award/del")
+    @ResponseBody
+    public Json delAward(@RequestParam("ids[]") String[] ids){
+        try {
+            awardService.del(ids);
+            return success("删除成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("award/exist")
+    @ResponseBody
+    public Json existByNameAward(String name){
+        try {
+            return success(awardService.existByName(name));
+        } catch (ServiceException e) {
+            return fail();
+        }
+    }
+
+    @RequestMapping("award/type/list")
+    @ResponseBody
+    public Json listAwardType(){
+        try {
+            return success(awardTypeService.list());
         } catch (ServiceException e) {
             return fail();
         }

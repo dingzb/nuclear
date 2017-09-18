@@ -28,6 +28,7 @@ public class ActivityEntity extends BaseEntity implements Serializable {
     private StageEntity finishStage;
 
     private Set<CheckCriterionEntity> checkCriterion;
+    private Set<AwardEntity> awards;
 
     @Column(name = "name", length = 64)
     public String getName() {
@@ -146,12 +147,21 @@ public class ActivityEntity extends BaseEntity implements Serializable {
         this.finishStage = finishStage;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "activity")
     public Set<CheckCriterionEntity> getCheckCriterion() {
         return checkCriterion;
     }
 
     public void setCheckCriterion(Set<CheckCriterionEntity> checkCriterion) {
         this.checkCriterion = checkCriterion;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "activity")
+    public Set<AwardEntity> getAwards() {
+        return awards;
+    }
+
+    public void setAwards(Set<AwardEntity> awards) {
+        this.awards = awards;
     }
 }

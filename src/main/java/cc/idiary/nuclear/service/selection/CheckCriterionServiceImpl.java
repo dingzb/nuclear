@@ -49,12 +49,12 @@ public class CheckCriterionServiceImpl extends BaseServiceImpl<CheckCriterionEnt
             List<CheckCriterionEntity> cces = checkCriterionDao.paging(query);
             for (CheckCriterionEntity cce : cces) {
                 CheckCriterionModel ccm = new CheckCriterionModel();
-                UserEntity creator = cce.getCreateUser();
-                if (creator != null) {
-                    BeanUtils.copyProperties(cce, ccm);
-                    ccm.setCreateUserName(creator.getName());
-                    ccm.setCreateUserId(creator.getId());
-                }
+                BeanUtils.copyProperties(cce, ccm);
+//                UserEntity creator = cce.getCreateUser();
+//                if (creator != null) {
+//                    ccm.setCreateUserName(creator.getName());
+//                    ccm.setCreateUserId(creator.getId());
+//                }
                 ccms.add(ccm);
             }
             page.setRows(ccms);

@@ -1,9 +1,8 @@
 package cc.idiary.nuclear.query.selection;
 
-public class CheckCriterionQuery extends SelectionBaseQuery {
+public class AwardQuery extends SelectionBaseQuery {
     private String name;
     private String activityId;
-
 
     public String getName() {
         return name;
@@ -20,6 +19,4 @@ public class CheckCriterionQuery extends SelectionBaseQuery {
     public void setActivityId(String activityId) {
         this.activityId = activityId;
     }
-
-
 }
