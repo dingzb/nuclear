@@ -7,6 +7,8 @@ import cc.idiary.nuclear.query.selection.AwardQuery;
 import cc.idiary.nuclear.service.BaseService;
 import cc.idiary.nuclear.service.ServiceException;
 
+import javax.transaction.Transactional;
+
 public interface AwardService extends BaseService<AwardEntity> {
     /**
      * 分页数据
@@ -38,7 +40,16 @@ public interface AwardService extends BaseService<AwardEntity> {
     void edit(AwardModel award) throws ServiceException;
 
     /**
+     * 更新奖项等级配置
+     *
+     * @param award
+     * @throws ServiceException
+     */
+    void updateLevel(AwardModel award) throws ServiceException;
+
+    /**
      * 根据名称判断是否存在
+     *
      * @param name
      * @return
      * @throws ServiceException

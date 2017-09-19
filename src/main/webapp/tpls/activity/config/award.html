@@ -24,7 +24,7 @@
                     <button class="btn btn-info btn-sm" type="button" ng-click="showLevel()"
                             ws-permcode="system.permission.group.add">配置等级
                     </button>
-                    <button class="btn btn-info btn-sm" type="button" ng-click="showAdd()"
+                    <button class="btn btn-info btn-sm" type="button" ng-click="showCriterion()"
                             ws-permcode="system.permission.group.add">配置标准
                     </button>
                 </div>
@@ -180,36 +180,182 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="first-level">一等奖</label>
                             <div class="col-sm-9">
-                                <textarea id="first-level" name="name" class="form-control" maxlength="1024" style="height: 110px; resize: none;"></textarea>
+                                <textarea id="first-level" name="name" class="form-control" maxlength="1024" ng-model="award.first" style="height: 110px; resize: none;"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="first-level">二等奖</label>
+                            <label class="col-sm-2 control-label" for="second-level">二等奖</label>
                             <div class="col-sm-9">
-                                <textarea id="second-level" name="name" class="form-control" maxlength="1024" style="height: 110px; resize: none;"></textarea>
+                                <textarea id="second-level" name="name" class="form-control" maxlength="1024" ng-model="award.second" style="height: 110px; resize: none;"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="first-level">三等奖</label>
+                            <label class="col-sm-2 control-label" for="third-level">三等奖</label>
                             <div class="col-sm-9">
-                                <textarea id="third-level" name="name" class="form-control" maxlength="1024" style="height: 110px; resize: none;"></textarea>
+                                <textarea id="third-level" name="name" class="form-control" maxlength="1024" ng-model="award.third" style="height: 110px; resize: none;"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="first-level">不授</label>
+                            <label class="col-sm-2 control-label" for="deny-level">不授</label>
                             <div class="col-sm-9">
-                                <textarea id="deny-level" name="name" class="form-control" maxlength="1024" style="height: 110px; resize: none;"></textarea>
+                                <textarea id="deny-level" name="name" class="form-control" maxlength="1024" ng-model="award.deny" style="height: 110px; resize: none;"></textarea>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info btn-sm" ng-click="reset()">清空</button>
                     <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">关闭
                     </button>
-                    <button type="button" class="btn btn-info btn-sm" ng-click="add()">保存</button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="updateLevel()">保存</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="levelDetailModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">配置奖项等级</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="detailLevel" name="detailLevelForm" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="first-level-detail" style="text-align: right">一等奖</label>
+                            <div class="col-sm-9">
+                                <span id="first-level-detail" ng-bind="award.first"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="second-level-detail" style="text-align: right">二等奖</label>
+                            <div class="col-sm-9">
+                                <span id="second-level-detail" ng-bind="award.second"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="third-level-detail" style="text-align: right">三等奖</label>
+                            <div class="col-sm-9">
+                                <span id="third-level-detail" ng-bind="award.third"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="deny-level-detail" style="text-align: right">不授</label>
+                            <div class="col-sm-9">
+                                <span id="deny-level-detail" ng-bind="award.deny"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="criterionModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">配置奖项标准</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="padding-left:  10px; padding-right: 10px;">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%">名称</th>
+                                    <th style="width: 54%">打分标准</th>
+                                    <th style="width: 8%">权重</th>
+                                    <th style="width: 8%">操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="criterion in awardCriteria">
+                                <td style="vertical-align: middle;">
+                                    <span ng-show="!(editCriterionId === criterion.id)" ng-bind="criterion.name"></span>
+                                    <label for="name_{{criterion.id}}" class="sr-only"></label>
+                                    <input ng-show="editCriterionId === criterion.id"  ng-model="eCriterion.name" type="text" class="form-control input-sm" id="name_{{criterion.id}}"/>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <span ng-show="!(editCriterionId === criterion.id)" ng-bind="criterion.criterion"></span>
+                                    <label for="criterion_{{criterion.id}}" class="sr-only"></label>
+                                    <textarea ng-show="editCriterionId === criterion.id" ng-model="eCriterion.criterion" id="criterion_{{criterion.id}}" class="form-control" style="height: 100px; resize: none;"></textarea>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <span ng-show="!(editCriterionId === criterion.id)" ng-bind="criterion.percent"></span>
+                                    <label for="percent_{{criterion.id}}" class="sr-only"></label>
+                                    <input ng-show="editCriterionId === criterion.id" type="text" ng-model="eCriterion.percent" class="form-control input-sm" id="percent_{{criterion.id}}"/>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <div ng-show="!(editCriterionId === criterion.id)">
+                                        <button type="button" class="btn btn-link btn-sm" title="删除" style="padding: 0 3px">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                        <button ng-click="showEditCriterion(criterion)" type="button" class="btn btn-link btn-sm" title="编辑" style="padding: 0 3px">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </div>
+                                    <div ng-show="editCriterionId === criterion.id">
+                                        <button ng-click="editCriterion()" type="button" class="btn btn-link btn-sm" title="保存" style="padding: 0 3px">
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                        <button ng-click="cancelEditCriterion()" type="button" class="btn btn-link btn-sm" title="取消" style="padding: 0 3px">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr ng-show="isAddCriterion"><td colspan="4"></td></tr>
+                            <tr style="background-color: #f2f2f2;" ng-show="isAddCriterion">
+                                <td style="vertical-align: middle;">
+                                    <label for="name_new" class="sr-only"></label>
+                                    <input type="text" class="form-control input-sm" ng-model="criterion.name" id="name_new"/>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <label for="criterion_new" class="sr-only"></label>
+                                    <textarea id="criterion_new" class="form-control" ng-model="criterion.criterion" style="height: 100px; resize: none;"></textarea>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <label for="percent_new" class="sr-only"></label>
+                                    <input type="text" class="form-control input-sm" id="percent_new" ng-model="criterion.percent"/>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        <button type="button" class="btn btn-link btn-sm" title="保存" ng-click="addCriterion()" style="padding: 0 3px">
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-link btn-sm" title="取消" ng-click="cancelAddCriterion()" style="padding: 0 3px">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <button type="button" class="btn btn-link btn-sm" title="添加" ng-click="showAddCriterion()" style="padding: 0 3px">
+                                        <span style="padding-right: 5px;">添加</span><span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

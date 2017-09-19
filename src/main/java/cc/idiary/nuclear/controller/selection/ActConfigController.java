@@ -3,15 +3,13 @@ package cc.idiary.nuclear.controller.selection;
 import cc.idiary.nuclear.controller.BaseController;
 import cc.idiary.nuclear.model.Json;
 import cc.idiary.nuclear.model.selection.ActivityModel;
+import cc.idiary.nuclear.model.selection.AwardCriterionModel;
 import cc.idiary.nuclear.model.selection.AwardModel;
 import cc.idiary.nuclear.model.selection.CheckCriterionModel;
 import cc.idiary.nuclear.query.selection.AwardQuery;
 import cc.idiary.nuclear.query.selection.CheckCriterionQuery;
 import cc.idiary.nuclear.service.ServiceException;
-import cc.idiary.nuclear.service.selection.ActivityService;
-import cc.idiary.nuclear.service.selection.AwardService;
-import cc.idiary.nuclear.service.selection.AwardTypeService;
-import cc.idiary.nuclear.service.selection.CheckCriterionService;
+import cc.idiary.nuclear.service.selection.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +23,15 @@ public class ActConfigController extends BaseController {
     private final CheckCriterionService checkCriterionService;
     private final AwardService awardService;
     private final AwardTypeService awardTypeService;
+    private final AwardCriterionService awardCriterionService;
 
     @Autowired
-    public ActConfigController(ActivityService activityService, CheckCriterionService checkCriterionService, AwardService awardService, AwardTypeService awardTypeService) {
+    public ActConfigController(ActivityService activityService, CheckCriterionService checkCriterionService, AwardService awardService, AwardTypeService awardTypeService, AwardCriterionService awardCriterionService) {
         this.activityService = activityService;
         this.checkCriterionService = checkCriterionService;
         this.awardService = awardService;
         this.awardTypeService = awardTypeService;
+        this.awardCriterionService = awardCriterionService;
     }
 
     //////// create activity
@@ -177,6 +177,60 @@ public class ActConfigController extends BaseController {
             return success(awardTypeService.list());
         } catch (ServiceException e) {
             return fail();
+        }
+    }
+
+    @RequestMapping("award/level/edit")
+    @ResponseBody
+    public Json editAwardLevel(AwardModel award){
+        try {
+            awardService.updateLevel(award);
+            return success("更新奖项等级成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("award/criterion/list")
+    @ResponseBody
+    public Json listAwardCriterion(@RequestParam("awardId") String awardId){
+        try {
+            return success(awardCriterionService.listByAward(awardId));
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("award/criterion/add")
+    @ResponseBody
+    public Json addAwardCriterion(AwardCriterionModel awardCriterion){
+        try {
+            awardCriterionService.add(awardCriterion);
+            return success("添加成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("award/criterion/edit")
+    @ResponseBody
+    public Json editAwardCriterion(AwardCriterionModel awardCriterion){
+        try {
+            awardCriterionService.edit(awardCriterion);
+            return success("编辑成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("award/criterion/del")
+    @ResponseBody
+    public Json delAwardCriterion(@RequestParam("ids[]") String[] ids){
+        try {
+            awardCriterionService.del(ids);
+            return success("删除成功");
+        } catch (ServiceException e) {
+            return fail(e);
         }
     }
 }

@@ -132,6 +132,39 @@ public class AwardServiceImpl extends BaseServiceImpl<AwardEntity> implements Aw
 
     @Override
     @Transactional
+    public void updateLevel(AwardModel award) throws ServiceException {
+        if (StringTools.isEmpty(award.getId())){
+            throw new ServiceException("奖项不存在");
+        }
+
+        AwardEntity ae = null;
+        try {
+            ae = awardDao.getById(award.getId());
+        } catch (Exception e) {
+            logger.error("", e);
+            throw new ServiceException();
+        }
+        if (ae == null) {
+            throw new ServiceException("奖项不存在");
+        }
+
+        activityCheck(ae.getActivity().getId());
+
+        ae.setFirst(award.getFirst());
+        ae.setSecond(award.getSecond());
+        ae.setThird(award.getThird());
+        ae.setDeny(award.getDeny());
+
+        try {
+            awardDao.update(ae);
+        } catch (Exception e) {
+            logger.error("", e);
+            throw new ServiceException();
+        }
+    }
+
+    @Override
+    @Transactional
     public boolean existByName(String name) throws ServiceException {
         try {
             return awardDao.existByName(name);
