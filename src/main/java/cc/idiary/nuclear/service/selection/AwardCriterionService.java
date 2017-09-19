@@ -22,6 +22,6 @@ public interface AwardCriterionService extends BaseService<AwardCriterionEntity>
 
     void edit(AwardCriterionModel awardCriterion) throws ServiceException;
 
-    void del(String[] ids) throws ServiceException;
+    void del(String id) throws ServiceException;
 
 }

@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service("awardCriterionService")
@@ -52,7 +54,17 @@ public class AwardCriterionServiceImpl extends BaseServiceImpl<AwardCriterionEnt
         } catch (Exception e) {
             logger.error("", e);
         }
-
+        acms.sort((o1, o2) -> {
+            if (o1.getPercent() != null && o2.getPercent() != null) {
+                return o2.getPercent().compareTo(o1.getPercent());
+            } else if (o1.getPercent() == null && o2.getPercent() != null) {
+                return 1;
+            } else if (o1.getPercent() != null && o2.getPercent() == null) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
         return acms;
     }
 
@@ -62,13 +74,13 @@ public class AwardCriterionServiceImpl extends BaseServiceImpl<AwardCriterionEnt
         if (StringTools.isEmpty(awardCriterion.getAwardId())) {
             throw new ServiceException("关联奖项不能为空");
         }
-        if (StringTools.isEmpty(awardCriterion.getName())){
+        if (StringTools.isEmpty(awardCriterion.getName())) {
             throw new ServiceException("名称不能为空");
         }
-        if (StringTools.isEmpty(awardCriterion.getCriterion())){
+        if (StringTools.isEmpty(awardCriterion.getCriterion())) {
             throw new ServiceException("标准不能为空");
         }
-        if (StringTools.isEmpty(awardCriterion.getPercent())){
+        if (StringTools.isEmpty(awardCriterion.getPercent())) {
             throw new ServiceException("占比不能为空");
         }
 
@@ -91,7 +103,7 @@ public class AwardCriterionServiceImpl extends BaseServiceImpl<AwardCriterionEnt
             throw new ServiceException();
         }
 
-        if (activity == null){
+        if (activity == null) {
             throw new ServiceException("关联奖项所关联活动已经不存在");
         }
 
@@ -115,13 +127,13 @@ public class AwardCriterionServiceImpl extends BaseServiceImpl<AwardCriterionEnt
         if (StringTools.isEmpty(awardCriterion.getId())) {
             throw new ServiceException("Id不能为空");
         }
-        if (StringTools.isEmpty(awardCriterion.getName())){
+        if (StringTools.isEmpty(awardCriterion.getName())) {
             throw new ServiceException("名称不能为空");
         }
-        if (StringTools.isEmpty(awardCriterion.getCriterion())){
+        if (StringTools.isEmpty(awardCriterion.getCriterion())) {
             throw new ServiceException("标准不能为空");
         }
-        if (StringTools.isEmpty(awardCriterion.getPercent())){
+        if (StringTools.isEmpty(awardCriterion.getPercent())) {
             throw new ServiceException("占比不能为空");
         }
 
@@ -156,7 +168,7 @@ public class AwardCriterionServiceImpl extends BaseServiceImpl<AwardCriterionEnt
             throw new ServiceException();
         }
 
-        if (activity == null){
+        if (activity == null) {
             throw new ServiceException("关联奖项所关联活动已经不存在");
         }
 
@@ -172,12 +184,14 @@ public class AwardCriterionServiceImpl extends BaseServiceImpl<AwardCriterionEnt
     }
 
     @Override
-    public void del(String[] ids) throws ServiceException {
-        delete(ids);
+    @Transactional
+    public void del(String id) throws ServiceException {
+        awardCriterionDao.delByIds(new String[]{id});
     }
 
     /**
      * 判断活动状态是否满足添加或修改
+     *
      * @throws ServiceException
      */
     private void activityCheck(String activityId) throws ServiceException {

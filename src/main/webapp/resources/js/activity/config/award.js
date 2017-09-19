@@ -233,7 +233,7 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
     };
 
     $scope.addCriterion = function () {
-        if ($scope.criterion.percent.match(/^\d+$/) === null){
+        if (typeof $scope.criterion.percent === 'string' && $scope.criterion.percent.match(/^\d+$/) === null){
             $scope.alert('占比必须为数字','error');
             return;
         }
@@ -263,7 +263,7 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
     };
 
     $scope.editCriterion = function () {
-        if ($scope.eCriterion.percent.match(/^\d+$/) === null){
+        if (typeof $scope.criterion.percent === 'string' && $scope.eCriterion.percent.match(/^\d+$/) === null){
             $scope.alert('占比必须为数字','error');
             return;
         }
@@ -279,8 +279,23 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
         });
     };
 
-    $scope.delCriterion = function () {
-
+    $scope.delCriterion = function (criterion) {
+        $scope.confirm('确定删除[' + criterion.name + ']?', function (yn) {
+            if (!yn) {
+                return;
+            }
+            $http.post('app/activity/config/award/criterion/del', {
+                id: criterion.id
+            }).success(function (data) {
+                if (data.success) {
+                    refreshAwardCriterion($scope.criterion.awardId);
+                } else {
+                    $scope.alert(data.message, 'error');
+                }
+            }).error(function (data) {
+                $scope.alert(data.message, 'error');
+            });
+        });
     };
 
     angular.custom.award = {

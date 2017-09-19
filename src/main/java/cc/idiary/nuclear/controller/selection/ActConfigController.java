@@ -225,9 +225,9 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/criterion/del")
     @ResponseBody
-    public Json delAwardCriterion(@RequestParam("ids[]") String[] ids){
+    public Json delAwardCriterion(@RequestParam("id") String id){
         try {
-            awardCriterionService.del(ids);
+            awardCriterionService.del(id);
             return success("删除成功");
         } catch (ServiceException e) {
             return fail(e);

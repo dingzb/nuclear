@@ -81,10 +81,10 @@ angular.module('ws.basic', []).run(['$rootScope', function ($rootScope) {
             msg: msg,
             type: type,
             title: title,
-            fn: function () {
-                if (typeof fn == 'function') {
+            fn: function (yn) {
+                if (typeof fn === 'function') {
                     alert.on('hidden.bs.modal', function () {
-                        fn();
+                        fn(yn);
                     });
                 }
             }

@@ -279,14 +279,14 @@
                             <tbody>
                             <tr ng-repeat="criterion in awardCriteria">
                                 <td style="vertical-align: middle;">
-                                    <span ng-show="!(editCriterionId === criterion.id)" ng-bind="criterion.name"></span>
+                                    <div ng-show="!(editCriterionId === criterion.id)" ng-bind="criterion.name" style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:225px;"></div>
                                     <label for="name_{{criterion.id}}" class="sr-only"></label>
-                                    <input ng-show="editCriterionId === criterion.id"  ng-model="eCriterion.name" type="text" class="form-control input-sm" id="name_{{criterion.id}}"/>
+                                    <input ng-show="editCriterionId === criterion.id"  ng-model="eCriterion.name" maxlength="32" type="text" class="form-control input-sm" id="name_{{criterion.id}}"/>
                                 </td>
                                 <td style="vertical-align: middle;">
-                                    <span ng-show="!(editCriterionId === criterion.id)" ng-bind="criterion.criterion"></span>
+                                    <div ng-show="!(editCriterionId === criterion.id)" ng-bind="criterion.criterion" style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:460px;"></div>
                                     <label for="criterion_{{criterion.id}}" class="sr-only"></label>
-                                    <textarea ng-show="editCriterionId === criterion.id" ng-model="eCriterion.criterion" id="criterion_{{criterion.id}}" class="form-control" style="height: 100px; resize: none;"></textarea>
+                                    <textarea ng-show="editCriterionId === criterion.id" ng-model="eCriterion.criterion" id="criterion_{{criterion.id}}" maxlength="2048" class="form-control" style="height: 100px; resize: none;"></textarea>
                                 </td>
                                 <td style="vertical-align: middle;">
                                     <span ng-show="!(editCriterionId === criterion.id)" ng-bind="criterion.percent"></span>
@@ -295,7 +295,7 @@
                                 </td>
                                 <td style="vertical-align: middle;">
                                     <div ng-show="!(editCriterionId === criterion.id)">
-                                        <button type="button" class="btn btn-link btn-sm" title="删除" style="padding: 0 3px">
+                                        <button ng-click="delCriterion(criterion)" type="button" class="btn btn-link btn-sm" title="删除" style="padding: 0 3px">
                                             <span class="glyphicon glyphicon-trash"></span>
                                         </button>
                                         <button ng-click="showEditCriterion(criterion)" type="button" class="btn btn-link btn-sm" title="编辑" style="padding: 0 3px">
@@ -318,11 +318,11 @@
                             <tr style="background-color: #f2f2f2;" ng-show="isAddCriterion">
                                 <td style="vertical-align: middle;">
                                     <label for="name_new" class="sr-only"></label>
-                                    <input type="text" class="form-control input-sm" ng-model="criterion.name" id="name_new"/>
+                                    <input type="text" class="form-control input-sm" ng-model="criterion.name" maxlength="32" id="name_new"/>
                                 </td>
                                 <td style="vertical-align: middle;">
                                     <label for="criterion_new" class="sr-only"></label>
-                                    <textarea id="criterion_new" class="form-control" ng-model="criterion.criterion" style="height: 100px; resize: none;"></textarea>
+                                    <textarea id="criterion_new" class="form-control" ng-model="criterion.criterion" maxlength="4096" style="height: 100px; resize: none;"></textarea>
                                 </td>
                                 <td style="vertical-align: middle;">
                                     <label for="percent_new" class="sr-only"></label>

@@ -23,7 +23,7 @@ public class AwardCriterionEntity extends BaseEntity {
         this.name = name;
     }
 
-    @Column(name = "criterion", length = 1024)
+    @Column(name = "criterion", length = 4096)
     public String getCriterion() {
         return criterion;
     }
