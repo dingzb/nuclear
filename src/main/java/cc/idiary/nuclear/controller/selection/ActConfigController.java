@@ -35,6 +35,7 @@ public class ActConfigController extends BaseController {
     }
 
     //////// create activity
+
     /**
      * 创建活动
      *
@@ -62,10 +63,32 @@ public class ActConfigController extends BaseController {
         }
     }
 
+    //奖项显示配置
+    @RequestMapping("level/limit/get")
+    @ResponseBody
+    public Json getLevelLimit(String activityId) {
+        try {
+            return success(activityService.getLevelLimit(activityId));
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("level/limit/edit")
+    @ResponseBody
+    public Json editLevelLimit(ActivityModel activity) {
+        try {
+            activityService.editLevelLimit(activity);
+            return success("更新成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
     //// 审核标准
     @RequestMapping("check/criterion/paging")
     @ResponseBody
-    public Json pagingCheckCriterion(CheckCriterionQuery query){
+    public Json pagingCheckCriterion(CheckCriterionQuery query) {
         try {
             return success(checkCriterionService.paging(query));
         } catch (ServiceException e) {
@@ -75,7 +98,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("check/criterion/add")
     @ResponseBody
-    public Json addCheckCriterion(CheckCriterionModel checkCriterion){
+    public Json addCheckCriterion(CheckCriterionModel checkCriterion) {
         try {
             checkCriterionService.add(checkCriterion);
             return success("添加成功");
@@ -86,7 +109,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("check/criterion/edit")
     @ResponseBody
-    public Json editCheckCriterion(CheckCriterionModel checkCriterion){
+    public Json editCheckCriterion(CheckCriterionModel checkCriterion) {
         try {
             checkCriterionService.edit(checkCriterion);
             return success("编辑成功");
@@ -97,7 +120,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("check/criterion/del")
     @ResponseBody
-    public Json delCheckCriterion(@RequestParam("ids[]") String[] ids){
+    public Json delCheckCriterion(@RequestParam("ids[]") String[] ids) {
         try {
             checkCriterionService.del(ids);
             return success("删除成功");
@@ -108,7 +131,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("check/criterion/exist")
     @ResponseBody
-    public Json existByNameCriterion(String name){
+    public Json existByNameCriterion(String name) {
         try {
             return success(checkCriterionService.existByName(name));
         } catch (ServiceException e) {
@@ -119,7 +142,7 @@ public class ActConfigController extends BaseController {
     //////奖项管理
     @RequestMapping("award/paging")
     @ResponseBody
-    public Json pagingAward(AwardQuery query){
+    public Json pagingAward(AwardQuery query) {
         try {
             return success(awardService.paging(query));
         } catch (ServiceException e) {
@@ -129,7 +152,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/add")
     @ResponseBody
-    public Json addAward(AwardModel award){
+    public Json addAward(AwardModel award) {
         try {
             awardService.add(award);
             return success("添加成功");
@@ -140,7 +163,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/edit")
     @ResponseBody
-    public Json editAward(AwardModel award){
+    public Json editAward(AwardModel award) {
         try {
             awardService.edit(award);
             return success("编辑成功");
@@ -151,7 +174,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/del")
     @ResponseBody
-    public Json delAward(@RequestParam("ids[]") String[] ids){
+    public Json delAward(@RequestParam("ids[]") String[] ids) {
         try {
             awardService.del(ids);
             return success("删除成功");
@@ -162,7 +185,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/exist")
     @ResponseBody
-    public Json existByNameAward(String name){
+    public Json existByNameAward(String name) {
         try {
             return success(awardService.existByName(name));
         } catch (ServiceException e) {
@@ -172,7 +195,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/type/list")
     @ResponseBody
-    public Json listAwardType(){
+    public Json listAwardType() {
         try {
             return success(awardTypeService.list());
         } catch (ServiceException e) {
@@ -182,7 +205,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/level/edit")
     @ResponseBody
-    public Json editAwardLevel(AwardModel award){
+    public Json editAwardLevel(AwardModel award) {
         try {
             awardService.updateLevel(award);
             return success("更新奖项等级成功");
@@ -193,7 +216,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/criterion/list")
     @ResponseBody
-    public Json listAwardCriterion(@RequestParam("awardId") String awardId){
+    public Json listAwardCriterion(@RequestParam("awardId") String awardId) {
         try {
             return success(awardCriterionService.listByAward(awardId));
         } catch (ServiceException e) {
@@ -203,7 +226,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/criterion/add")
     @ResponseBody
-    public Json addAwardCriterion(AwardCriterionModel awardCriterion){
+    public Json addAwardCriterion(AwardCriterionModel awardCriterion) {
         try {
             awardCriterionService.add(awardCriterion);
             return success("添加成功");
@@ -214,7 +237,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/criterion/edit")
     @ResponseBody
-    public Json editAwardCriterion(AwardCriterionModel awardCriterion){
+    public Json editAwardCriterion(AwardCriterionModel awardCriterion) {
         try {
             awardCriterionService.edit(awardCriterion);
             return success("编辑成功");
@@ -225,7 +248,7 @@ public class ActConfigController extends BaseController {
 
     @RequestMapping("award/criterion/del")
     @ResponseBody
-    public Json delAwardCriterion(@RequestParam("id") String id){
+    public Json delAwardCriterion(@RequestParam("id") String id) {
         try {
             awardCriterionService.del(id);
             return success("删除成功");

@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service("activityService")
 public class ActivityServiceImpl extends BaseServiceImpl<ActivityEntity> implements ActivityService {
@@ -108,6 +109,60 @@ public class ActivityServiceImpl extends BaseServiceImpl<ActivityEntity> impleme
             }
             return actms;
         } catch (Exception e) {
+            throw new ServiceException();
+        }
+    }
+
+    @Override
+    @Transactional
+    public ActivityModel getLevelLimit(String id) throws ServiceException {
+        ActivityEntity curActe = null;
+        try {
+            curActe = activityDao.current();
+        } catch (Exception e) {
+            logger.error("", e);
+            throw new ServiceException();
+        }
+        if (curActe == null || !id.equals(curActe.getId())) {
+            throw new ServiceException("当前活动不是正在进行的活动");
+        }
+        if (curActe.getStage() >= ActivityStage.FINAL.getValue()) {
+            throw new ServiceException("当前活动已进行到终审阶段不能进行限制修改");
+        }
+        ActivityModel actm = new ActivityModel();
+        actm.setId(curActe.getId());
+        actm.setLimitFirst(curActe.getLimitFirst());
+        actm.setLimitSecond(curActe.getLimitSecond());
+        return actm;
+    }
+
+    @Override
+    @Transactional
+    public void editLevelLimit(ActivityModel activity) throws ServiceException {
+        if (StringTools.isEmpty(activity.getId())){
+            throw new ServiceException("指定活动不存在");
+        }
+        ActivityEntity curActe = null;
+        try {
+            curActe = activityDao.current();
+        } catch (Exception e) {
+            logger.error("", e);
+            throw new ServiceException();
+        }
+        if (curActe == null || !curActe.getId().equals(activity.getId())) {
+            throw new ServiceException("当前活动不是正在进行的活动");
+        }
+        if (curActe.getStage() >= ActivityStage.FINAL.getValue()) {
+            throw new ServiceException("当前活动已进行到终审阶段不能进行限制修改");
+        }
+
+        curActe.setLimitFirst(activity.getLimitFirst());
+        curActe.setLimitSecond(activity.getLimitSecond());
+
+        try {
+            activityDao.update(curActe);
+        } catch (Exception e) {
+            logger.error("", e);
             throw new ServiceException();
         }
     }

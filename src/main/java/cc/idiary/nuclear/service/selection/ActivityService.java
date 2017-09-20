@@ -6,6 +6,7 @@ import cc.idiary.nuclear.service.BaseService;
 import cc.idiary.nuclear.service.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ActivityService extends BaseService<ActivityEntity> {
 
@@ -33,6 +34,21 @@ public interface ActivityService extends BaseService<ActivityEntity> {
      * @throws ServiceException
      */
     List<ActivityModel> list() throws ServiceException;
-//    List<StageModel> stages();
+
+    /**
+     * 获取活动的奖项等级配置
+     *
+     * @return
+     * @throws ServiceException
+     */
+    ActivityModel getLevelLimit(String id) throws ServiceException;
+
+    /**
+     * 更新活动奖项等级限制
+     *
+     * @param activity
+     * @throws ServiceException
+     */
+    void editLevelLimit(ActivityModel activity) throws ServiceException;
 
 }

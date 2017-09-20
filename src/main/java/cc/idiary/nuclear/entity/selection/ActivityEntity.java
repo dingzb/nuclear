@@ -15,7 +15,8 @@ public class ActivityEntity extends BaseEntity implements Serializable {
     private String name;
     private Date createTime;
     private UserEntity createUser;
-
+    private Integer limitFirst;
+    private Integer limitSecond;
     private Integer stage;  //当前活动阶段
 
     private StageEntity startStage;
@@ -29,6 +30,9 @@ public class ActivityEntity extends BaseEntity implements Serializable {
 
     private Set<CheckCriterionEntity> checkCriterion;
     private Set<AwardEntity> awards;
+    private Set<CategoryGroupEntity> categoryGroups;
+    private Set<ExpertEntity> experts;
+
 
     @Column(name = "name", length = 64)
     public String getName() {
@@ -65,6 +69,24 @@ public class ActivityEntity extends BaseEntity implements Serializable {
 
     public void setStage(Integer stage) {
         this.stage = stage;
+    }
+
+    @Column(name = "limit_first")
+    public Integer getLimitFirst() {
+        return limitFirst;
+    }
+
+    public void setLimitFirst(Integer limitFirst) {
+        this.limitFirst = limitFirst;
+    }
+
+    @Column(name = "limit_second")
+    public Integer getLimitSecond() {
+        return limitSecond;
+    }
+
+    public void setLimitSecond(Integer limitSecond) {
+        this.limitSecond = limitSecond;
     }
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -163,5 +185,23 @@ public class ActivityEntity extends BaseEntity implements Serializable {
 
     public void setAwards(Set<AwardEntity> awards) {
         this.awards = awards;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "activity")
+    public Set<CategoryGroupEntity> getCategoryGroups() {
+        return categoryGroups;
+    }
+
+    public void setCategoryGroups(Set<CategoryGroupEntity> categoryGroups) {
+        this.categoryGroups = categoryGroups;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "activity")
+    public Set<ExpertEntity> getExperts() {
+        return experts;
+    }
+
+    public void setExperts(Set<ExpertEntity> experts) {
+        this.experts = experts;
     }
 }
