@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-09-18 10:50:25
+Date: 2017-09-21 23:02:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,6 +34,8 @@ CREATE TABLE `sel_activity` (
   `stage_start_id` varchar(32) DEFAULT NULL,
   `create_user_id` varchar(32) DEFAULT NULL,
   `check_criterion_id` varchar(32) DEFAULT NULL,
+  `limit_first` int(11) DEFAULT NULL,
+  `limit_second` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_rd3xgn3wbwj69fhoqs570y373` (`stage_check_id`),
   KEY `FK_43ateiehp4vetqsn4n739bic0` (`stage_commit_id`),
@@ -57,8 +59,33 @@ CREATE TABLE `sel_activity` (
 -- ----------------------------
 -- Records of sel_activity
 -- ----------------------------
-INSERT INTO `sel_activity` VALUES ('432646DB5D9043C78CE97C48634D0B4C', '2017-09-15 17:22:05', '2000年度中国核能行业协会科学技术奖专业评审会', '70', null, null, null, null, null, null, null, '5306BEBDAE194F9AB501D9088877C5FE', '226922F736C74B66A88F99BFB27574A6', null);
-INSERT INTO `sel_activity` VALUES ('D228E547A60A468791E59487223D4361', '2017-09-16 10:22:04', '2017年度中国核能行业协会科学技术奖专业评审会', '0', null, null, null, null, null, null, null, '8E3D21E0305848EAA5C8A281A8B4AFE5', '226922F736C74B66A88F99BFB27574A6', null);
+INSERT INTO `sel_activity` VALUES ('432646DB5D9043C78CE97C48634D0B4C', '2017-09-15 17:22:05', '2000年度中国核能行业协会科学技术奖专业评审会', '70', null, null, null, null, null, null, null, '5306BEBDAE194F9AB501D9088877C5FE', '226922F736C74B66A88F99BFB27574A6', null, null, null);
+INSERT INTO `sel_activity` VALUES ('D228E547A60A468791E59487223D4361', '2017-09-16 10:22:04', '2017年度中国核能行业协会科学技术奖专业评审会', '0', null, null, null, null, null, null, null, '8E3D21E0305848EAA5C8A281A8B4AFE5', '226922F736C74B66A88F99BFB27574A6', null, '312', '51');
+INSERT INTO `sel_activity` VALUES ('F76F6493957C47618F03BD6282532423', '2017-09-20 10:57:09', '2018年度中国核能行业协会科学技术奖专业评审会', '70', null, null, null, null, null, null, null, '731C29042DBF483B98E1BA48651086BE', '226922F736C74B66A88F99BFB27574A6', null, null, null);
+
+-- ----------------------------
+-- Table structure for sel_award_criterion
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_award_criterion`;
+CREATE TABLE `sel_award_criterion` (
+  `id` varchar(32) NOT NULL,
+  `criterion` varchar(4096) DEFAULT NULL,
+  `name` varchar(64) DEFAULT NULL,
+  `percent` int(11) DEFAULT NULL,
+  `award_id` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_ah81bjdiai4g8mh3ur3wmaoio` (`award_id`),
+  CONSTRAINT `FK_ah81bjdiai4g8mh3ur3wmaoio` FOREIGN KEY (`award_id`) REFERENCES `sel_awards` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sel_award_criterion
+-- ----------------------------
+INSERT INTO `sel_award_criterion` VALUES ('41A942828CC9446EBE93D498CBB09AD4', '5-4分档：产生很大的社会效益和经济效益 \n3分档：产生显著的社会效益 \n2-1分档：有一定的社会效益', '社会或经济效益', '15', '53F207A36373488B92E2143ADC10E00A');
+INSERT INTO `sel_award_criterion` VALUES ('6936342B7F7D4539AB3DCCC8AEEF949D', '5-4分档：技术思路独特，难度大或很复杂 \n3分档：技术难度较大或复杂 \n2-1分档：有一定的技术难度或复杂程度', '技术发明难易或复杂程度', '25', '53F207A36373488B92E2143ADC10E00A');
+INSERT INTO `sel_award_criterion` VALUES ('A5DBF7EF230A4593AFA0EA58FD057EB8', '5-4分档：属国内外首创，技术思路新颖，技术上有重大创新，有发明专利 \n3分档：属国内外首创，技术思路较新颖，技术上有较大创新 \n2-1分档：属国内外首创，技术思路有特点，技术上有明显创新', '技术发明创新程度', '30', '53F207A36373488B92E2143ADC10E00A');
+INSERT INTO `sel_award_criterion` VALUES ('DF5383974EC04E97A4C2BF164B85FE95', '5-4分档：对核能科技进步有重大推动作用，应用效果和前景十分突出 \n3分档：对核能科技进步有较大推动作用，应用效果和前景突出 \n2-1分档：对核能科技进步有一定推动作用，有应用效果和前景', '应用情况、效果及科学技术价值', '15', '53F207A36373488B92E2143ADC10E00A');
+INSERT INTO `sel_award_criterion` VALUES ('EF2A1655868C494F952A46BE65AFF54F', '5-4分档：技术经济指标达到同类技术领先水平 \n3分档：技术经济指标达到同类技术先进水平 \n2-1分档：技术经济指标达到同类技术较先进水平', '技术经济指标的先进程度', '15', '53F207A36373488B92E2143ADC10E00A');
 
 -- ----------------------------
 -- Table structure for sel_awards
@@ -69,14 +96,27 @@ CREATE TABLE `sel_awards` (
   `description` varchar(255) DEFAULT NULL,
   `name` varchar(64) DEFAULT NULL,
   `type_id` varchar(32) DEFAULT NULL,
+  `deny` varchar(1024) DEFAULT NULL,
+  `first` varchar(1024) DEFAULT NULL,
+  `second` varchar(1024) DEFAULT NULL,
+  `third` varchar(1024) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `activity_id` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_fgtvopp1c8eimmy6dm62aai7g` (`type_id`),
+  KEY `FK_6g93bfxcu5k6maw18xasm798r` (`activity_id`),
+  CONSTRAINT `FK_6g93bfxcu5k6maw18xasm798r` FOREIGN KEY (`activity_id`) REFERENCES `sel_activity` (`id`),
   CONSTRAINT `FK_fgtvopp1c8eimmy6dm62aai7g` FOREIGN KEY (`type_id`) REFERENCES `sel_awards_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sel_awards
 -- ----------------------------
+INSERT INTO `sel_awards` VALUES ('44CA10884EB249B8A76D62A9238DB6F6', '技术开发', '技术开发', 'BA35E3FB0C0E41EDA46F1553202CE264', null, null, null, null, '2017-09-20 10:13:05', 'D228E547A60A468791E59487223D4361');
+INSERT INTO `sel_awards` VALUES ('5219B9558A34445FB704B8DC6241B5C3', '科普项目', '科普项目', 'BA35E3FB0C0E41EDA46F1553202CE264', null, null, null, null, '2017-09-20 10:13:36', 'D228E547A60A468791E59487223D4361');
+INSERT INTO `sel_awards` VALUES ('53F207A36373488B92E2143ADC10E00A', '技术发明', '技术发明', '0EDF0F8480824DB3874951678DF34C70', '无多大创新，国内一般水平；技术难度或复杂程度一般；技术经济指标先进性不明显；社会效益和经济效益不明显。', '属国内外首创，技术思路新颖，技术上有重大创新，有发明专利;技术思路独特，难度大或很复杂;技术经济指标达到同类技术领先水平;产生很大的社会效益和经济效益，对核能科技进步有重大推动作用，应用效果和前景十分突出。', '属国内外首创，技术思路较新颖，技术上有较大创新；技术难度较大或复杂；技术经济指标达到同类技术先进水平；产生显著的社会效益，对核能科技进步有较大推动作用，应用效果和前景突出。', '属国内外首创，技术思路有特点，技术上有明显创新；有一定的技术难度或复杂程度；技术经济指标达到同类技术较先进水平；有一定的社会 效益，对核能科技进步有一定推动作用，有应用效果和前景。', '2017-09-20 10:12:52', 'D228E547A60A468791E59487223D4361');
+INSERT INTO `sel_awards` VALUES ('860C2A10AF2A4D9791D22442A1646DB6', '技术基础', '技术基础', 'BA35E3FB0C0E41EDA46F1553202CE264', null, null, null, null, '2017-09-20 10:13:24', 'D228E547A60A468791E59487223D4361');
+INSERT INTO `sel_awards` VALUES ('EC9B1E5E59804414896F953C976106F5', '重大工程建设', '重大工程建设', 'BA35E3FB0C0E41EDA46F1553202CE264', null, null, null, null, '2017-09-20 10:13:15', 'D228E547A60A468791E59487223D4361');
 
 -- ----------------------------
 -- Table structure for sel_awards_type
@@ -92,6 +132,169 @@ CREATE TABLE `sel_awards_type` (
 -- ----------------------------
 -- Records of sel_awards_type
 -- ----------------------------
+INSERT INTO `sel_awards_type` VALUES ('0EDF0F8480824DB3874951678DF34C70', '技术发明', '技术发明');
+INSERT INTO `sel_awards_type` VALUES ('BA35E3FB0C0E41EDA46F1553202CE264', '科技进步', '科技进步');
+
+-- ----------------------------
+-- Table structure for sel_category
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_category`;
+CREATE TABLE `sel_category` (
+  `id` varchar(32) NOT NULL,
+  `code` varchar(32) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `parent_id` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_7ubk48w6cr7qt31tbu929fc4p` (`parent_id`),
+  CONSTRAINT `FK_7ubk48w6cr7qt31tbu929fc4p` FOREIGN KEY (`parent_id`) REFERENCES `sel_category` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sel_category
+-- ----------------------------
+INSERT INTO `sel_category` VALUES ('01742D16FC604264892E886CBDA3E836', 'N14020', '核电站运行', '2642DD99150C473A88CE3A58DC3DF7F2');
+INSERT INTO `sel_category` VALUES ('06879B91BCA74FD989E1BA4D336B939D', 'N1301060', '贯穿件及支吊架', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('0872978B138C462BACA5C7321BB1E05C', 'N1301050', '运输操作机具及工具', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('093777A478394F6FB1210AEE3B994588', 'N1301040', '控制棒驱动机构', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('0D2CCA9E87944A6598AE9F74172F5D33', 'N1301030', '蒸汽发生器及其他热交换器', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('1045A6FC43114F9996B66D06E092272B', 'N1301020', '泵、阀和主管道', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('131C9131C99B4165A9BB5B91F3F1D46E', 'N1301010', '核容器', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('13E1C43BFD8B416C9460CFFB8C8F2169', 'N13010', '核岛设备', '186138A032DD49AA913D4C08712591AE');
+INSERT INTO `sel_category` VALUES ('186138A032DD49AA913D4C08712591AE', 'N130', '核电站设备设计与制造', null);
+INSERT INTO `sel_category` VALUES ('1A879BA272A64907892E3E4F8E0D977F', 'N12099', '核电站设计与建造其他', '2353199CAD794FE3915DB13098240963');
+INSERT INTO `sel_category` VALUES ('1C51565412E246039DBE8C4D9C61497D', 'N1207099', '核电站建造其他', '79EB910A4F8B41D18B6EF8360FD453EF');
+INSERT INTO `sel_category` VALUES ('1DFE63CE18E6433584F0E2BD2E26F9D9', 'N1301070', '特种材料', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('1FC09845D50745F4B02863D7506EF7F8', 'N1301080', '核仪器仪表', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('2353199CAD794FE3915DB13098240963', 'N120', '核电站设计与建造', null);
+INSERT INTO `sel_category` VALUES ('2642DD99150C473A88CE3A58DC3DF7F2', 'N140', '核电站调试、运行', null);
+INSERT INTO `sel_category` VALUES ('27B36C340432408988EC7CE04C27D7E6', 'N13099', '核电站设备设计与制造其他', '186138A032DD49AA913D4C08712591AE');
+INSERT INTO `sel_category` VALUES ('2913568731854CF49668FA57CA5B99A3', 'N13030', 'BOP设备', '186138A032DD49AA913D4C08712591AE');
+INSERT INTO `sel_category` VALUES ('2D4936F7659D4792A245722243F7C5B3', 'N1302099', '常规岛设备其他', '3DACB92768E1430F91E30D8E9FA3B1BB');
+INSERT INTO `sel_category` VALUES ('2F11D385606F432A83A7E5FF82CF0CF9', 'N1302030', '仪器仪表', '3DACB92768E1430F91E30D8E9FA3B1BB');
+INSERT INTO `sel_category` VALUES ('3401B29784044886927F530671A1D82A', 'N1202040', '屏蔽与防护系统设计', '5AA8D5F6B58145F7A2A3955FA97F2C45');
+INSERT INTO `sel_category` VALUES ('36D7905023EF46F4B7E7C205CAACC307', 'N1302020', '电气设备', '3DACB92768E1430F91E30D8E9FA3B1BB');
+INSERT INTO `sel_category` VALUES ('38F8447DD1E34DCE8671AF18CC5F699A', 'N1302010', '汽轮机及相关设备', '3DACB92768E1430F91E30D8E9FA3B1BB');
+INSERT INTO `sel_category` VALUES ('3DACB92768E1430F91E30D8E9FA3B1BB', 'N13020', '常规岛设备', '186138A032DD49AA913D4C08712591AE');
+INSERT INTO `sel_category` VALUES ('42B78C8C61A74CB9A5CAAB570ED2D97C', 'N1301099', '核岛设备其他', '13E1C43BFD8B416C9460CFFB8C8F2169');
+INSERT INTO `sel_category` VALUES ('454C2273F27C490EAE7DCF4B01E72FE0', 'N11020', '核化学', 'AD257F4AC02247FFBECF518306693B39');
+INSERT INTO `sel_category` VALUES ('48CA2936783140988404724638499D83', 'N1207020', '核电站安装', '79EB910A4F8B41D18B6EF8360FD453EF');
+INSERT INTO `sel_category` VALUES ('4ADF8C3D0DE14A0489064D9D74C072EA', 'N14010', '核电站调试', '2642DD99150C473A88CE3A58DC3DF7F2');
+INSERT INTO `sel_category` VALUES ('4C6CCAC3A67B47B8944B9790E73F59AE', 'N1207010', '核电站土建', '79EB910A4F8B41D18B6EF8360FD453EF');
+INSERT INTO `sel_category` VALUES ('4D212BC608EA4C649D63F19E2205549C', 'N1201010', '初步可行性研究', '5DBA3E65EEC0480A901E7DF458717F0B');
+INSERT INTO `sel_category` VALUES ('4F1C028D4EA0464EB5CE1AC53F9BF337', 'N1202020', '反应堆冷却剂系统设计', '5AA8D5F6B58145F7A2A3955FA97F2C45');
+INSERT INTO `sel_category` VALUES ('50D8ACB3E14F4EA99828658FAE68520D', 'N1202050', '核岛控制测量与保护系统设计', '5AA8D5F6B58145F7A2A3955FA97F2C45');
+INSERT INTO `sel_category` VALUES ('53714268F14E4F059C03B283F857E85E', 'N1202030', '核辅助系统和安全系统设计', '5AA8D5F6B58145F7A2A3955FA97F2C45');
+INSERT INTO `sel_category` VALUES ('5691846104BF45FB84952B48D29BCDE5', 'N1202010', '反应堆堆芯及结构设计', '5AA8D5F6B58145F7A2A3955FA97F2C45');
+INSERT INTO `sel_category` VALUES ('5AA8D5F6B58145F7A2A3955FA97F2C45', 'N12020', '核岛设计', '2353199CAD794FE3915DB13098240963');
+INSERT INTO `sel_category` VALUES ('5AEFDB1D2913435BB5FC40DDB38CBEEB', 'N1201099', '核电站工程前期其他', '5DBA3E65EEC0480A901E7DF458717F0B');
+INSERT INTO `sel_category` VALUES ('5C70FEC27C854E6BB519B95E0B49B533', 'N1201020', '场址工程地质及勘测', '5DBA3E65EEC0480A901E7DF458717F0B');
+INSERT INTO `sel_category` VALUES ('5DBA3E65EEC0480A901E7DF458717F0B', 'N12010', '核电站工程前期', '2353199CAD794FE3915DB13098240963');
+INSERT INTO `sel_category` VALUES ('5E03BCDE415D453B8E09C69240D4D090', 'N1202099', '核岛设计其他', '5AA8D5F6B58145F7A2A3955FA97F2C45');
+INSERT INTO `sel_category` VALUES ('5EB6B50A96CD4291B24808563BDB24EF', 'N11099', '核基础其他', 'AD257F4AC02247FFBECF518306693B39');
+INSERT INTO `sel_category` VALUES ('5F520BF277364118907AC060621DC2EE', 'N12060', '试验验证', '2353199CAD794FE3915DB13098240963');
+INSERT INTO `sel_category` VALUES ('5FF1BADAFD03436B897D76C9B26F3044', 'N1205099', '构筑物与建筑物设计其他', '627642888F724545AD1FEF31CEC2E66F');
+INSERT INTO `sel_category` VALUES ('6246EAF536EA4BBE97FDBF5DC774E316', 'N1205010', '安全壳设计', '627642888F724545AD1FEF31CEC2E66F');
+INSERT INTO `sel_category` VALUES ('627642888F724545AD1FEF31CEC2E66F', 'N12050', '构筑物与建筑物设计', '2353199CAD794FE3915DB13098240963');
+INSERT INTO `sel_category` VALUES ('62815A2531724981883A3AC64C356CB2', 'N12040', 'BOP设计', '2353199CAD794FE3915DB13098240963');
+INSERT INTO `sel_category` VALUES ('63E82CF6773944F5A5FBA7BD96254F73', 'N1203099', '常规岛设计其他', '7427350822BD4DC5A2A701006693FE71');
+INSERT INTO `sel_category` VALUES ('6637E216A02A4D3EB3DFDE49332B9D7E', 'N1203040', '常规岛控制测量与保护系统设计', '7427350822BD4DC5A2A701006693FE71');
+INSERT INTO `sel_category` VALUES ('67FB2B34F9AC44AAB9DF0438C3161FA8', 'N1203030', '电气系统设计', '7427350822BD4DC5A2A701006693FE71');
+INSERT INTO `sel_category` VALUES ('6B322A1596A541278716B1A5E05C0627', 'N1203020', '循环冷却水系统设计', '7427350822BD4DC5A2A701006693FE71');
+INSERT INTO `sel_category` VALUES ('711DF4063A5B42989DA6B0D386B05169', 'N1203010', '汽轮机回路设计', '7427350822BD4DC5A2A701006693FE71');
+INSERT INTO `sel_category` VALUES ('7427350822BD4DC5A2A701006693FE71', 'N12030', '常规岛设计', '2353199CAD794FE3915DB13098240963');
+INSERT INTO `sel_category` VALUES ('79EB910A4F8B41D18B6EF8360FD453EF', 'N12070', '核电站建造', '2353199CAD794FE3915DB13098240963');
+INSERT INTO `sel_category` VALUES ('7ED7F737B1B140C68157823279CB1C0D', 'N14030', '核电站维修', '2642DD99150C473A88CE3A58DC3DF7F2');
+INSERT INTO `sel_category` VALUES ('86B21D9E460D4F48A81501BCFC6C34A3', 'N18010', '同位素生产制备及应用', '87EB3AB69EBC41C88A006F7D4FF80548');
+INSERT INTO `sel_category` VALUES ('87EB3AB69EBC41C88A006F7D4FF80548', 'N180', '核技术应用', null);
+INSERT INTO `sel_category` VALUES ('8A4A87875D564ACE916A561232138E88', 'N17099', '核燃料其他', 'E4A40777984243B795B12C443A82B8B5');
+INSERT INTO `sel_category` VALUES ('8BF9EC18AEF4425E8A032E8E2B90C82B', 'N1703099', '乏燃料后处理及核废物处理处置其他', '92857328C9134DAFAB7DF0B0C905C834');
+INSERT INTO `sel_category` VALUES ('8F1176E297B246E1BBED2A995A92A95B', 'N1703020', '核废物处理处置', '92857328C9134DAFAB7DF0B0C905C834');
+INSERT INTO `sel_category` VALUES ('92578731599549168D8B2C272F12B570', 'N1703010', '乏燃料后处理', '92857328C9134DAFAB7DF0B0C905C834');
+INSERT INTO `sel_category` VALUES ('92857328C9134DAFAB7DF0B0C905C834', 'N17030', '乏燃料后处理及核废物处理处置', 'E4A40777984243B795B12C443A82B8B5');
+INSERT INTO `sel_category` VALUES ('9647BC99AD5B4FD49CD08DE4ACDFB2D1', 'N1702099', '核燃料加工其他', 'BC364930798F4A2EA30747887D5BEBEB');
+INSERT INTO `sel_category` VALUES ('974F6426BBE44BABBECD95593C5C828A', 'N1702030', '核燃料元件制造', 'BC364930798F4A2EA30747887D5BEBEB');
+INSERT INTO `sel_category` VALUES ('98E8290BE1504598AA14B80CC209D2DB', 'N1702020', '铀浓缩', 'BC364930798F4A2EA30747887D5BEBEB');
+INSERT INTO `sel_category` VALUES ('9B7B7FD709B14467938163E1B2BDEB26', 'N18020', '辐射技术应用', '87EB3AB69EBC41C88A006F7D4FF80548');
+INSERT INTO `sel_category` VALUES ('9B90D47FF07C4901BA90DEE6B9B8898E', 'N18099', '核技术应用其他', '87EB3AB69EBC41C88A006F7D4FF80548');
+INSERT INTO `sel_category` VALUES ('9BA0440327FB416E96B67EE84F78506A', 'N190', '信息化与软科学', null);
+INSERT INTO `sel_category` VALUES ('A8D5A370FFCA4EA7A06A564DA03A23F5', 'N999', '其他', null);
+INSERT INTO `sel_category` VALUES ('ACA0C1D61D2E429D9CB3D34E97865F80', 'N19099', '信息化与软科学其他', '9BA0440327FB416E96B67EE84F78506A');
+INSERT INTO `sel_category` VALUES ('AD257F4AC02247FFBECF518306693B39', 'N110', '核基础', null);
+INSERT INTO `sel_category` VALUES ('AD5F1AE96A174D1995654AFBCDF478E8', 'N19040', '情报、标准、质量、计量', '9BA0440327FB416E96B67EE84F78506A');
+INSERT INTO `sel_category` VALUES ('AD8597251F444CD3B54F384FF4C4CD63', 'N19030', '规划与战略研究', '9BA0440327FB416E96B67EE84F78506A');
+INSERT INTO `sel_category` VALUES ('B020102BBFF3478EAEA2BB8E7063814A', 'N19020', '管理与政策', '9BA0440327FB416E96B67EE84F78506A');
+INSERT INTO `sel_category` VALUES ('B2F99BBFA74F473992EF165AB6C0FF29', 'N19010', '信息化', '9BA0440327FB416E96B67EE84F78506A');
+INSERT INTO `sel_category` VALUES ('B95BEB76C58A4F568CFD9E7781D9A5F8', 'N1702010', '铀纯化、转化', 'BC364930798F4A2EA30747887D5BEBEB');
+INSERT INTO `sel_category` VALUES ('BC364930798F4A2EA30747887D5BEBEB', 'N17020', '核燃料加工', 'E4A40777984243B795B12C443A82B8B5');
+INSERT INTO `sel_category` VALUES ('BC8EDDBF98E34963B98865D210555A9D', 'N1701099', '铀资源开发其他', 'E2273EF3C4564C0E80B260C9298CFDB0');
+INSERT INTO `sel_category` VALUES ('BDD25967A8584A51B29FCA1EFB389C16', 'N1501020', '研究堆燃料元件/组件研制', 'C82249193D00459A81124A6BB0A27CE9');
+INSERT INTO `sel_category` VALUES ('BF9B421B70FE44EB8C9A18B0A0B01ECB', 'N1501010', '研究堆设计与建造', 'C82249193D00459A81124A6BB0A27CE9');
+INSERT INTO `sel_category` VALUES ('C0FC5513D03743E0AAB9A10BD83193F2', 'N15099', '研究堆及其他核动力装置其他', 'CAB6483D17834F6BB12F8E43670C5DB6');
+INSERT INTO `sel_category` VALUES ('C1404DFC107A493994F49BDBA633800D', 'N15040', '新堆型开发', 'CAB6483D17834F6BB12F8E43670C5DB6');
+INSERT INTO `sel_category` VALUES ('C6ED2390FB7D4A739FC5340B4E903D1D', 'N15030', '海水淡化', 'CAB6483D17834F6BB12F8E43670C5DB6');
+INSERT INTO `sel_category` VALUES ('C7A291B68D994260AC358EAEC90C7967', 'N15020', '核供热', 'CAB6483D17834F6BB12F8E43670C5DB6');
+INSERT INTO `sel_category` VALUES ('C82249193D00459A81124A6BB0A27CE9', 'N15010', '研究堆(含临界装置）', 'CAB6483D17834F6BB12F8E43670C5DB6');
+INSERT INTO `sel_category` VALUES ('CAB6483D17834F6BB12F8E43670C5DB6', 'N150', '研究堆及其他核动力装置', null);
+INSERT INTO `sel_category` VALUES ('CC6A33E609474C5AB0BF2A58DB330EAA', 'N14099', '核电站调试、运行其他', '2642DD99150C473A88CE3A58DC3DF7F2');
+INSERT INTO `sel_category` VALUES ('CF9733D0825E4FE0994C015EA632A8BF', 'N14050', '核电站技术改造', '2642DD99150C473A88CE3A58DC3DF7F2');
+INSERT INTO `sel_category` VALUES ('D41090BA1B3A4843B943E6B056FEFDD1', 'N11010', '核物理', 'AD257F4AC02247FFBECF518306693B39');
+INSERT INTO `sel_category` VALUES ('D52BFA772078440CA7ACF695F5003FB4', 'N1501030', '研究堆应用', 'C82249193D00459A81124A6BB0A27CE9');
+INSERT INTO `sel_category` VALUES ('D696E0D81120494D939F196FDDFB2BB0', 'N160', '核安全、核安保与环境保护', null);
+INSERT INTO `sel_category` VALUES ('DD096AE7C3D943F0BF0AAD307737D74C', 'N16010', '核设施安全', 'D696E0D81120494D939F196FDDFB2BB0');
+INSERT INTO `sel_category` VALUES ('DE29269368AC4B4DA69DFBB85F50D139', 'N1701020', '铀采冶', 'E2273EF3C4564C0E80B260C9298CFDB0');
+INSERT INTO `sel_category` VALUES ('DE36845E3D9C400793142E9E9C842A2D', 'N1701010', '铀矿地质勘查', 'E2273EF3C4564C0E80B260C9298CFDB0');
+INSERT INTO `sel_category` VALUES ('E2273EF3C4564C0E80B260C9298CFDB0', 'N17010', '铀资源开发', 'E4A40777984243B795B12C443A82B8B5');
+INSERT INTO `sel_category` VALUES ('E4A40777984243B795B12C443A82B8B5', 'N170', '核燃料', null);
+INSERT INTO `sel_category` VALUES ('E968F0E5046A407E911E56CF0B9AF486', 'N16099', '核安全、核安保与环境保护其他', 'D696E0D81120494D939F196FDDFB2BB0');
+INSERT INTO `sel_category` VALUES ('E98D7B4D0EFD47CC8AD84312656060AB', 'N16060', '核安保', 'D696E0D81120494D939F196FDDFB2BB0');
+INSERT INTO `sel_category` VALUES ('F06F3E3D38C543CCA24BE8CEC2F2879C', 'N16050', '核设施退役', 'D696E0D81120494D939F196FDDFB2BB0');
+INSERT INTO `sel_category` VALUES ('F0B170974CF3468394480CF5501F2B7C', 'N16040', '核设施环境保护', 'D696E0D81120494D939F196FDDFB2BB0');
+INSERT INTO `sel_category` VALUES ('F1CD63D551E04DB0AEDDE8F157B49575', 'N16030', '核设施核事故应急', 'D696E0D81120494D939F196FDDFB2BB0');
+INSERT INTO `sel_category` VALUES ('F50878072C36488AAFA5CB33BE2EE0F0', 'N16020', '核设施辐射防护', 'D696E0D81120494D939F196FDDFB2BB0');
+INSERT INTO `sel_category` VALUES ('F7EE31D180144CA0B8E873B12A79E40F', 'N14040', '核电站无损检测', '2642DD99150C473A88CE3A58DC3DF7F2');
+
+-- ----------------------------
+-- Table structure for sel_category_group
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_category_group`;
+CREATE TABLE `sel_category_group` (
+  `id` varchar(32) NOT NULL,
+  `description` varchar(4096) DEFAULT NULL,
+  `limit_first` int(11) DEFAULT NULL,
+  `limit_second` int(11) DEFAULT NULL,
+  `limit_third` int(11) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `activity_id` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_ahic64y8smqkdij77yhs1wm1h` (`activity_id`),
+  CONSTRAINT `FK_ahic64y8smqkdij77yhs1wm1h` FOREIGN KEY (`activity_id`) REFERENCES `sel_activity` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sel_category_group
+-- ----------------------------
+INSERT INTO `sel_category_group` VALUES ('1C4CEC8C7C1D46B4B94AF07944B6BC96', 'adsfasdf', '212', '1212', '121', 'ASDfasdf', 'D228E547A60A468791E59487223D4361');
+
+-- ----------------------------
+-- Table structure for sel_category_group_category
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_category_group_category`;
+CREATE TABLE `sel_category_group_category` (
+  `category_group_id` varchar(32) NOT NULL,
+  `category_id` varchar(32) NOT NULL,
+  PRIMARY KEY (`category_id`,`category_group_id`),
+  KEY `FK_22q3dmtkkeaeaah9cuklhdio` (`category_group_id`),
+  CONSTRAINT `FK_22q3dmtkkeaeaah9cuklhdio` FOREIGN KEY (`category_group_id`) REFERENCES `sel_category_group` (`id`),
+  CONSTRAINT `FK_94b95c0snjpo8gqpy74ot8isg` FOREIGN KEY (`category_id`) REFERENCES `sel_category` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sel_category_group_category
+-- ----------------------------
+INSERT INTO `sel_category_group_category` VALUES ('1C4CEC8C7C1D46B4B94AF07944B6BC96', '01742D16FC604264892E886CBDA3E836');
+INSERT INTO `sel_category_group_category` VALUES ('1C4CEC8C7C1D46B4B94AF07944B6BC96', '06879B91BCA74FD989E1BA4D336B939D');
+INSERT INTO `sel_category_group_category` VALUES ('1C4CEC8C7C1D46B4B94AF07944B6BC96', '454C2273F27C490EAE7DCF4B01E72FE0');
+INSERT INTO `sel_category_group_category` VALUES ('1C4CEC8C7C1D46B4B94AF07944B6BC96', '5EB6B50A96CD4291B24808563BDB24EF');
 
 -- ----------------------------
 -- Table structure for sel_check_criterion
@@ -127,6 +330,76 @@ INSERT INTO `sel_check_criterion` VALUES ('B23701C6A8084CCCBD5D925B073FAED4', '2
 INSERT INTO `sel_check_criterion` VALUES ('FCD0017C6FE04B00BD30FE4A005F22BF', '2017-09-16 23:39:51', '鉴定单位不合格', '鉴定单位不合格', 'D228E547A60A468791E59487223D4361', '226922F736C74B66A88F99BFB27574A6');
 
 -- ----------------------------
+-- Table structure for sel_expert
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_expert`;
+CREATE TABLE `sel_expert` (
+  `id` varchar(32) NOT NULL,
+  `account_id` varchar(32) DEFAULT NULL,
+  `activity_id` varchar(32) DEFAULT NULL,
+  `type_id` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_rju12ekjjx6403xix3ktgx96j` (`account_id`),
+  KEY `FK_35dlsw5495349yq038sgitx65` (`activity_id`),
+  KEY `FK_hwiec9l69m2agwbyri09bw6c3` (`type_id`),
+  CONSTRAINT `FK_hwiec9l69m2agwbyri09bw6c3` FOREIGN KEY (`type_id`) REFERENCES `sel_expert_type` (`id`),
+  CONSTRAINT `FK_35dlsw5495349yq038sgitx65` FOREIGN KEY (`activity_id`) REFERENCES `sel_activity` (`id`),
+  CONSTRAINT `FK_rju12ekjjx6403xix3ktgx96j` FOREIGN KEY (`account_id`) REFERENCES `sys_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sel_expert
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sel_expert_category
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_expert_category`;
+CREATE TABLE `sel_expert_category` (
+  `expert_id` varchar(32) NOT NULL,
+  `category_id` varchar(32) NOT NULL,
+  PRIMARY KEY (`category_id`,`expert_id`),
+  KEY `FK_hk9j13hp716l8faqv4k0l5gdf` (`expert_id`),
+  CONSTRAINT `FK_hk9j13hp716l8faqv4k0l5gdf` FOREIGN KEY (`expert_id`) REFERENCES `sel_expert` (`id`),
+  CONSTRAINT `FK_buagsxw01n9jbjru3qu7y72xk` FOREIGN KEY (`category_id`) REFERENCES `sel_category` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sel_expert_category
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sel_expert_type
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_expert_type`;
+CREATE TABLE `sel_expert_type` (
+  `id` varchar(32) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sel_expert_type
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sel_experts_category_group
+-- ----------------------------
+DROP TABLE IF EXISTS `sel_experts_category_group`;
+CREATE TABLE `sel_experts_category_group` (
+  `expert_id` varchar(32) NOT NULL,
+  `category_group_id` varchar(32) NOT NULL,
+  PRIMARY KEY (`category_group_id`,`expert_id`),
+  KEY `FK_cnpnw1eplnpxkj6cnrwiyqsxt` (`expert_id`),
+  CONSTRAINT `FK_cnpnw1eplnpxkj6cnrwiyqsxt` FOREIGN KEY (`expert_id`) REFERENCES `sel_expert` (`id`),
+  CONSTRAINT `FK_5vjdmr4me1i0475aw9s1sro0a` FOREIGN KEY (`category_group_id`) REFERENCES `sel_category_group` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sel_experts_category_group
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sel_stage
 -- ----------------------------
 DROP TABLE IF EXISTS `sel_stage`;
@@ -142,6 +415,7 @@ CREATE TABLE `sel_stage` (
 -- Records of sel_stage
 -- ----------------------------
 INSERT INTO `sel_stage` VALUES ('5306BEBDAE194F9AB501D9088877C5FE', null, null, '2017-09-15 17:22:05');
+INSERT INTO `sel_stage` VALUES ('731C29042DBF483B98E1BA48651086BE', null, null, '2017-09-20 10:57:09');
 INSERT INTO `sel_stage` VALUES ('8E3D21E0305848EAA5C8A281A8B4AFE5', null, null, '2017-09-16 10:22:04');
 
 -- ----------------------------
@@ -169,112 +443,75 @@ CREATE TABLE `sys_action` (
 INSERT INTO `sys_action` VALUES ('009B17D3C29D48C4978842028B061CE4', 'app.sysconfig.auth.group.ap.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '跟剧组获取AP列表', 'app/sysconfig/auth/group/ap/paging', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('02505E5100D843FFBBD06FF75AD4C5AC', 'app.authroization.advMana.getAdvList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取广告列表', 'app/authroization/advMana/getAdvList', 'A2542D2E7BAE44E3BFDE9E20E016F5D0');
 INSERT INTO `sys_action` VALUES ('03BC140D338640A6A834FB89AA6CFF03', 'tax.business.category.type.list', '2017-05-26 17:08:53', null, null, '2017-05-26 17:09:08', '获取业务类型分组列表', 'app/tax/business/category/type/list', '5A6E2DFC64884E04AF66F094389531B3');
-INSERT INTO `sys_action` VALUES ('04A3E0B728CB4E94962102DFB6DCF2B1', 'asdfasdfasdfas', '2017-04-07 17:32:14', null, null, '2017-04-07 17:32:14', 'asdfasdfasdfasd', 'adsfasdfasdfasdf', 'CFD9D96F8C3C4921B79A91180DF99BAC');
 INSERT INTO `sys_action` VALUES ('05CB003C4A3E40E7BEA67AD8E5AFF6A2', 'tax.business.attachment.list', '2017-06-01 15:10:52', null, null, '2017-06-01 15:10:52', '附件列表', 'app/tax/business/attachment/list', '45FE5B6350BB4FE785AABC13DDED4133');
 INSERT INTO `sys_action` VALUES ('05E2CD60734F446B975610584B32CB94', 'system.permission.info.user.edit', '2017-03-13 14:43:08', null, null, '2017-03-13 14:43:08', '编辑用户信息', 'app/system/user/edit', '9D2B6E9DF05A4F5DAC5B9D10DFF3E57C');
-INSERT INTO `sys_action` VALUES ('0624D89934EB4F648BA30FDC6F58AD78', 'app.ac.getApModelSelectItem2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap模型列表', 'app/ac/getApModelSelectItem', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('0733CF35FD9E47079B68C1667DE528E9', 'app.ac.apmanage.config.ter.getApCfgs', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '根据选中模板获取对应模板信息', 'app/ac/apmanage/getApCfgs', '183325E63BA246FC9E7738ED6D7B3EAB');
 INSERT INTO `sys_action` VALUES ('0734D875F01D4204BB61C013947CB57B', 'system.permission.group.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取组列表', 'app/system/group/paging', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('0A1C3AAA4E864AF38527AC9476780FA4', 'system.permission.user.role.remove', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '移除角色', 'app/system/user/role/remove', '0AB0C2E566F24635B5089EE9B4FD4EC3');
-INSERT INTO `sys_action` VALUES ('0C760875327349D69E7FD94B766C4FDB', 'app.ac.apmanage.addAcCluster', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加AC集群', 'app/ac/apmanage/addAcCluster', '2F97212B6C21485E9E64576772101F45');
 INSERT INTO `sys_action` VALUES ('0CF21A1AC7EF4688B690761EC5E83B38', 'system.resources.menu.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '目录列表', 'app/system/state/paging', '6DC8F954402541A1B6277946C36D6E56');
 INSERT INTO `sys_action` VALUES ('0D475DD06D9E488589A78886362900EA', 'app.authroization.portalMana.deletePortals', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除门户', 'app/authroization/portalMana/deletePortals', '50A44ED2D95A4946B2E1BFD2955E6821');
-INSERT INTO `sys_action` VALUES ('0D4B3273D54D48719AE108C83192F15F', 'app.ac.apmanage.exportExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导出excel-按数量', 'app/ac/apmanage/exportExcel', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('0D6B453DE37343D791CFC0892232EB08', 'app.ac.apmanage.removeConfigSchedules', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除ap配置任务', 'app/ac/apmanage/removeConfigSchedules', '8771F14BA5EA4644BBEDC14587F0F625');
 INSERT INTO `sys_action` VALUES ('0DAAD456A16046B398705ED887B026CB', 'tax.business.paging.all', '2017-05-26 17:06:16', null, null, '2017-05-26 17:06:16', '获取所有状态的业务', 'app/tax/business/paging/all', '85D85C3210184D21B7B0949FE34756AB');
 INSERT INTO `sys_action` VALUES ('0DFC16FCD9C54B8E9CF08456DC3D3D87', 'system.resources.menu.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加目录', 'app/system/state/add', '6DC8F954402541A1B6277946C36D6E56');
-INSERT INTO `sys_action` VALUES ('0F2E4D4C45764E9FADDF21848C71648F', 'app.ac.apmanage.getRecord2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所内ap列表', 'app/ac/apmanage/getRecord', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('10958A2CE6684082B2DB274425E96EC6', 'tax.statistics.person', '2017-05-26 17:35:58', null, null, '2017-05-26 17:35:58', '个人业务统计', 'app/tax/statistics/person', 'BB293ED529CE46138E992D852001DB0D');
 INSERT INTO `sys_action` VALUES ('10EAAFFB3D3246D2ABD6445960068552', 'system.resources.menugroup.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑目录组', 'app/system/state/edit', '1447582D07684B6198F85865024CE2D4');
 INSERT INTO `sys_action` VALUES ('118D0087603848D4B03993355F414EEE', 'tax.business.category.type.list', '2017-05-26 17:19:59', null, null, '2017-05-26 17:23:58', '业务类型分组列表', 'app/tax/business/category/type/list', '2F53F0EC9CCC46E5970C3CFEF10CBEA3');
 INSERT INTO `sys_action` VALUES ('127263BB2A9C4CAE9CEAC5EC7DCDF081', 'tax.business.category.list.all', '2017-06-22 22:04:55', null, null, '2017-06-22 22:04:55', '获取所有业务类型', 'app/tax/business/category/list/all', 'BB293ED529CE46138E992D852001DB0D');
 INSERT INTO `sys_action` VALUES ('139CD60AB85D4AE2ABD9DD86398A79CE', 'tax.business.category.type.list', '2017-05-26 17:15:13', null, null, '2017-05-26 17:15:13', '业务类型分组列表', 'app/tax/business/category/type/list', 'ED0720579B0E425F9B2109A0C35388A9');
-INSERT INTO `sys_action` VALUES ('141F5E0E207645D0B6C440723DBA7130', 'app.ac.contacts.deleteContacts', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除联系人', 'app/ac/contacts/deleteContacts', 'E0F375E3EB8246B8B0A45CC7BB4FAC89');
-INSERT INTO `sys_action` VALUES ('1494491D356D45869AF94CCA31C90DD8', 'app.ac.apmanage.stopConfigSchedules', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '停止配置', 'app/ac/apmanage/stopConfigSchedules', '8771F14BA5EA4644BBEDC14587F0F625');
 INSERT INTO `sys_action` VALUES ('14FB600E4F584F6686D2F2372BD33433', 'system.permission.info.user.password.modify', '2017-03-13 14:45:01', null, null, '2017-03-13 14:47:09', '修改密码', 'app/system/user/password/modify', '9D2B6E9DF05A4F5DAC5B9D10DFF3E57C');
-INSERT INTO `sys_action` VALUES ('15C570F01DB147FD89892639462884D0', 'app.ac.apmanage.securityVendorGetPaging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取安全厂商下拉列表', 'app/ac/securityVendor/getPaging', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('177732E28BC545F58D399D915C89455C', 'app.place.exportCounts', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导出指定条数', 'app/place/exportCounts', '499FEF3D7E22421AAC8D9FDC26B43D07');
+INSERT INTO `sys_action` VALUES ('17B43A10D36A4563B5205BD8775107F3', 'activity.config.award.criterion.list', '2017-09-19 15:48:08', null, null, '2017-09-19 15:48:08', '编辑奖项标准', 'app/activity/config/award/criterion/edit', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('17C1A1A7D3284C9883E81B70918E0438', 'system.permission.state.tree', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '角色管理页面中状态（菜单）树', 'app/system/state/tree', '3C25C1D522A9475196A887816B18E6FB');
-INSERT INTO `sys_action` VALUES ('191CBDE2F2764875B0F76E31CF3B7AF6', 'app.ac.apmanage.config.getConfigSchedules', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取配置任务列表', 'app/ac/apmanage/getConfigSchedules', '8771F14BA5EA4644BBEDC14587F0F625');
-INSERT INTO `sys_action` VALUES ('192D4D9D25924994B742BCA071FD2D74', 'app.ac.apmanage.removeFirmwares', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除固件信息', 'app/ac/apmanage/removeFirmwares', 'A37742C057E846BA94BFB58964177B98');
-INSERT INTO `sys_action` VALUES ('1A10EF61103D4581B2FE73963A6B9F63', 'app.ac.apmanage.editApCfgTpl', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑ap配置模板列表', 'app/ac/apmanage/editApCfgTpl', 'F3ED12419EA3448EA86BFADD35862113');
 INSERT INTO `sys_action` VALUES ('1A45E4384E234092AC8DA0F8FFC1BFF3', 'app.authroization.advMana.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加广告', 'app/authroization/advMana/add', 'A2542D2E7BAE44E3BFDE9E20E016F5D0');
 INSERT INTO `sys_action` VALUES ('1AF8C560E81B4B4C8992206480BB421B', 'tax.business.amendment', '2017-05-26 17:12:23', null, null, '2017-05-26 17:12:23', '整改业务', 'app/tax/business/edit', '5A6E2DFC64884E04AF66F094389531B3');
-INSERT INTO `sys_action` VALUES ('1AFFD8FBDC2242B090567A2BB9F61E59', 'app.ac.apmanage.getFirmwares3', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取固件列表', 'app/ac/apmanage/getFirmwares', '174F582DDEC741EEA5B6BAECA2012DAC');
 INSERT INTO `sys_action` VALUES ('1B022E7D912C41B1A7423254E1A88F95', 'tax.business.paging.error', '2017-05-30 22:36:02', null, null, '2017-05-30 22:36:02', '获取错误业务列表', 'app/tax/business/paging/error', 'F746C7B7F4154C3DA16A5F9A0EEA12AF');
-INSERT INTO `sys_action` VALUES ('1B984839266044C689A1DFCC02C423AE', 'app.ac.apmanage.ter.addApCfg', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加ap配置任务', 'app/ac/apmanage/addApCfg', '183325E63BA246FC9E7738ED6D7B3EAB');
 INSERT INTO `sys_action` VALUES ('1C14D86F692F418591B3FA9EF24BA658', 'app.authroization.portalMana.addPortal', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加门户', 'app/authroization/portalMana/addPortal', '50A44ED2D95A4946B2E1BFD2955E6821');
 INSERT INTO `sys_action` VALUES ('1D8F3138134E4440A995AB47AD7D14D6', 'tax.business.examine.detail', '2017-05-30 22:53:12', null, null, '2017-05-30 22:53:12', '检查详情', 'app/tax/business/examine/detail', 'BB293ED529CE46138E992D852001DB0D');
-INSERT INTO `sys_action` VALUES ('1E3842078BAF4CA7A79B12C1953B5CFC', 'app.ac.contacts.addContacts', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加联系人', 'app/ac/contacts/addContacts', 'E0F375E3EB8246B8B0A45CC7BB4FAC89');
 INSERT INTO `sys_action` VALUES ('1E8DD33462DA4A338EAC81E84DB253E5', 'app.aclDomain.ad.getAclDomain', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化AclDomain', 'app/aclDomain/ad/getAclDomain', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('1EA355A886F04E0CB88247BC7AE17E69', 'app.authroization.portalMana.setModel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '选择门户模板', 'app/authroization/portalMana/setModel', '50A44ED2D95A4946B2E1BFD2955E6821');
 INSERT INTO `sys_action` VALUES ('1FF8232757DD430CAEA34E096479EE46', 'tax.business.category.list.all', '2017-06-22 22:04:26', null, null, '2017-06-22 22:04:26', '获取所有业务类型', 'app/tax/business/category/list/all', 'F746C7B7F4154C3DA16A5F9A0EEA12AF');
 INSERT INTO `sys_action` VALUES ('200FE11E6CBC49B1BE329A083186F81C', 'app.init.controlpanel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化控制面板', 'app/init/controlpanel', 'F1B958A6277745468BAD53F5B360D084');
-INSERT INTO `sys_action` VALUES ('202602D743304AD5B9BF6E6D96F0D87D', 'app.activity.config.check_criterion.paging', '2017-09-16 17:17:25', null, null, '2017-09-17 22:49:23', '获取形审标准分页', 'app/activity/config/check/criterion/paging', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
+INSERT INTO `sys_action` VALUES ('202602D743304AD5B9BF6E6D96F0D87D', 'activity.config.check_criterion.paging', '2017-09-16 17:17:25', null, null, '2017-09-18 15:30:20', '获取形审标准分页', 'app/activity/config/check/criterion/paging', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
 INSERT INTO `sys_action` VALUES ('21351301722E4366BBE337845925AE48', 'system.permission.user.group.remove', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '移除组', 'app/system/user/group/remove', '0AB0C2E566F24635B5089EE9B4FD4EC3');
 INSERT INTO `sys_action` VALUES ('245284C4D45946E6897FFBAF8E4FEFB1', 'app.sysconfig.auth.group.removemonitors', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '移除监视', 'app/sysconfig/auth/group/removemonitors', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('24ABFD69632545D5A1B7357CFCED8731', 'app.place.importExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导入场所', 'app/place/importExcel', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('24ED8DB1AC3149489288ECA67EC2B4BB', 'tax.statistics.xianju', '2017-05-26 17:29:24', null, null, '2017-05-26 17:29:24', '县局统计表格', 'app/tax/statistics/xianju', '08F6DF520060436CB923C47039CCC16B');
 INSERT INTO `sys_action` VALUES ('24F188E23B8C45EE8145F42B178EE67E', 'system.resources.state.notmenu.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加非目录页面', 'app/system/state/add', '0175EC462A5C4C5B9362146E77F70610');
 INSERT INTO `sys_action` VALUES ('25A0CD10EFD64067AF9C183E67A871D4', 'system.resources.action.edit', '2017-03-02 16:25:02', '编辑列表', null, '2017-03-02 16:25:02', '编辑列表', 'app/system/action/edit', '8F4C7D18E5744917BBB171AB91593F57');
 INSERT INTO `sys_action` VALUES ('2652664189F549E79818F3DAB17BAB3C', 'app.sysconfig.auth.group.terminal.remove', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '移除组中终端', 'app/sysconfig/auth/group/terminal/remove', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('27086416ADB94A1B8E3F75F6DB1F32B6', 'tax.business.category.type.list', '2017-05-26 17:23:47', null, null, '2017-05-26 17:23:47', '业务类型分组列表', 'app/tax/business/category/type/list', '03A5F34C27414F00945153F863D00EFE');
-INSERT INTO `sys_action` VALUES ('28234426ED4A45559A2A0306FED03790', 'app.ac.contacts.getPaging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '查询联系人', 'app/ac/contacts/getPaging', 'E0F375E3EB8246B8B0A45CC7BB4FAC89');
 INSERT INTO `sys_action` VALUES ('2894FF2077CD4ADAA41F5B72E9E0C88A', 'app.authroization.portalMana.getPortalList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取门户列表', 'app/authroization/portalMana/getPortalList', '50A44ED2D95A4946B2E1BFD2955E6821');
-INSERT INTO `sys_action` VALUES ('28AB06CF5597499DBF3BC7592E4A1A32', 'app.ac.config.ter.getApCfgSelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取下拉模板名称', 'app/ac/apmanage/getApCfgs', '183325E63BA246FC9E7738ED6D7B3EAB');
+INSERT INTO `sys_action` VALUES ('28EB73973D8F4AD28503786732EE69AD', 'activity.config.category.list', '2017-09-21 10:35:12', null, null, '2017-09-21 10:35:12', '专业列表', 'app/activity/config/category/list', '40B65CA1864C457FA6A54B1EBF24CE14');
+INSERT INTO `sys_action` VALUES ('2A87FBC7C4E14BC1BFE6DE88A058C1A2', 'activity.config.category_group.add.category', '2017-09-21 21:45:48', null, null, '2017-09-21 22:45:45', '向专家专业组中添加专业代码', 'app/activity/config/category/group/add/category', '40B65CA1864C457FA6A54B1EBF24CE14');
 INSERT INTO `sys_action` VALUES ('2BDC2BD748CA4399AA7D794711FE3239', 'app.authStrategy.ce.exportOne', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '策略数据按指定行导出', 'app/authStrategy/ce/exportOne', 'D004D9011CA8449BB809DF666BDD751B');
-INSERT INTO `sys_action` VALUES ('2C70D126888F4A6C9B78FCED0CDD5F54', 'app.ac.apmanage.acCluster.exist', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '名称唯一校验', 'app/ac/apmanage/acCluster/exist', '2F97212B6C21485E9E64576772101F45');
 INSERT INTO `sys_action` VALUES ('2D178DA9E6D04E3C807EA8A3EFC1A5AC', 'tax.business.category.list', '2017-05-26 17:10:00', null, null, '2017-05-26 17:10:00', '获取业务类型列表', 'app/tax/business/category/list', '5A6E2DFC64884E04AF66F094389531B3');
 INSERT INTO `sys_action` VALUES ('2ECDD6C110A644769F54C2D2AEA6B53E', 'app.aclMac.am.getAclMac', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', 'AclMac初始化', 'app/aclMac/am/getAclMac', 'A3F1CC20882B4D9E9E01F586FB32D472');
-INSERT INTO `sys_action` VALUES ('2F08C206CF594423BACAF96EB99555F5', 'app.ac.apmanage.removeUpdateSchedule2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除系统升级任务', 'app/ac/apmanage/removeUpdateSchedule', '174F582DDEC741EEA5B6BAECA2012DAC');
 INSERT INTO `sys_action` VALUES ('310D8D134481450086A86EB6ADB88BA6', 'app.aclDomain.ad.getAuthStrategySelectItem2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化认证策略', 'app/aclDomain/ad/getAuthStrategySelectItem', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('3117C4B032AC4F1A8BA793D637817DFD', 'system.permission.role.del', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除角色', 'app/system/role/del', '3C25C1D522A9475196A887816B18E6FB');
 INSERT INTO `sys_action` VALUES ('315F84C7691D43E0A74C3FA852B3F82B', 'app.sysconfig.auth.group.ismonitored', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '判断是否被监视', 'app/sysconfig/auth/group/ismonitored', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('3182516B48474977A312DA762A0D167E', 'app.analysis.system.place.getPlacesList2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所列表', 'app/analysis/system/place/getPlacesList', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('321949AA5BD749F18E31389BBFEB6FB6', 'app.ac.apmanage.getApTips3', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap顶部统计信息', 'app/ac/apmanage/getApTips', '85D58A033F864477A572BA9612197BD1');
+INSERT INTO `sys_action` VALUES ('3280228F6ABA4477AC830E3B5815AD91', 'activity.config.award.paging', '2017-09-18 15:29:43', null, null, '2017-09-18 15:29:43', '评审奖项分页', 'app/activity/config/award/paging', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('33910A0283FF4903B07BD8AA050B669F', 'tax.business.issue.list', '2017-05-11 15:06:03', null, null, '2017-05-11 15:06:03', '业务问题种类', 'app/tax/business/issue/list', '45FE5B6350BB4FE785AABC13DDED4133');
 INSERT INTO `sys_action` VALUES ('348E879235004B42BF17A01BD8B9A7DD', 'app.authStrategy.ce.getAuthTypeSelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化认证类型', 'app/authStrategy/ce/getAuthTypeSelectItem', 'D004D9011CA8449BB809DF666BDD751B');
 INSERT INTO `sys_action` VALUES ('352CEF8961AD4BB5BD06BBBB6A7AE2C4', 'tax.business.issue.list', '2017-05-26 17:16:58', null, null, '2017-05-26 17:16:58', '业务问题种类列表', 'app/tax/business/issue/list', 'ED0720579B0E425F9B2109A0C35388A9');
-INSERT INTO `sys_action` VALUES ('36A6F7AAC38247BFBBE548A54260D970', 'app.ac.apmanage.getApModelPaging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap型号列表', 'app/ac/apmanage/getApModelPaging', '0602D9327C3544BD966592E63F7EDB45');
 INSERT INTO `sys_action` VALUES ('36B8A0F4F64542B9903994D22E31FFED', 'tax.examine.first.commit', '2017-05-26 17:18:12', null, null, '2017-05-26 17:18:12', '提交业务自查', 'app/tax/examine/first/commit', 'ED0720579B0E425F9B2109A0C35388A9');
 INSERT INTO `sys_action` VALUES ('375D91350A494340ACBFEDBBAA035038', 'tax.business.issue.list', '2017-05-26 17:10:39', null, null, '2017-05-26 17:10:39', '问题种类列表', 'app/tax/business/issue/list', '5A6E2DFC64884E04AF66F094389531B3');
 INSERT INTO `sys_action` VALUES ('393460FC3EEE42D2AECFB8086E6E7507', 'system.permission.info.user.info', '2017-03-13 14:42:12', null, null, '2017-03-13 14:43:39', '获取用户信息', 'app/system/user/info', '9D2B6E9DF05A4F5DAC5B9D10DFF3E57C');
-INSERT INTO `sys_action` VALUES ('399455F9CCAF4093AE128744A3FBB03C', 'app.ac.apmanage.getAcClusterPaging2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取AC集群列表', 'app/ac/apmanage/getAcClusterPaging', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('3A58BE71457F45DCB94C5E499776AE35', 'app.ac.apmanage.getApWithFirmware', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap-固件任务信息列表', 'app/ac/apmanage/getApWithFirmware', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
-INSERT INTO `sys_action` VALUES ('3A5BDAAD74AC446688848F8791890C19', 'app.place.exportPage', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导出当前页', 'app/place/exportPage', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('3A5FE7427EC64B31BC4F4A77280E4ADE', 'app.Authentication.wechat.getList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取微信配置列表', 'app/Authentication/wechat/getList', 'DAFBE4F0A7B649B5835AB99A8542B5C2');
 INSERT INTO `sys_action` VALUES ('3AD32C648D534895953A7811AACA6C16', 'system.permission.role.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加角色', 'app/system/role/add', '3C25C1D522A9475196A887816B18E6FB');
-INSERT INTO `sys_action` VALUES ('3BF125AC605E40E683AD284AFEAA3B97', 'app.analysis.system.place.getProvinces', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取省份下拉框', 'app/analysis/system/place/getProvinces', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('3C99765CFAB14F43AA39DF7A0E1A758A', 'app.Authentication.rz.editAuthType', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑认证类型', 'app/Authentication/rz/editAuthType', '35309B771CF24529B2A75BD04E4A0FE2');
+INSERT INTO `sys_action` VALUES ('3CC7333BC5FF4154A022A93BF2A4C9FE', 'activity.config.award.del', '2017-09-18 15:35:22', null, null, '2017-09-18 15:35:22', '删除奖项', 'app/activity/config/award/del', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('3E031DDC0D6E4EEA991AFFAE01F531BB', 'system.log.business.time.get', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '设置业务日志保存时间', 'app/system/log/business/time/get', 'FB1B62C0FA5A49F2A5103E1FAFE3F34E');
-INSERT INTO `sys_action` VALUES ('3ECF8898A581462C840438FEA1D5847C', 'app.ac.apmanage.config.ter.getApsByConfigSchedule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取新建任务ap列表', 'app/ac/apmanage/config/getApsByConfigSchedule', '183325E63BA246FC9E7738ED6D7B3EAB');
-INSERT INTO `sys_action` VALUES ('3EF4626A396D481BA2B016273D93F285', 'app.analysis.system.place.getRegions', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取区域下拉列表', 'app/analysis/system/place/getRegions', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('3FC5AE8A40AF446BA51ED319E94950DC', 'tax.business.view.del', '2017-05-27 15:13:00', null, null, '2017-05-27 15:13:00', '查询业务删除功能', 'app/tax/business/del', '85D85C3210184D21B7B0949FE34756AB');
-INSERT INTO `sys_action` VALUES ('44093F1FD52F444BA7C606BF2354DF81', 'app.ac.apmanage.judgeUpdateSchedule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '判断ap升级任务固件版本是否一致', 'app/ac/apmanage/judgeUpdateSchedule', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
 INSERT INTO `sys_action` VALUES ('44517CE7994D42479B90DC9A73A3D535', 'app.authroization.portalMana.getMerchants', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化商户列表', 'app/authroization/portalMana/getMerchants', '50A44ED2D95A4946B2E1BFD2955E6821');
-INSERT INTO `sys_action` VALUES ('45111061581C4B6CAD443B0A2E75C3F7', 'app.analysis.system.place.approvePlace', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '审核场所', 'app/analysis/system/place/approvePlace', '499FEF3D7E22421AAC8D9FDC26B43D07');
+INSERT INTO `sys_action` VALUES ('45337B0D1BE44FC1BEA3146D3801E44C', 'activity.config.category_group/add', '2017-09-21 10:26:30', null, null, '2017-09-21 10:31:02', '添加专家专业分组', 'app/activity/config/category/group/add', '40B65CA1864C457FA6A54B1EBF24CE14');
 INSERT INTO `sys_action` VALUES ('4824A9C964B2497DBDF6CD0219D16064', 'app.sysconfig.auth.group.terminal.paging2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取终端列表', 'app/sysconfig/auth/group/terminal/paging', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('482BFB9A5FD34A018F733CE64B727079', 'app.ac.apmanage.startConfigSchedules', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '启动配置', 'app/ac/apmanage/startConfigSchedules', '8771F14BA5EA4644BBEDC14587F0F625');
-INSERT INTO `sys_action` VALUES ('487DA152BD6B49A1B40D50530F4DF382', 'app.activity.config.check_criterion.del', '2017-09-16 23:30:47', null, null, '2017-09-17 22:49:38', '删除形审标准', 'app/activity/config/check/criterion/del', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
+INSERT INTO `sys_action` VALUES ('487DA152BD6B49A1B40D50530F4DF382', 'activity.config.check_criterion.del', '2017-09-16 23:30:47', null, null, '2017-09-18 15:30:27', '删除形审标准', 'app/activity/config/check/criterion/del', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
 INSERT INTO `sys_action` VALUES ('497A359D2DDE4D16B8FB9E05871E7768', 'app.sysconfig.auth.group.place.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '根据组获取场所列表', 'app/sysconfig/auth/group/place/paging', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('4A122576AFF24D1DBD368FF8EAD56A6B', 'system.permission.role.action.save', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '角色管理中保存访问权限配置', 'app/system/role/action/save', '3C25C1D522A9475196A887816B18E6FB');
-INSERT INTO `sys_action` VALUES ('4AD8623CB7F84F2EAA49ED9BD0FBB324', 'app.ac.apmanage.getTerminalPaging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取采集设备分页列表', 'app/ac/apmanage/getTerminalPaging', '85D58A033F864477A572BA9612197BD1');
-INSERT INTO `sys_action` VALUES ('4BC9E2B0B5A64561846A5312D934C2D0', 'app.analysis.system.place.addPlace', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加场所', 'app/analysis/system/place/addPlace', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('4C7BD73E4F2C48E89BA5CA3545F32114', 'app.ac.apmanage.getAcClusterPaging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取AC集群列表', 'app/ac/apmanage/getAcClusterPaging', '2F97212B6C21485E9E64576772101F45');
-INSERT INTO `sys_action` VALUES ('4F6FC547C5754B449775276985EF3261', 'app.ac.apmanage.getApStatuss3', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap任务状态列表', 'app/ac/apmanage/getApStatuss', '574B5CAD5790443D947FCD157E8CAD77');
+INSERT INTO `sys_action` VALUES ('4D56200014C64B3683B1BF06DB09B589', 'activity.config.category_group.exist', '2017-09-21 10:34:06', null, null, '2017-09-21 10:34:06', '根据名称判断专业组是否存在', 'app/activity/config/category/group/exist', '40B65CA1864C457FA6A54B1EBF24CE14');
 INSERT INTO `sys_action` VALUES ('4F74D5B985804158B2FFBCBBE552C31B', 'tax.business.category.list', '2017-05-11 15:04:21', null, null, '2017-05-11 15:04:21', '业务项目列表', 'app/tax/business/category/list', '45FE5B6350BB4FE785AABC13DDED4133');
 INSERT INTO `sys_action` VALUES ('508A6329E7D34E8EA71062CF0A2E4FF5', 'tax.business.category.list.all', '2017-06-22 16:24:38', null, null, '2017-06-22 16:24:38', '获取所有业务类型', 'app/tax/business/category/list/all', '08F6DF520060436CB923C47039CCC16B');
 INSERT INTO `sys_action` VALUES ('52666B15037942558123D3F576205D60', 'tax.agency.list', '2017-05-26 17:28:55', null, null, '2017-05-26 17:28:55', '机构列表', 'app/tax/agency/list', '08F6DF520060436CB923C47039CCC16B');
-INSERT INTO `sys_action` VALUES ('52B3C29BB72C4B9593974A66EC15CDD7', 'app.ac.apmanage.getFirmwares2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取固件列表', 'app/ac/apmanage/getFirmwares', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
 INSERT INTO `sys_action` VALUES ('53E5C8C711A24286890DCF8FAF585BF0', 'app.aclMac.am.exportOne', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导出数据指定行', 'app/aclMac/am/exportOne', 'A3F1CC20882B4D9E9E01F586FB32D472');
-INSERT INTO `sys_action` VALUES ('54BCCC3499D348738E64DD8F40B71BF0', 'app.ac.apmanage.editApModelModel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑ap型号', 'app/ac/apmanage/editApModelModel', '0602D9327C3544BD966592E63F7EDB45');
 INSERT INTO `sys_action` VALUES ('55834E20A49C4D3D95684F4C6F6182EA', 'app.authroization.advStrategyMana.editRule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑规则', 'app/authroization/advStrategyMana/editRule', '2776B11CE2A048C89F1E72A670A585A0');
-INSERT INTO `sys_action` VALUES ('55B9FD2C6FA644DAB91DFE67ED212E50', 'app.ac.apmanage.getApCfgs', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap模板列表', 'app/ac/apmanage/getApCfgs', 'F3ED12419EA3448EA86BFADD35862113');
-INSERT INTO `sys_action` VALUES ('56DC12FE918C4A11AE75D7164F3D131C', 'app.ac.dataCenter.getDataCenterPaging3', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取数据中心数据', 'app/ac/dataCenter/getDataCenterPaging', '85D58A033F864477A572BA9612197BD1');
 INSERT INTO `sys_action` VALUES ('571D4746EC9D4ECCAD4DD638B108A025', 'app.sysconfig.auth.group.place.paging2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所列表', 'app/sysconfig/auth/group/place/paging', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('577CC3BE5A5B41C181FC625881838651', 'app.ac.apmanage.removeApModel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除ap信息', 'app/ac/apmanage/removeApModel', '574B5CAD5790443D947FCD157E8CAD77');
 INSERT INTO `sys_action` VALUES ('58368E64FD7849C3A9A808CFA85C15CC', 'system.resources.subsystem.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑子系统', 'app/system/state/edit', '61057033523B4D909E61909442A636EF');
-INSERT INTO `sys_action` VALUES ('583725C2ABAB4751A03413EA0A757447', 'app.ac.apmanage.getAcClusterPaging3', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取AC集群列表', 'app/ac/apmanage/getAcClusterPaging', '85D58A033F864477A572BA9612197BD1');
 INSERT INTO `sys_action` VALUES ('5838A5442D7F41CFAC5E114367BDCC4F', 'system.permission.group.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑组', 'app/system/group/edit', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('598202B169B14E6E80807088C1D423DF', 'app.Authentication.rz.addAuthType', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加认证类型', 'app/Authentication/rz/addAuthType', '35309B771CF24529B2A75BD04E4A0FE2');
 INSERT INTO `sys_action` VALUES ('59C4D22150E14C0CB9561490F9000455', 'system.permission.user.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取用户列表', 'app/system/user/paging', '0AB0C2E566F24635B5089EE9B4FD4EC3');
@@ -282,33 +519,20 @@ INSERT INTO `sys_action` VALUES ('5A79140A4C964B73B94500637F785880', 'tax.statis
 INSERT INTO `sys_action` VALUES ('5C002710AED44876B2EF4322D169B50A', 'system.permission.user.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加用户', 'app/system/user/add', '0AB0C2E566F24635B5089EE9B4FD4EC3');
 INSERT INTO `sys_action` VALUES ('5D56CDA6C0954D4E99BB5F9766865E56', 'app.authStrategy.ce.addStrategyTask', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加策略任务', 'app/authStrategy/ce/addStrategyTask', 'D004D9011CA8449BB809DF666BDD751B');
 INSERT INTO `sys_action` VALUES ('5DB99554A9E741559B0D4A650AA6A11B', 'app.aclMac.am.addAclMac', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '新增ACLMAC', 'app/aclMac/am/addAclMac', 'A3F1CC20882B4D9E9E01F586FB32D472');
-INSERT INTO `sys_action` VALUES ('5ED6380A81B74541A6A6AA56186ECEF0', 'app.ac.apmanage.editAcCluster', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑AC集群', 'app/ac/apmanage/editAcCluster', '2F97212B6C21485E9E64576772101F45');
-INSERT INTO `sys_action` VALUES ('5F955C9DB0C74F818FDBCF310D5AC5BD', 'app.analysis.system.place.getCertificate', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取证件类型下拉框', 'app/analysis/system/place/getCertificate', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('607202678D9D4A129B27DE9CA41F5B54', 'app.ac.apmanage.addAuth', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加ap认证策略信息', 'app/ac/apmanage/addAuth', '574B5CAD5790443D947FCD157E8CAD77');
 INSERT INTO `sys_action` VALUES ('60DA889BBFAA403589F611E6B75EBF05', 'app.sysconfig.auth.group.place.remove', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '移除组中场所', 'app/sysconfig/auth/group/place/remove', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('60FDA3D3B8FC488D88C3DD09D678211F', 'system.permission.role.state.save', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '角色管理中保存状态', 'app/system/role/state/save', '3C25C1D522A9475196A887816B18E6FB');
-INSERT INTO `sys_action` VALUES ('61A55A8FA66B41679C6E4FFDDA2CAFB3', 'main.xxxxxxx', '2017-03-10 10:53:41', null, null, '2017-03-10 10:54:28', '111222', 'asdfasdfasd', '72F244E5144F44FFB15156B33B1D3452');
+INSERT INTO `sys_action` VALUES ('618402CF4BAC49B0BFF335504C7287B8', 'activity.config.award.edit', '2017-09-18 15:34:52', null, null, '2017-09-18 15:34:52', '编辑奖项', 'app/activity/config/award/edit', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('61CF01FAACFA4F60B93D8AA565C45693', 'tax.business.examine.detail', '2017-05-30 22:36:42', null, null, '2017-05-30 22:36:42', '检查详情', 'app/tax/business/examine/detail', 'F746C7B7F4154C3DA16A5F9A0EEA12AF');
-INSERT INTO `sys_action` VALUES ('6446AB4725A849A288D1A03F83DB4883', 'app.ac.apmanage.getApTips', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取ap统计信息', 'app/ac/apmanage/getApTips', 'CFD9D96F8C3C4921B79A91180DF99BAC');
-INSERT INTO `sys_action` VALUES ('64AD211AA04444A5B8CCBFB1B5AC5A16', 'app.analysis.monitor.apalarm.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取设备报警分页数据', 'app/analysis/monitor/apalarm/paging', 'D7BEDB1533AF42BAA6B8505441F258C5');
 INSERT INTO `sys_action` VALUES ('64E885C3C5DC4587ADF9F8345FDF3756', 'system.permission.group.types', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取组类型列表', 'app/system/group/types', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('658686DC70944515AFE5E1AC8E2DB33F', 'app.analysis.system.place.getPlaceTips2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所首页统计信息', 'app/analysis/system/place/getPlaceTips', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('66F1C40C3ABA4E93919336612AE7DADE', 'app.aclMac.am.editAclMac', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑ACLMAC', 'app/aclMac/am/editAclMac', 'A3F1CC20882B4D9E9E01F586FB32D472');
-INSERT INTO `sys_action` VALUES ('67C61CDE2211488FBBEEE7AF76A93918', 'app.ac.apmanage.addUpdateSchedule2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加系统升级任务', 'app/ac/apmanage/addUpdateSchedule', '174F582DDEC741EEA5B6BAECA2012DAC');
-INSERT INTO `sys_action` VALUES ('67E77C42069B47CCBCDF38CA9402C3C3', 'app.activity.config.create.list', '2017-09-15 17:35:13', null, null, '2017-09-15 17:37:03', '历史活动列表', 'app/activity/config/create/list', '1B883BA8F6B04DF79700583BD866BC73');
+INSERT INTO `sys_action` VALUES ('67E77C42069B47CCBCDF38CA9402C3C3', 'activity.config.create.list', '2017-09-15 17:35:13', null, null, '2017-09-18 15:31:00', '历史活动列表', 'app/activity/config/create/list', '1B883BA8F6B04DF79700583BD866BC73');
 INSERT INTO `sys_action` VALUES ('6A46C9FC9CB44DA1A2ED12A7B34D9C5C', 'app.aclDomain.ad.addAclDomain', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '增加AclDomain', 'app/aclDomain/ad/addAclDomain', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('6BA0097D88C049C3A0C431E1492F8E73', 'system.permission.role.types', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取角色类型', 'app/system/role/types', '3C25C1D522A9475196A887816B18E6FB');
 INSERT INTO `sys_action` VALUES ('6C14CAF3B57447FD90D757605A28AF81', 'app.sysconfig.auth.group.ap.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '向组中添加AP', 'app/sysconfig/auth/group/ap/add', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('6E0F5615361341DAA6BCB29FE6573240', 'app.ac.apmanage.removeApCfg', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '清空ap配置', 'app/ac/apmanage/removeApCfg', '574B5CAD5790443D947FCD157E8CAD77');
 INSERT INTO `sys_action` VALUES ('6E9EDBC07FFF44AFBCE5A88150308F7F', 'tax.examine.paging.first', '2017-05-26 17:17:38', null, null, '2017-05-26 17:17:38', '业务自查列表', 'app/tax/examine/paging/first', 'ED0720579B0E425F9B2109A0C35388A9');
-INSERT INTO `sys_action` VALUES ('6EE274BE8C2A4BB6B237C63566BF2BDF', 'app.ac.apmanage.editFirmwares', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑固件信息', 'app/ac/apmanage/editFirmwares', 'A37742C057E846BA94BFB58964177B98');
 INSERT INTO `sys_action` VALUES ('6EEB4FE52CFD466B84C26DD62F91C45A', 'system.permission.user.role.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取角色分页列表', 'app/system/role/paging', '0AB0C2E566F24635B5089EE9B4FD4EC3');
 INSERT INTO `sys_action` VALUES ('6FBE55516DD94FCF90B9DAD5715E93AE', 'app.authroization.portalMana.getSelectedPlaces', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化场所列表', 'app/authroization/portalMana/getSelectedPlaces', '50A44ED2D95A4946B2E1BFD2955E6821');
-INSERT INTO `sys_action` VALUES ('6FEA4C2686F145ACB216F9FD12383C83', 'main.ac.monitor.getRecordWithRelation', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取带终端连接数的ap列表', 'app/ac/monitor/getRecordWithRelation', '2DFB53293AEA4CCAA9A7A6DFFB1521FA');
-INSERT INTO `sys_action` VALUES ('7020BFF5F51F423D8E9240A3E27F9D59', 'app.analysis.system.place.removePlace', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除场所', 'app/analysis/system/place/removePlace', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('710CE0A904EF44AE91504E4B7DC6BEA6', 'app.aclDomain.ad.getAuthStrategySelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取认证策略列表', 'app/aclDomain/ad/getAuthStrategySelectItem', '574B5CAD5790443D947FCD157E8CAD77');
 INSERT INTO `sys_action` VALUES ('71B764D896D549DBA1C1735F8E9F1894', 'app.sysconfig.auth.group.exist', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '判断组是否存在', 'app/sysconfig/auth/group/exist', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('71DF883B89934676A1A508F05A72AA56', 'app.ac.apmanage.addApCfgTpl', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '配置ap保存', 'app/ac/apmanage/addApCfgTpl', 'F3ED12419EA3448EA86BFADD35862113');
 INSERT INTO `sys_action` VALUES ('71F743C6195E453595532354E2585F88', 'app.authroization.advMana.deletes', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除广告', 'app/authroization/advMana/deletes', 'A2542D2E7BAE44E3BFDE9E20E016F5D0');
 INSERT INTO `sys_action` VALUES ('72A993124AE04FFFB62ED8D6708E6300', 'tax.agency.user.list', '2017-05-26 17:30:33', null, null, '2017-05-26 17:30:33', '当前用户机构用户列表', 'app/tax/agency/user/list', 'F746C7B7F4154C3DA16A5F9A0EEA12AF');
 INSERT INTO `sys_action` VALUES ('7343E006EF3746AB9B52629D919DD06B', 'app.sysconfig.auth.group.terminal.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '根据组获取终端列表', 'app/sysconfig/auth/group/terminal/paging', '45198E9490F046FFBA773FF0B476FEA7');
@@ -316,107 +540,62 @@ INSERT INTO `sys_action` VALUES ('73548213C806475AAD500A82648BA782', 'app.authSt
 INSERT INTO `sys_action` VALUES ('736404159B11400EAC79D6E12FE1A127', 'tax.examine.second.commit', '2017-05-26 17:22:32', null, null, '2017-05-26 17:22:32', '提交业务审查', 'app/tax/examine/second/commit', '03A5F34C27414F00945153F863D00EFE');
 INSERT INTO `sys_action` VALUES ('746F3116DC074370A47C5ACC30CD38E3', 'app.authroization.portalMana.uploadPicture', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '上传图片', 'app/authroization/portalMana/uploadPicture', '50A44ED2D95A4946B2E1BFD2955E6821');
 INSERT INTO `sys_action` VALUES ('755E8F300C4E470B9C09DFB1937A5439', 'tax.business.attachment.del', '2017-06-01 22:32:18', null, null, '2017-06-01 22:32:18', '删除附件', 'app/tax/business/attachment/del', '5A6E2DFC64884E04AF66F094389531B3');
-INSERT INTO `sys_action` VALUES ('75E80E34520240B69727DB0694C1FD04', 'app.ac.apmanage.getApUpdateView', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '升级任务详情', 'app/ac/apmanage/getApUpdateView', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
-INSERT INTO `sys_action` VALUES ('76CB86403E044B568BA7C2E2EB7244BD', 'app.analysis.system.place.getContactsList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取联系人列表', 'app/analysis/system/place/getContactsList', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('772358A4A23249269F653987B1D5D104', 'app.auth.authList.getAuthList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取认证信息列表', 'app/auth/authList/getAuthList', '0DE1DBB5E5014149AC4E81C652FAD90E');
 INSERT INTO `sys_action` VALUES ('775464104B0F458C9903FC48CA9251C6', 'app.authroization.portalMana.getMerchantPortal', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取当前登录商户的门户信息', 'app/authroization/portalMana/getMerchantPortal', '50A44ED2D95A4946B2E1BFD2955E6821');
-INSERT INTO `sys_action` VALUES ('778C9848D3CF48DC81C86A9B0941A79E', 'app.analysis.system.place.getPlaceTips', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取场所统计信息', 'app/analysis/system/place/getPlaceTips', 'CFD9D96F8C3C4921B79A91180DF99BAC');
-INSERT INTO `sys_action` VALUES ('782A9330256241799B1DFBC1E0A00C3B', 'app.ac.apmanage.getConfigUpdateCount2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取升级任务数量', 'app/ac/apmanage/getConfigUpdateCount', '174F582DDEC741EEA5B6BAECA2012DAC');
 INSERT INTO `sys_action` VALUES ('78AEE2BE34E74EC19883E765448DB781', 'app.aclDomain.ad.removeAclDomain', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除AclDomain', 'app/aclDomain/ad/removeAclDomain', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('79325BB320A140279A0928379AFDF8DC', 'system.resources.menu.del', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除目录', 'app/system/state/del', '6DC8F954402541A1B6277946C36D6E56');
 INSERT INTO `sys_action` VALUES ('79344C56FB504E348B81BFE8EA0A02DF', 'tax.business.category.list', '2017-05-26 17:16:25', null, null, '2017-05-26 17:16:25', '业务类型列表', 'app/tax/business/category/list', 'ED0720579B0E425F9B2109A0C35388A9');
-INSERT INTO `sys_action` VALUES ('79D31D2E14C7402CAAB1DBEC38262C0E', 'app.ac.apmanage.removeUpdateSchedule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除系统升级任务', 'app/ac/apmanage/removeUpdateSchedule', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
-INSERT INTO `sys_action` VALUES ('7AFC8F4D84BA429F9925BA4A517850E1', 'app.analysis.system.place.getCitys', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取城市下拉列表', 'app/analysis/system/place/getCitys', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('7BA5A536BACD4826B16D65890B2B162C', 'app.authroization.advStrategyMana.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加广告策略', 'app/authroization/advStrategyMana/add', '2776B11CE2A048C89F1E72A670A585A0');
-INSERT INTO `sys_action` VALUES ('7CB20310B1FC4E6B8A2CC344014F4DE6', 'app.ac.apmanage.addApModel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '保存ap信息', 'app/ac/apmanage/addApModel', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('7D56E3F85AFF4E96BA58E906658C760B', 'app.ac.apmanage.config.getApCfgByApId', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '根据ap信息获取对应的配置信息回显使用', 'app/ac/apmanage/getApCfgByApId', '8771F14BA5EA4644BBEDC14587F0F625');
 INSERT INTO `sys_action` VALUES ('7DF025D29B974BB8917543F5AE31F96E', 'app.Authentication.wechat.getList2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取微信配置列表', 'app/Authentication/wechat/getList', 'D004D9011CA8449BB809DF666BDD751B');
 INSERT INTO `sys_action` VALUES ('7E6A07D493074A3D918A3680089D2531', 'system.log.business.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取业务日志分页列表', 'app/system/log/business/paging', 'FB1B62C0FA5A49F2A5103E1FAFE3F34E');
-INSERT INTO `sys_action` VALUES ('7E788481AF4845E38F3B5601389F3C09', 'app.activity.config.check_criterion.edit', '2017-09-16 23:02:08', null, null, '2017-09-17 22:50:24', '编辑形审标准', 'app/activity/config/check/criterion/edit', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
-INSERT INTO `sys_action` VALUES ('805212DC634E4F0E874E1B5467897093', 'app.analysis.system.place.getISP', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化接入服务商下拉框', 'app/analysis/system/place/getISP', '499FEF3D7E22421AAC8D9FDC26B43D07');
+INSERT INTO `sys_action` VALUES ('7E788481AF4845E38F3B5601389F3C09', 'activity.config.check_criterion.edit', '2017-09-16 23:02:08', null, null, '2017-09-18 15:30:33', '编辑形审标准', 'app/activity/config/check/criterion/edit', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
 INSERT INTO `sys_action` VALUES ('8066728886604688BDF2220BDB7D0B42', 'system.permission.role.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取角色分页列表', 'app/system/role/paging', '3C25C1D522A9475196A887816B18E6FB');
 INSERT INTO `sys_action` VALUES ('810E6C2711594037AE86BCD846DBF21F', 'tax.business.issue.list', '2017-05-26 17:21:09', null, null, '2017-05-26 17:21:09', '问题种类列表', 'app/tax/business/issue/list', '03A5F34C27414F00945153F863D00EFE');
-INSERT INTO `sys_action` VALUES ('81421BF4DA104380A50EE5E1B3592B50', 'app.ac.apmanage.exportPage', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导出excel整页', 'app/ac/apmanage/exportPage', '574B5CAD5790443D947FCD157E8CAD77');
 INSERT INTO `sys_action` VALUES ('82EC97DC78614309A7B89120C8DE2287', 'system.resources.menugroup.del', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除目录组', 'app/system/state/del', '1447582D07684B6198F85865024CE2D4');
-INSERT INTO `sys_action` VALUES ('83F52E204CC34ECEB62A560B9C54CD7F', 'app.ac.apmanage.getRecord', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap列表', 'app/ac/apmanage/getRecord', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('84CD8E7855F649509DD92FFC6B80B127', 'app.ac.apmanage.startUpdateSchedule2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '启动升级任务', 'app/ac/apmanage/startUpdateSchedule', '174F582DDEC741EEA5B6BAECA2012DAC');
 INSERT INTO `sys_action` VALUES ('85AD3C49171D4E26B878661966932447', 'tax.business.attachment.list', '2017-06-01 15:13:04', null, null, '2017-06-01 15:13:04', '附件列表', 'app/tax/business/attachment/list', '5A6E2DFC64884E04AF66F094389531B3');
-INSERT INTO `sys_action` VALUES ('870EA9B43F3C4256ADF6B8849CA18F65', 'app.ac.apmanage.addApModelModel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加ap型号', 'app/ac/apmanage/addApModelModel', '0602D9327C3544BD966592E63F7EDB45');
-INSERT INTO `sys_action` VALUES ('873CB843CD694982A58EA4E597626656', 'app.ac.apmanage.getConfigApRelations', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取任务 的配置信息和ap列表-详情', 'app/ac/apmanage/getConfigApRelations', '8771F14BA5EA4644BBEDC14587F0F625');
 INSERT INTO `sys_action` VALUES ('87C505CFA5FA4C2CB934B222DDA1DCDE', 'system.resources.action.del', '2017-03-02 16:25:02', '删除列表', null, '2017-03-02 16:25:02', '删除列表', 'app/system/action/del', '8F4C7D18E5744917BBB171AB91593F57');
-INSERT INTO `sys_action` VALUES ('87FBA9B7F0A049409A1F6CEB475376D5', 'app.place.exportSelected', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导出选中行', 'app/place/exportSelected', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('883AB8E6B2354F04A5BB558B502F7C57', 'app.analysis.system.place.getPlaceCodeList2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所编码下拉列表', 'app/analysis/system/place/getPlaceCodeList', 'D7BEDB1533AF42BAA6B8505441F258C5');
 INSERT INTO `sys_action` VALUES ('8865E59E2FE4461796D0FCE003D963A2', 'tax.business.attachment.del', '2017-06-01 22:31:44', null, null, '2017-06-01 22:31:44', '删除附件', 'app/tax/business/attachment/del', '45FE5B6350BB4FE785AABC13DDED4133');
 INSERT INTO `sys_action` VALUES ('88F423B7D4ED4D529CF192D83D2C4B0C', 'app.authroization.advStrategyMana.deletes', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除广告策略', 'app/authroization/advStrategyMana/deletes', '2776B11CE2A048C89F1E72A670A585A0');
 INSERT INTO `sys_action` VALUES ('8AAE208F92D44EC2AB3F10BAE1D0B428', 'app.aclDomain.ad.readExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '域名数据导入', 'app/aclDomain/ad/readExcel', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('8B0C5D25AC0F4E28B0E7ED5D23FEB5B3', 'app.aclMac.am.removeAclMac', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除ACLMAC', 'app/aclMac/am/removeAclMac', 'A3F1CC20882B4D9E9E01F586FB32D472');
-INSERT INTO `sys_action` VALUES ('8CF59A0DE81D471F9156880EAB06D90C', 'app.ac.dataCenter.getDataCenterPaging2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取数据中心数据', 'app/ac/dataCenter/getDataCenterPaging', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('8D1D00CF08244C1399AE0F9F4D7327C1', 'app.ac.apmanage.securityVendorGetPaging2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取安全厂商下拉列表', 'app/ac/securityVendor/getPaging', '85D58A033F864477A572BA9612197BD1');
+INSERT INTO `sys_action` VALUES ('8C6A0E6534354DBAA26921885FB4B693', 'activity.config.category_group.paging', '2017-09-21 10:23:49', null, null, '2017-09-21 10:31:08', '专家专业分组分页', 'app/activity/config/category/group/paging', '40B65CA1864C457FA6A54B1EBF24CE14');
+INSERT INTO `sys_action` VALUES ('8D20CD7D63ED4FC98124CE9EFD6ED4CF', 'activity.config.category_group.del', '2017-09-21 10:33:14', null, null, '2017-09-21 10:33:14', '删除专家专业组', 'app/activity/config/category/group/del', '40B65CA1864C457FA6A54B1EBF24CE14');
 INSERT INTO `sys_action` VALUES ('8D6C23E5982D4319B20282086950EA29', 'system.resources.action.hierarchysubsystem', '2017-03-02 16:25:02', '获取action上级的目录、目录组、子系统', null, '2017-03-02 16:25:02', '获取上层节点', 'app/system/state/hierarchysubsystem', '8F4C7D18E5744917BBB171AB91593F57');
 INSERT INTO `sys_action` VALUES ('8DFE4301CFB14BD9BC0E692BA6A022A7', 'app.authStrategy.ce.editAuthStrategy', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '修改认证策略', 'app/authStrategy/ce/editAuthStrategy', 'D004D9011CA8449BB809DF666BDD751B');
-INSERT INTO `sys_action` VALUES ('8E0323DB76184DFCADF2F2258BAB03AB', 'app.welcome.getAuthorCount', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取访问数量', 'app/welcome/getAuthorCount', 'CFD9D96F8C3C4921B79A91180DF99BAC');
-INSERT INTO `sys_action` VALUES ('8E7AC208539940519E4CDA8911EA71A1', 'app.welcome.getApalarmCount', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取预警数量', 'app/welcome/getApalarmCount', 'CFD9D96F8C3C4921B79A91180DF99BAC');
 INSERT INTO `sys_action` VALUES ('8E91839E4A4D4D5D8EF524AA18975FEA', 'system.resources.state.notmenu.hierarchysubsystem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取上级节点', 'app/system/state/hierarchysubsystem', '0175EC462A5C4C5B9362146E77F70610');
 INSERT INTO `sys_action` VALUES ('8FC032C8A91B44CBBBDBAA0A747F9BD5', 'app.authStrategy.ce.getAuthStrategy', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '查询认证策略', 'app/authStrategy/ce/getAuthStrategy', 'D004D9011CA8449BB809DF666BDD751B');
 INSERT INTO `sys_action` VALUES ('8FED56DF10EC471F8FC3696CEA54892B', 'tax.business.issue.list', '2017-05-26 17:25:21', null, null, '2017-05-26 17:25:21', '问题种类列表', 'app/tax/business/issue/list', '2F53F0EC9CCC46E5970C3CFEF10CBEA3');
 INSERT INTO `sys_action` VALUES ('9057A646BD5B46A78C434E05D659013A', 'system.permission.user.types', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取用户类型列表', 'app/system/user/types', '0AB0C2E566F24635B5089EE9B4FD4EC3');
-INSERT INTO `sys_action` VALUES ('90A6FDB64A994A0FB6678280EE2443CB', 'app.analysis.system.place.getPlaceCodeList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所编码下拉列表', 'app/analysis/system/place/getPlaceCodeList', '499FEF3D7E22421AAC8D9FDC26B43D07');
 INSERT INTO `sys_action` VALUES ('9250E4957FE347EA93619AEBF3DD3A2D', 'app.authStrategy.ce.addAuthStrategy', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加认证策略', 'app/authStrategy/ce/addAuthStrategy', 'D004D9011CA8449BB809DF666BDD751B');
 INSERT INTO `sys_action` VALUES ('92862B999FDB4203BBFE99C3941E84FC', 'system.permission.group.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加组', 'app/system/group/add', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('92AD9F80A8294F928620C367D46020E0', 'app.sysconfig.auth.group.place.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '向组中添加场所', 'app/sysconfig/auth/group/place/add', '45198E9490F046FFBA773FF0B476FEA7');
+INSERT INTO `sys_action` VALUES ('92E76691F741417085BBFE4C5CDDC965', 'activity.config.award.level.edit', '2017-09-19 10:22:39', null, null, '2017-09-19 10:22:39', '奖项等级配置', 'app/activity/config/award/level/edit', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('93C5D9A36E34411DB480CA5CB56C546B', 'tax.business.attachment.list', '2017-06-02 16:03:28', null, null, '2017-06-02 16:03:28', '附件列表', 'app/tax/business/attachment/list', '2F53F0EC9CCC46E5970C3CFEF10CBEA3');
-INSERT INTO `sys_action` VALUES ('954EEA324A4D44B19154DEF74C994A24', 'app.analysis.system.place.editPlace', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑场所', 'app/analysis/system/place/editPlace', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('9558A5A8FB12414A8BB1870A4AE7C277', 'app.ac.apmanage.addApCfg', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加ap配置任务', 'app/ac/apmanage/addApCfg', '8771F14BA5EA4644BBEDC14587F0F625');
 INSERT INTO `sys_action` VALUES ('9589985EBB284F1F9FBEC1B7236DE0A6', 'app.authroization.advStrategyMana.getRuleList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取广告策略规则列表', 'app/authroization/advStrategyMana/getRuleList', '2776B11CE2A048C89F1E72A670A585A0');
 INSERT INTO `sys_action` VALUES ('95D36F3A6388414C86D51B73E77830BC', 'app.init.import.stateaction', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化目录', 'app/init/import/stateaction', 'F1B958A6277745468BAD53F5B360D084');
 INSERT INTO `sys_action` VALUES ('968E4EE1BBED4FF1B4610F6313DF515B', 'system.permission.user.del', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除用户', 'app/system/user/del', '0AB0C2E566F24635B5089EE9B4FD4EC3');
-INSERT INTO `sys_action` VALUES ('96FF74027D2945A6B4484C273AE6C490', 'app.ac.apmanage.removeApModelModel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除ap型号', 'app/ac/apmanage/removeApModelModel', '0602D9327C3544BD966592E63F7EDB45');
-INSERT INTO `sys_action` VALUES ('97AE7FF000B4416CAB86410D58A65E50', 'app.ac.apmanage.validateEditFirm', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '判断固件信息是否可编辑', 'app/ac/apmanage/validateEditFirm', 'A37742C057E846BA94BFB58964177B98');
 INSERT INTO `sys_action` VALUES ('982E2172736B4836999F71048A1C6D24', 'tax.business.attachment.list', '2017-06-01 15:12:31', null, null, '2017-06-01 15:12:31', '附件列表', 'app/tax/business/attachment/list', '85D85C3210184D21B7B0949FE34756AB');
-INSERT INTO `sys_action` VALUES ('985467D6F83B4464BF7C25DBFFA7EE33', 'app.welcome.getTerminalCount', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取系统采集设备统计', 'app/welcome/getTerminalCount', 'CFD9D96F8C3C4921B79A91180DF99BAC');
 INSERT INTO `sys_action` VALUES ('987E8B47756B4B018B06CAC36DB54ED6', 'system.resources.action.add', '2017-03-02 16:25:02', '添加列表', null, '2017-03-02 16:25:02', '添加列表', 'app/system/action/add', '8F4C7D18E5744917BBB171AB91593F57');
-INSERT INTO `sys_action` VALUES ('98B77441315D4A4C95DEEFE5E4D70BC2', 'app.ac.apmanage.getApCount', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap信息-多处用到', 'app/ac/apmanage/getApCount', '2DFB53293AEA4CCAA9A7A6DFFB1521FA');
 INSERT INTO `sys_action` VALUES ('992070FBA38542B98D60F8642C0DCD2F', 'app.aclDomain.ad.exportOne', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '域名数据按选定行导出', 'app/aclDomain/ad/exportOne', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('995E0B9968B6492198BEF8969B0BFB9E', 'app.authroization.portalMana.getUserType', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '查看用户类型', 'app/authroization/portalMana/getUserType', '50A44ED2D95A4946B2E1BFD2955E6821');
-INSERT INTO `sys_action` VALUES ('9C24191BFF794C4FBE257A2D0FE3604E', 'app.ac.apmanage.startUpdateSchedule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '启动升级任务', 'app/ac/apmanage/startUpdateSchedule', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
-INSERT INTO `sys_action` VALUES ('9CC26BFAF854437D9A9364A7688C56AD', 'app.ac.apmanage.editTerminal', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑终端采集设备', 'app/ac/apmanage/editTerminal', '85D58A033F864477A572BA9612197BD1');
+INSERT INTO `sys_action` VALUES ('99B942AAE89741B6B10E870F046A74A7', 'activity.config.award.exist', '2017-09-18 15:36:12', null, null, '2017-09-18 15:36:12', '根据名称判断是否存在', 'app/activity/config/award/exist', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('9CD7F7E5288D4ACAACF8AC1B2543EE8E', 'app.sysconfig.auth.group.ap.remove', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '移除组中AP', 'app/sysconfig/auth/group/ap/remove', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('9DDEC5B3FF664A47B2565B799F69C8FE', 'app.authroization.advStrategyMana.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑广告策略', 'app/authroization/advStrategyMana/edit', '2776B11CE2A048C89F1E72A670A585A0');
-INSERT INTO `sys_action` VALUES ('9EE881A81A6141FFB736A17908707176', 'app.ac.securityVendor.deleteVendor', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除厂商', 'app/ac/securityVendor/deleteVendor', '641F71B461E943A6BA58B70C21E8111C');
 INSERT INTO `sys_action` VALUES ('9EE8940967114045876CE796A6283858', 'tax.business.commit', '2017-05-26 23:56:37', null, null, '2017-05-26 23:56:37', '业务提交', 'app/tax/business/commit', '45FE5B6350BB4FE785AABC13DDED4133');
-INSERT INTO `sys_action` VALUES ('9EF16313265749DA9AF5C5346BC658C8', 'app.ac.apmanage.getApCfgByApId', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '根据apid获取apcfg配置', 'app/ac/apmanage/getApCfgByApId', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('9FC4E6642E304BC8B88D08851265AFBC', 'app.welcome.getVisitTypeScale', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取访问类型', 'app/welcome/getVisitTypeScale', 'CFD9D96F8C3C4921B79A91180DF99BAC');
-INSERT INTO `sys_action` VALUES ('A2258E13E3BA4B7A928B84F2C7525476', 'app.ac.dataCenter.addDataCenter', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加数据中心信息', 'app/ac/dataCenter/addDataCenter', '5794EB29EC284EFB88625AC0AF424AE8');
-INSERT INTO `sys_action` VALUES ('A2AC15F6B50D42459C66EBBE591FD4DC', 'app.ac.apmanage.exportOne', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导出excel-按勾选', 'app/ac/apmanage/exportOne', '574B5CAD5790443D947FCD157E8CAD77');
 INSERT INTO `sys_action` VALUES ('A3E5BF156DEC4F35AEACC4F5C8776940', 'app.sysconfig.auth.group.ap.paging2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap列表', 'app/sysconfig/auth/group/ap/paging', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('A4BE48BBD47A40DFB2B5851ED707C9C0', 'tax.business.commit.amendment', '2017-05-26 17:12:58', null, null, '2017-05-26 17:12:58', '提交整改业务', 'app/tax/business/commit/amendment', '5A6E2DFC64884E04AF66F094389531B3');
 INSERT INTO `sys_action` VALUES ('A54B75E8E063409FA65D15BCF0DA6B60', 'tax.business.paging.error', '2017-05-30 17:25:41', null, null, '2017-05-30 17:25:41', '获取错误业务列表', 'app/tax/business/paging/error', '08F6DF520060436CB923C47039CCC16B');
 INSERT INTO `sys_action` VALUES ('A56C37DA59314197997044A82C031A0B', 'app.authroization.welcome.getVisitTypeScale', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取访问类型', 'app/welcome/getVisitTypeScale', '73EA15EFBCFA487B9F6DDD78A573B35E');
 INSERT INTO `sys_action` VALUES ('A579CFAD69E0428AA00DD61D18B44213', 'system.resources.state.notmenu.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '子系统列表', 'app/system/state/paging', '0175EC462A5C4C5B9362146E77F70610');
-INSERT INTO `sys_action` VALUES ('A60C078A362C446EA95C5C32DC4E8D8C', 'app.analysis.system.place.getPlaceTypeSelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化场所类型下拉框', 'app/analysis/system/place/getPlaceTypeSelectItem', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('A7085AFCCC764C5D853722DE89670BFA', 'app.ac.apmanage.getApCfgStatus', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap配置状态数据', 'app/ac/apmanage/getApCfgStatus', '574B5CAD5790443D947FCD157E8CAD77');
+INSERT INTO `sys_action` VALUES ('A59E47DD8BE44358A1CC282789CBA4BD', 'activity.config.award.criterion.add', '2017-09-19 15:47:41', null, null, '2017-09-19 15:47:41', '添加奖项标准', 'app/activity/config/award/criterion/add', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('A749EC72BFD84D5B90E8BEBA00631F81', 'app.sysconfig.auth.group.getList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取组列表', 'app/sysconfig/auth/group/getList', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('A7FC1CE876E7475F9DA952065052EA36', 'app.ac.apmanage.getConfigSchedules2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取配置信息列表', 'app/ac/apmanage/getConfigSchedules', '183325E63BA246FC9E7738ED6D7B3EAB');
-INSERT INTO `sys_action` VALUES ('A81E9E316D124ABBA9D9687A67656B5D', 'app.ac.apmanage.stopUpdateSchedule2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '停止升级任务', 'app/ac/apmanage/stopUpdateSchedule', '174F582DDEC741EEA5B6BAECA2012DAC');
-INSERT INTO `sys_action` VALUES ('A89652554EA54F2988F6E3356991901F', 'app.ac.apmanage.config.ter.getApCfgByApId', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '根据ap信息获取对应的配置信息回显使用', 'app/ac/apmanage/getApCfgByApId', '183325E63BA246FC9E7738ED6D7B3EAB');
-INSERT INTO `sys_action` VALUES ('A8FDDC43E35244DD82027B19ADC44F8E', 'app.analysis.system.place.getPlacesList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所详细信息', 'app/analysis/system/place/getPlacesList', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('A9904D7F85ED4F0BB0002B7B5AB7B0FB', 'app.ac.apmanage.stopUpdateSchedule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '停止升级任务', 'app/ac/apmanage/stopUpdateSchedule', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
-INSERT INTO `sys_action` VALUES ('A996DBBC123847098F38394D31D88676', 'app.ac.apmanage.removeApCfgTpl', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除ap模板', 'app/ac/apmanage/removeApCfgTpl', 'F3ED12419EA3448EA86BFADD35862113');
-INSERT INTO `sys_action` VALUES ('A9AF2FF3F7894EDF92E3143CC63829C5', 'app.ac.dataCenter.deletesDataCenter', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除数据中心信息', 'app/ac/dataCenter/deletesDataCenter', '5794EB29EC284EFB88625AC0AF424AE8');
+INSERT INTO `sys_action` VALUES ('A8E4CC9F321446319BE0D6CFC7FC853B', 'activity.config.award.criterion.list', '2017-09-19 15:47:03', null, null, '2017-09-19 15:47:03', '奖项标准列表', 'app/activity/config/award/criterion/list', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('A9EA79B238BF47659FB73A9649F8D8C0', 'tax.examine.paging.second', '2017-05-26 17:21:48', null, null, '2017-05-26 17:21:48', '业务审查列表', 'app/tax/examine/paging/second', '03A5F34C27414F00945153F863D00EFE');
-INSERT INTO `sys_action` VALUES ('AA0175A25596481F9BCF61C53D6A128B', 'app.ac.apmanage.editApModel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑ap信息', 'app/ac/apmanage/editApModel', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('AA1E9952790F4F0C895BD317A5B53E5D', 'app.ac.apmanage.getConfigUpdateCount', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取升级任务数量', 'app/ac/apmanage/getConfigUpdateCount', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
-INSERT INTO `sys_action` VALUES ('AA388B748D8A49C39C68A32E9256B9DC', 'app.ac.apmanage.readExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导入excel-按勾选', 'app/ac/apmanage/readExcel', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('AA8705FFA10A4F0FA75BB9636313759E', 'app.analysis.monitor.exportPage', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '按当前页导出设备报警数据', 'app/analysis/monitor/exportPage', 'D7BEDB1533AF42BAA6B8505441F258C5');
 INSERT INTO `sys_action` VALUES ('AA891740F50645B3B0EA2D04CC691984', 'app.authroization.advStrategyMana.getAdvStrategyList', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取广告策略列表', 'app/authroization/advStrategyMana/getAdvStrategyList', '2776B11CE2A048C89F1E72A670A585A0');
-INSERT INTO `sys_action` VALUES ('AB158CE245BC4FBA8CF1A3B032264A20', 'main.ac.welcome.getApMap', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', 'ac欢迎界面', 'app/ac/apmanage/getApMap', '72F244E5144F44FFB15156B33B1D3452');
-INSERT INTO `sys_action` VALUES ('ACC19C8630CE4FF19E2217C5041FAA97', 'app.ac.apmanage.getConfigCount', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取任务数量', 'app/ac/apmanage/getConfigCount', '8771F14BA5EA4644BBEDC14587F0F625');
+INSERT INTO `sys_action` VALUES ('AE1E8A60C66A47AD97FB0F41D5BE7C99', 'activity.config.category.list.categorygroup', '2017-09-21 21:14:34', null, null, '2017-09-21 21:15:51', '根据专家专业组获取专业代码', 'app/activity/config/category/list/categorygroup', '40B65CA1864C457FA6A54B1EBF24CE14');
 INSERT INTO `sys_action` VALUES ('AEEE61A61A4D48A3B063E670F09BBD67', 'tax.business.category.type.list', '2017-05-11 15:03:22', null, null, '2017-05-11 15:03:22', '业务类型列表', 'app/tax/business/category/type/list', '45FE5B6350BB4FE785AABC13DDED4133');
-INSERT INTO `sys_action` VALUES ('B03D109B0D1446E78A3EF44D3FD8AE57', 'app.ac.apmanage.getConfigCount2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取任务数量', 'app/ac/apmanage/getConfigCount', '183325E63BA246FC9E7738ED6D7B3EAB');
 INSERT INTO `sys_action` VALUES ('B0D68986AECF45A9BD2120E08E49D319', 'system.log.business.time.set', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取业务日志保存时间', 'app/system/log/business/time/set', 'FB1B62C0FA5A49F2A5103E1FAFE3F34E');
 INSERT INTO `sys_action` VALUES ('B0D75EA8023A4B9694BA21436132B0DE', 'system.resources.subsystem.del', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除子系统', 'app/system/state/del', '61057033523B4D909E61909442A636EF');
-INSERT INTO `sys_action` VALUES ('B18341055EAC4A6783BD9D2BA1920824', 'app.ac.apmanage.removeTerminal', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除采集设备', 'app/ac/apmanage/removeApModel', '85D58A033F864477A572BA9612197BD1');
-INSERT INTO `sys_action` VALUES ('B2467CDF7F74430FADD07E8E2F92D656', 'app.ac.apmanage.getApCfgByApId2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '根据终端id获取apcfg配置', 'app/ac/apmanage/getApCfgByApId', '85D58A033F864477A572BA9612197BD1');
 INSERT INTO `sys_action` VALUES ('B262B829ACF441A6A3763CE819489F76', 'tax.business.paging.amendment', '2017-05-26 17:11:29', null, null, '2017-05-26 17:11:29', '需整改业务列表', 'app/tax/business/paging/amendment', '5A6E2DFC64884E04AF66F094389531B3');
 INSERT INTO `sys_action` VALUES ('B2F04AD2CFB0480F86611A93CA1DC2B5', 'tax.business.category.list', '2017-05-26 17:20:35', null, null, '2017-05-26 17:20:35', '业务类型列表', 'app/tax/business/category/list', '03A5F34C27414F00945153F863D00EFE');
 INSERT INTO `sys_action` VALUES ('B345AE7E0FC74B67B9424D21112CEA10', 'app.authroization.welcome.getVisitHistory', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取历史记录', 'app/welcome/getVisitHistory', '73EA15EFBCFA487B9F6DDD78A573B35E');
@@ -424,61 +603,40 @@ INSERT INTO `sys_action` VALUES ('B449D73EE97E4099A5FA43706CF93C1F', 'system.per
 INSERT INTO `sys_action` VALUES ('B486C0A8DE414FA0B111653DF9C0364D', 'app.authroization.advMana.getAdvList2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化广告列表', 'app/authroization/advMana/getAdvList', '2776B11CE2A048C89F1E72A670A585A0');
 INSERT INTO `sys_action` VALUES ('B4D4E35B4C224AFD8C93DD31AE75AA8C', 'system.permission.user.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑用户', 'app/system/user/edit', '0AB0C2E566F24635B5089EE9B4FD4EC3');
 INSERT INTO `sys_action` VALUES ('B4E5F2C94B1347A2B6693765366A8841', 'tax.business.add', '2017-05-11 15:07:18', null, null, '2017-05-11 15:12:24', '添加业务', 'app/tax/business/add', '45FE5B6350BB4FE785AABC13DDED4133');
-INSERT INTO `sys_action` VALUES ('B5C31576B8194E34BC189958D5903501', 'app.ac.apmanage.approveTerminal', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '审核采集设备', 'app/ac/apmanage/approveTerminal', '85D58A033F864477A572BA9612197BD1');
 INSERT INTO `sys_action` VALUES ('B6B3FC84CA3249219BBB632456F24C07', 'system.permission.user.role.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加角色', 'app/system/user/role/add', '0AB0C2E566F24635B5089EE9B4FD4EC3');
-INSERT INTO `sys_action` VALUES ('B6ED4DE0D50D4B1ABC99AF45F5E3367A', 'app.activity.config.check_criterion.exist', '2017-09-16 18:33:44', null, null, '2017-09-17 22:50:06', '根据名称判断形势审查标准是否存在', 'app/activity/config/check/criterion/exist', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
-INSERT INTO `sys_action` VALUES ('B85232E9FFEF47BABA3EC7D1E22885D9', 'app.ac.apmanage.getApTips2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap首页统计信息', 'app/ac/apmanage/getApTips', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('B895934CBAE84081AAF4C101C0BD0ADC', 'app.ac.apmanage.addTerminal', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加终端采集设备', 'app/ac/apmanage/addTerminal', '85D58A033F864477A572BA9612197BD1');
+INSERT INTO `sys_action` VALUES ('B6ED4DE0D50D4B1ABC99AF45F5E3367A', 'activity.config.check_criterion.exist', '2017-09-16 18:33:44', null, null, '2017-09-18 15:30:40', '根据名称判断形势审查标准是否存在', 'app/activity/config/check/criterion/exist', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
 INSERT INTO `sys_action` VALUES ('BA9A83EF0A0F4A5FA2B965097DA28704', 'app.tax.business.paging.created', '2017-05-11 15:06:48', null, null, '2017-05-26 17:38:30', '业务创建分页查询', 'app/tax/business/paging/created', '45FE5B6350BB4FE785AABC13DDED4133');
-INSERT INTO `sys_action` VALUES ('BAFAFCA1A4CD419FBE0EEA3C03B25692', 'app.ac.securityVendor.editVendor', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑厂商', 'app/ac/securityVendor/editVendor', '641F71B461E943A6BA58B70C21E8111C');
 INSERT INTO `sys_action` VALUES ('BC425F9E5E7B46C488FC428FB17524E9', 'system.permission.user.group.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取组列表', 'app/system/group/paging', '0AB0C2E566F24635B5089EE9B4FD4EC3');
+INSERT INTO `sys_action` VALUES ('BC60FFEDE8AB4BB688A3BE78B023FD0F', 'activity.config.award.type.list', '2017-09-18 16:39:35', null, null, '2017-09-18 16:39:35', '奖项类型列表', 'app/activity/config/award/type/list', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('BC768108A6FB470DBD3C823166DE9111', 'system.permission.role.exist', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '判断角色是否存在', 'app/system/role/exist', '3C25C1D522A9475196A887816B18E6FB');
 INSERT INTO `sys_action` VALUES ('BDCFD9DFF8D9419A9BB9B74C02FB30EB', 'app.sysconfig.auth.group.terminal.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '向组中添加终端', 'app/sysconfig/auth/group/terminal/add', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('BDEA464C8A1C41FEB2C67D58ECF7000F', 'app.ac.apmanage.addUpdateSchedule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加系统升级任务', 'app/ac/apmanage/addUpdateSchedule', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
 INSERT INTO `sys_action` VALUES ('BE4B0BF1ABEE4488B4D3C1C92A97DFE7', 'tax.business.category.list', '2017-05-26 17:24:47', null, null, '2017-05-26 17:24:47', '业务类型列表', 'app/tax/business/category/list', '2F53F0EC9CCC46E5970C3CFEF10CBEA3');
-INSERT INTO `sys_action` VALUES ('BF0BC4783CF64CF5A6FABFE114DDC617', '11112211', '2017-03-08 13:54:04', null, null, '2017-03-08 14:51:59', '11111222221', '1111122', '72F244E5144F44FFB15156B33B1D3452');
+INSERT INTO `sys_action` VALUES ('C0218B049B96443D88BE08027F60EC0D', 'activity.config.category_group.remove.category', '2017-09-21 22:45:21', null, null, '2017-09-21 22:45:21', '从专家专业组中移除专业', 'app/activity/config/category/group/remove/category', '40B65CA1864C457FA6A54B1EBF24CE14');
 INSERT INTO `sys_action` VALUES ('C04AAF6ED770431BBFDF5A549FB5F7E7', 'system.resources.state.notmenu.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑非目录页面', 'app/system/state/edit', '0175EC462A5C4C5B9362146E77F70610');
 INSERT INTO `sys_action` VALUES ('C10668FEDD9E422A8AC8CF4DD4A99794', 'app.authStrategy.ce.exportExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '策略数据按数量导出', 'app/authStrategy/ce/exportExcel', 'D004D9011CA8449BB809DF666BDD751B');
-INSERT INTO `sys_action` VALUES ('C1536891B4584D41B96D8D17E4FB9D03', 'app.analysis.monitor.exportExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '按输入数量导出设备报警数据', 'app/analysis/monitor/exportExcel', 'D7BEDB1533AF42BAA6B8505441F258C5');
-INSERT INTO `sys_action` VALUES ('C1709856F0D14CE9B7FA8F4135508433', 'app.activity.current', '2017-09-15 14:28:14', null, null, '2017-09-15 14:28:14', '查询正在进行的活动', 'app/activity/current', 'CE529F2B25D84F91AED9E1F8BE1B522C');
-INSERT INTO `sys_action` VALUES ('C2228D91AB1D4E48833F1FF253BD1E00', 'app.ac.getPlaceSelectItem2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所下拉数据', 'app/ac/getPlaceSelectItem', '85D58A033F864477A572BA9612197BD1');
+INSERT INTO `sys_action` VALUES ('C1709856F0D14CE9B7FA8F4135508433', 'activity.current', '2017-09-15 14:28:14', null, null, '2017-09-21 10:31:21', '查询正在进行的活动', 'app/activity/current', 'CE529F2B25D84F91AED9E1F8BE1B522C');
 INSERT INTO `sys_action` VALUES ('C24F24F147264FFC9A450424AACA8948', 'app.aclDomain.ad.editAclDomain', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '修改AclDomain', 'app/aclDomain/ad/editAclDomain', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('C42F543C10EF47A0BDBF74046B796094', 'tax.business.del', '2017-05-11 15:08:20', null, null, '2017-05-11 15:08:20', '删除业务', 'app/tax/business/del', '45FE5B6350BB4FE785AABC13DDED4133');
 INSERT INTO `sys_action` VALUES ('C4540E0AAECA47DD96DDD9C014188F9E', 'tax.business.attachment.upload', '2017-05-31 16:00:20', null, null, '2017-05-31 16:00:20', '上传附件', 'app/tax/business/attachment/upload', '45FE5B6350BB4FE785AABC13DDED4133');
-INSERT INTO `sys_action` VALUES ('C4820831CE0245A1A3A26EA82C8382C6', 'app.ac.securityVendor.addVendor', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加厂商', 'app/ac/securityVendor/addVendor', '641F71B461E943A6BA58B70C21E8111C');
-INSERT INTO `sys_action` VALUES ('C502DA5443174584B0D431D7281CFAB9', 'app.ac.apmanage.judgeUpdateSchedule2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '判断ap升级任务固件版本是否一致', 'app/ac/apmanage/judgeUpdateSchedule', '174F582DDEC741EEA5B6BAECA2012DAC');
 INSERT INTO `sys_action` VALUES ('C5CF650EF5674C2EAE1F5B9187A86E7C', 'system.resources.action.paging', '2017-03-02 16:25:02', '访问分页列表', null, '2017-03-02 16:25:02', '访问列表', 'app/system/action/paging', '8F4C7D18E5744917BBB171AB91593F57');
 INSERT INTO `sys_action` VALUES ('C6CB276D88A8483D9AA07F42DDC854A4', 'tax.business.category.list', '2017-06-22 22:30:49', null, null, '2017-06-22 22:30:49', '业务项目列表', 'app/tax/business/category/list', '85D85C3210184D21B7B0949FE34756AB');
-INSERT INTO `sys_action` VALUES ('C7912241D7DF4C898676B2E3B2B14D22', 'app.ac.apmanage.getUpdateSchedules', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取系统升级列表', 'app/ac/apmanage/getUpdateSchedules', 'C0FB40EC116F4CDBA8C860FA0D32F25C');
-INSERT INTO `sys_action` VALUES ('C7DAD6E076D643A8BECB26F1CD395E98', 'app.ac.apmanage.approveAp', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', 'ap审核', 'app/ac/apmanage/approveAp', '574B5CAD5790443D947FCD157E8CAD77');
-INSERT INTO `sys_action` VALUES ('C8B9EAA755DF4B9BBBC207CE5CEA8F3B', 'app.ac.apmanage.config.getApCfgs', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '根据选中模板获取对应模板信息', 'app/ac/apmanage/getApCfgs', '8771F14BA5EA4644BBEDC14587F0F625');
-INSERT INTO `sys_action` VALUES ('C8CD8EAA559C4E38B15F39C6EE662FAE', 'app.ac.dataCenter.getDataCenterPaging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取数据中心数据', 'app/ac/dataCenter/getDataCenterPaging', '5794EB29EC284EFB88625AC0AF424AE8');
 INSERT INTO `sys_action` VALUES ('C98C80EAF70146A39B4DCC85C8BA364B', 'system.permission.action.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', 'actions列表', 'app/system/action/paging', '3C25C1D522A9475196A887816B18E6FB');
 INSERT INTO `sys_action` VALUES ('CA95F12283AC46A6A650899BDDC5EA94', 'app.authStrategy.ce.removeAuthStrategy', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除认证策略', 'app/authStrategy/ce/removeAuthStrategy', 'D004D9011CA8449BB809DF666BDD751B');
-INSERT INTO `sys_action` VALUES ('CAADFFAB8B3647768FCCFE12A4C3AF25', 'app.ac.apmanage.stopConfigSchedules2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '停止配置', 'app/ac/apmanage/stopConfigSchedules', '183325E63BA246FC9E7738ED6D7B3EAB');
-INSERT INTO `sys_action` VALUES ('CB8E74A89F7F4001A4F0799DDF19358A', 'app.ac.apmanage.addFirmwares', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加固件信息', 'app/ac/apmanage/addFirmwares', 'A37742C057E846BA94BFB58964177B98');
-INSERT INTO `sys_action` VALUES ('CD63DA242AAF4824BDD0B2958DA0AA04', 'app.analysis.system.place.getAccess', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取接入方式下拉框', 'app/analysis/system/place/getAccess', '499FEF3D7E22421AAC8D9FDC26B43D07');
-INSERT INTO `sys_action` VALUES ('CDBFA79DEF204AF2A00FF7320123441A', 'app.ac.apmanage.removeConfigSchedules2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除ap配置任务', 'app/ac/apmanage/removeConfigSchedules', '183325E63BA246FC9E7738ED6D7B3EAB');
-INSERT INTO `sys_action` VALUES ('CDC4CDCA44F545048FEC7F891C969D35', 'app.ac.apmanage.getUpdateSchedules2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取系统升级列表', 'app/ac/apmanage/getUpdateSchedules', '174F582DDEC741EEA5B6BAECA2012DAC');
 INSERT INTO `sys_action` VALUES ('CF3AFD61C9894C5C9F4D86E0B4F3F2A2', 'system.resources.subsystem.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '子系统列表', 'app/system/state/paging', '61057033523B4D909E61909442A636EF');
 INSERT INTO `sys_action` VALUES ('CF54E29BA5D3471EACCA9B2103B39A97', 'system.resources.state.notmenu.del', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除非目录页面', 'app/system/state/del', '0175EC462A5C4C5B9362146E77F70610');
 INSERT INTO `sys_action` VALUES ('CFE7CB2374FD4F1AAC0530AC5C4BBB11', 'app.Authentication.rz.getAuthType', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '认证类型查询', 'app/Authentication/rz/getAuthType', '35309B771CF24529B2A75BD04E4A0FE2');
 INSERT INTO `sys_action` VALUES ('D00A50A694A04DAB841F87C739D1B272', 'tax.business.attachment.list', '2017-06-02 16:02:57', null, null, '2017-06-02 16:02:57', '附件列表', 'app/tax/business/attachment/list', '03A5F34C27414F00945153F863D00EFE');
-INSERT INTO `sys_action` VALUES ('D04B44DBBE0A4B21B043786AAC0A7DF7', 'app.ac.apmanage.getConfigApRelations2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取任务的配置信息和ap列表-详情', 'app/ac/apmanage/getConfigApRelations', '183325E63BA246FC9E7738ED6D7B3EAB');
 INSERT INTO `sys_action` VALUES ('D268E47049E24C38B1AB0B7C50322943', 'app.authroization.advStrategyMana.getSelectedPlaces', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化场所列表', 'app/authroization/advStrategyMana/getSelectedPlaces', '2776B11CE2A048C89F1E72A670A585A0');
 INSERT INTO `sys_action` VALUES ('D2C42AE1D47C4A12AD2880C74F4BDC30', 'tax.agency.current', '2017-05-26 17:31:09', null, null, '2017-05-26 17:31:09', '当前机构', 'app/tax/agency/current', 'F746C7B7F4154C3DA16A5F9A0EEA12AF');
 INSERT INTO `sys_action` VALUES ('D3B6B217E98E4256891C5EFFBFEC8068', 'app.authroization.advMana.uploadPicture', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '上传广告文件', 'app/authroization/advMana/uploadPicture', 'A2542D2E7BAE44E3BFDE9E20E016F5D0');
 INSERT INTO `sys_action` VALUES ('D55824A80FCB46E68CC081135A469100', 'app.aclDomain.ad.exportPage', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '域名数据导出当前页', 'app/aclDomain/ad/exportPage', 'A3F1CC20882B4D9E9E01F586FB32D472');
-INSERT INTO `sys_action` VALUES ('D778027B1A284F62B8172858907075C1', 'app.ac.getApModelSelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap模型列表', 'app/ac/getApModelSelectItem', '85D58A033F864477A572BA9612197BD1');
 INSERT INTO `sys_action` VALUES ('D8CA14F3653144E78F662B00BD5FAFE4', 'app.Authentication.wechat.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑微信配置', 'app/Authentication/wechat/edit', 'DAFBE4F0A7B649B5835AB99A8542B5C2');
-INSERT INTO `sys_action` VALUES ('DA603D50D95A43F797CA8A087567F42D', 'app.ac.apmanage.config.getApsByConfigSchedule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取新建任务ap列表', 'app/ac/apmanage/config/getApsByConfigSchedule', '8771F14BA5EA4644BBEDC14587F0F625');
 INSERT INTO `sys_action` VALUES ('DAAE1D20A1F941CE811FD9153C6BBFE2', 'tax.business.paging.error', '2017-05-30 22:53:32', null, null, '2017-05-30 22:53:32', '获取错误业务列表', 'app/tax/business/paging/error', 'BB293ED529CE46138E992D852001DB0D');
 INSERT INTO `sys_action` VALUES ('DEBA676FE5CB489B9258871E668B4893', 'app.Authentication.wechat.remove', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除微信配置', 'app/Authentication/wechat/remove', 'DAFBE4F0A7B649B5835AB99A8542B5C2');
-INSERT INTO `sys_action` VALUES ('DEF7133F0E4A463095FE656FD207C694', 'app.ac.dataCenter.editDataCenter', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑数据中心信息', 'app/ac/dataCenter/editDataCenter', '5794EB29EC284EFB88625AC0AF424AE8');
+INSERT INTO `sys_action` VALUES ('DED6D98B806E4771845B8B219F020EFB', 'activity.config.level.limit.get', '2017-09-20 14:42:11', null, null, '2017-09-20 14:42:11', '编辑奖项等级限额', 'app/activity/config/level/limit/edit', '93D1FD30D736442287248F1C91A55E2D');
 INSERT INTO `sys_action` VALUES ('DF17C4509C86439B80AA718274AB62AF', 'system.permission.group.del', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除组', 'app/system/group/del', '45198E9490F046FFBA773FF0B476FEA7');
 INSERT INTO `sys_action` VALUES ('DF9CCFB8480B4BE3BC5732072A515CD2', 'app.authStrategy.ce.getPortalStrategySelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化门户策略', 'app/authStrategy/ce/getPortalStrategySelectItem', 'D004D9011CA8449BB809DF666BDD751B');
-INSERT INTO `sys_action` VALUES ('DFADCE3218AA4F9E81733D7B1CA606C9', 'app.ac.contacts.editContacts', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑联系人', 'app/ac/contacts/editContacts', 'E0F375E3EB8246B8B0A45CC7BB4FAC89');
-INSERT INTO `sys_action` VALUES ('DFFF4DAACFF74986AC1FE1875E58F649', 'app.welcome.getVisitHistory', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '系统首页-获取历史记录', 'app/welcome/getVisitHistory', 'CFD9D96F8C3C4921B79A91180DF99BAC');
+INSERT INTO `sys_action` VALUES ('E0892C096D5A48B886368F6BDDB8D99D', 'activity.config.category_group.edit', '2017-09-21 10:32:09', null, null, '2017-09-21 10:32:28', '编辑专家专业组', 'app/activity/config/category/group/edit', '40B65CA1864C457FA6A54B1EBF24CE14');
 INSERT INTO `sys_action` VALUES ('E1047C92BDA74A45B159D9CCCBBBB58B', 'tax.business.issue.list', '2017-05-26 17:05:21', null, null, '2017-05-26 17:05:21', '获取问题类型列表', 'app/tax/business/issue/list', '85D85C3210184D21B7B0949FE34756AB');
 INSERT INTO `sys_action` VALUES ('E1E65BB94711444EA7D5E4694A3595E3', 'system.resources.menugroup.paging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '目录组列表', 'app/system/state/paging', '1447582D07684B6198F85865024CE2D4');
 INSERT INTO `sys_action` VALUES ('E32768868E2143FD8DAB15E4F0946616', 'app.aclMac.am.exportPage', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '数据导出当前页', 'app/aclMac/am/exportPage', 'A3F1CC20882B4D9E9E01F586FB32D472');
@@ -486,30 +644,25 @@ INSERT INTO `sys_action` VALUES ('E392A44C1F2142938480DC63D5F51543', 'tax.busine
 INSERT INTO `sys_action` VALUES ('E3A12122ED18482DB3E451791E8BCBED', 'tax.business.category.type.list', '2017-06-22 22:30:23', null, null, '2017-06-22 22:30:23', '业务类型分组列表', 'app/tax/business/category/type/list', '85D85C3210184D21B7B0949FE34756AB');
 INSERT INTO `sys_action` VALUES ('E495933B43FC44648FB3B7D70BBCC295', 'app.authStrategy.ce.exportPage', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '策略数据按指定页面导出', 'app/authStrategy/ce/exportPage', 'D004D9011CA8449BB809DF666BDD751B');
 INSERT INTO `sys_action` VALUES ('E55D0E08074541DDA6D34DA739EFBB2B', 'app.sysconfig.auth.group.addmonitors', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加监视', 'app/sysconfig/auth/group/addmonitors', '45198E9490F046FFBA773FF0B476FEA7');
-INSERT INTO `sys_action` VALUES ('E6411C8BC2364CA9943E00B0B37B304A', 'app.ac.apmanage.startConfigSchedules2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '启动配置', 'app/ac/apmanage/startConfigSchedules', '183325E63BA246FC9E7738ED6D7B3EAB');
-INSERT INTO `sys_action` VALUES ('E75BAFF7C1244E12904FEEE9EDED047E', 'app.ac.apmanage.getFirmwares', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取固件列表', 'app/ac/apmanage/getFirmwares', 'A37742C057E846BA94BFB58964177B98');
 INSERT INTO `sys_action` VALUES ('E8EEEAE9F9CD4813AF6F3A2046D5DE9B', 'system.resources.subsystem.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加子系统', 'app/system/state/add', '61057033523B4D909E61909442A636EF');
+INSERT INTO `sys_action` VALUES ('E92A69454CE2435281BAD2DCE5A45EBE', 'activity.config.level.limit.get', '2017-09-20 14:41:29', null, null, '2017-09-20 14:41:29', '获取奖项等级限额', 'app/activity/config/level/limit/get', '93D1FD30D736442287248F1C91A55E2D');
+INSERT INTO `sys_action` VALUES ('E96E10D2D0BC45E29B78814B120D3A16', 'activity.config.award.add', '2017-09-18 15:33:26', null, null, '2017-09-18 15:33:40', '添加奖项', 'app/activity/config/award/add', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('E9C170754C8049448D579A7F525BC1CB', 'app.aclMac.am.getAuthStrategySelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '初始化认证策略', 'app/aclMac/am/getAuthStrategySelectItem', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('E9D360C692414C98BB66D19F6021AD53', 'app.authroization.advStrategyMana.addRule', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加规则', 'app/authroization/advStrategyMana/addRule', '2776B11CE2A048C89F1E72A670A585A0');
 INSERT INTO `sys_action` VALUES ('EA7800C0881741C6A3C5B6542E42AD30', 'app.Authentication.wechat.add', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '添加微信配置', 'app/Authentication/wechat/add', 'DAFBE4F0A7B649B5835AB99A8542B5C2');
-INSERT INTO `sys_action` VALUES ('EA930DE9EEDB4871AD8B33E4443A29FB', 'app.ac.securityVendor.getPaging', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '查询厂商', 'app/ac/securityVendor/getPaging', '641F71B461E943A6BA58B70C21E8111C');
 INSERT INTO `sys_action` VALUES ('EBFDA4700A384E75B00DC06D95824EDB', 'system.log.business.del', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除业务日志', 'app/system/log/business/del', 'FB1B62C0FA5A49F2A5103E1FAFE3F34E');
-INSERT INTO `sys_action` VALUES ('ECFC528B20074F89842869E314360FFF', 'app.ac.apmanage.getApWithFirmware2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取ap-固件任务信息列表', 'app/ac/apmanage/getApWithFirmware', '174F582DDEC741EEA5B6BAECA2012DAC');
 INSERT INTO `sys_action` VALUES ('EDAB6ADA5E0B456F81AEFEB7EC30B7F6', 'tax.examine.third.commit', '2017-05-26 17:26:28', null, null, '2017-05-26 17:26:28', '业务核查提交', 'app/tax/examine/third/commit', '2F53F0EC9CCC46E5970C3CFEF10CBEA3');
-INSERT INTO `sys_action` VALUES ('EE1E8DAE78B6477391F5B3DD1AC81E5B', 'app.ac.apmanage.getApUpdateView2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '升级任务详情', 'app/ac/apmanage/getApUpdateView', '174F582DDEC741EEA5B6BAECA2012DAC');
 INSERT INTO `sys_action` VALUES ('EED53D56A24740D4A1368E6E7711F363', 'app.authroization.advMana.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑广告', 'app/authroization/advMana/edit', 'A2542D2E7BAE44E3BFDE9E20E016F5D0');
-INSERT INTO `sys_action` VALUES ('EF2B22407D1C4148843E6CB9720C1D3C', 'app.ac.config.getApCfgSelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取下拉模板名称', 'app/ac/apmanage/getApCfgs', '8771F14BA5EA4644BBEDC14587F0F625');
-INSERT INTO `sys_action` VALUES ('EF357EE4D56D4AB8AC0DDB64A01289FF', 'app.activity.config.check_criterion.add', '2017-09-16 17:16:32', null, null, '2017-09-17 22:50:34', '添加形审标准', 'app/activity/config/check/criterion/add', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
+INSERT INTO `sys_action` VALUES ('EF357EE4D56D4AB8AC0DDB64A01289FF', 'activity.config.check_criterion.add', '2017-09-16 17:16:32', null, null, '2017-09-18 15:30:46', '添加形审标准', 'app/activity/config/check/criterion/add', 'AB71EBB3EAB54F85B5CABB2D74B900D4');
 INSERT INTO `sys_action` VALUES ('EFE46EC847A24D6B8FA4A2B1A217AC17', 'app.authStrategy.ce.getAuthStrategy2', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取认证策略列表', 'app/authStrategy/ce/getAuthStrategy', 'DAFBE4F0A7B649B5835AB99A8542B5C2');
 INSERT INTO `sys_action` VALUES ('F090FE70DB6A42209102EDFF13CA5BB5', 'app.aclDomain.ad.exportExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '域名数据按输入数导出', 'app/aclDomain/ad/exportExcel', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('F10B35767692422F9434E590B3136182', 'tax.business.attachment.list', '2017-06-02 16:02:32', null, null, '2017-06-02 16:02:32', '附件列表', 'app/tax/business/attachment/list', 'ED0720579B0E425F9B2109A0C35388A9');
-INSERT INTO `sys_action` VALUES ('F1F90BE1378547698F77762018194867', 'app.activity.config.create.create', '2017-09-15 11:24:54', null, null, '2017-09-15 17:36:48', '创建活动', 'app/activity/config/create/create', '1B883BA8F6B04DF79700583BD866BC73');
+INSERT INTO `sys_action` VALUES ('F1F90BE1378547698F77762018194867', 'activity.config.create.create', '2017-09-15 11:24:54', null, null, '2017-09-18 15:31:07', '创建活动', 'app/activity/config/create/create', '1B883BA8F6B04DF79700583BD866BC73');
 INSERT INTO `sys_action` VALUES ('F20DAFE0589B4D4AB57344562C30F849', 'app.aclMac.am.exportExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '导出指定数量数据', 'app/aclMac/am/exportExcel', 'A3F1CC20882B4D9E9E01F586FB32D472');
-INSERT INTO `sys_action` VALUES ('F2BEDB0750CF489187FE44A14EB8A999', 'app.ac.getPlaceSelectItem', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '获取场所下拉数据', 'app/ac/getPlaceSelectItem', '574B5CAD5790443D947FCD157E8CAD77');
+INSERT INTO `sys_action` VALUES ('F2D2DA4964D34C569DCF3D03F41296A7', 'activity.config.award.criterion.del', '2017-09-19 15:49:44', null, null, '2017-09-19 15:49:44', '删除奖项标准', 'app/activity/config/award/criterion/del', 'A62A4F880AB649FD9F5EF61D8EA60946');
 INSERT INTO `sys_action` VALUES ('F2EFF3D141064BFA93615FB156CDA4C5', 'app.Authentication.rz.removeAuthType', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除认证类型', 'app/Authentication/rz/removeAuthType', '35309B771CF24529B2A75BD04E4A0FE2');
 INSERT INTO `sys_action` VALUES ('F5FD296BFAC9415FA73FBA0C397CF33E', 'app.aclDomain.ad.excelTemplate', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '域名数据导入模板', 'app/aclDomain/ad/excelTemplate', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('F6011874C19C4ECFBCCA7D4CB506FFB6', 'app.authroization.portalMana.getPortalPreview', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '门户预览', 'app/authroization/portalMana/getPortalPreview', '50A44ED2D95A4946B2E1BFD2955E6821');
-INSERT INTO `sys_action` VALUES ('F6720092C92743DEA716ECEBA1CDCC45', 'app.ac.apmanage.removeAcCluster', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '删除AC集群', 'app/ac/apmanage/removeAcCluster', '2F97212B6C21485E9E64576772101F45');
 INSERT INTO `sys_action` VALUES ('F9B3FAE21C13482E85CC6FABC5D6A1F2', 'tax.business.examine.detail', '2017-05-30 19:23:01', null, null, '2017-05-30 19:23:01', '检查详情', 'app/tax/business/examine/detail', '08F6DF520060436CB923C47039CCC16B');
 INSERT INTO `sys_action` VALUES ('F9B6B77B486D4BA0936B58F21445C6ED', 'app.aclMac.am.readExcel', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '数据导入', 'app/aclMac/am/readExcel', 'A3F1CC20882B4D9E9E01F586FB32D472');
 INSERT INTO `sys_action` VALUES ('F9C915E2C83043EB909A0489D58857DC', 'system.resources.menu.edit', '2017-03-02 16:25:02', '', null, '2017-03-02 16:25:02', '编辑目录', 'app/system/state/edit', '6DC8F954402541A1B6277946C36D6E56');
@@ -3802,27 +3955,34 @@ INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '05E2C
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '0734D875F01D4204BB61C013947CB57B');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '0A1C3AAA4E864AF38527AC9476780FA4');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '14FB600E4F584F6686D2F2372BD33433');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '17B43A10D36A4563B5205BD8775107F3');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '17C1A1A7D3284C9883E81B70918E0438');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '202602D743304AD5B9BF6E6D96F0D87D');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '21351301722E4366BBE337845925AE48');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '245284C4D45946E6897FFBAF8E4FEFB1');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '2652664189F549E79818F3DAB17BAB3C');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '28EB73973D8F4AD28503786732EE69AD');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '2A87FBC7C4E14BC1BFE6DE88A058C1A2');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '3117C4B032AC4F1A8BA793D637817DFD');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '315F84C7691D43E0A74C3FA852B3F82B');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '3280228F6ABA4477AC830E3B5815AD91');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '393460FC3EEE42D2AECFB8086E6E7507');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '3AD32C648D534895953A7811AACA6C16');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '3CC7333BC5FF4154A022A93BF2A4C9FE');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '3E031DDC0D6E4EEA991AFFAE01F531BB');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '45337B0D1BE44FC1BEA3146D3801E44C');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '4824A9C964B2497DBDF6CD0219D16064');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '487DA152BD6B49A1B40D50530F4DF382');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '497A359D2DDE4D16B8FB9E05871E7768');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '4A122576AFF24D1DBD368FF8EAD56A6B');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '4D56200014C64B3683B1BF06DB09B589');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '571D4746EC9D4ECCAD4DD638B108A025');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '5838A5442D7F41CFAC5E114367BDCC4F');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '59C4D22150E14C0CB9561490F9000455');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '5C002710AED44876B2EF4322D169B50A');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '60DA889BBFAA403589F611E6B75EBF05');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '60FDA3D3B8FC488D88C3DD09D678211F');
-INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '6446AB4725A849A288D1A03F83DB4883');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '618402CF4BAC49B0BFF335504C7287B8');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '64E885C3C5DC4587ADF9F8345FDF3756');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '67E77C42069B47CCBCDF38CA9402C3C3');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '6BA0097D88C049C3A0C431E1492F8E73');
@@ -3830,37 +3990,45 @@ INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '6C14C
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '6EEB4FE52CFD466B84C26DD62F91C45A');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '71B764D896D549DBA1C1735F8E9F1894');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '7343E006EF3746AB9B52629D919DD06B');
-INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '778C9848D3CF48DC81C86A9B0941A79E');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '7E6A07D493074A3D918A3680089D2531');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '7E788481AF4845E38F3B5601389F3C09');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '8066728886604688BDF2220BDB7D0B42');
-INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '8E0323DB76184DFCADF2F2258BAB03AB');
-INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '8E7AC208539940519E4CDA8911EA71A1');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '8C6A0E6534354DBAA26921885FB4B693');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '8D20CD7D63ED4FC98124CE9EFD6ED4CF');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '9057A646BD5B46A78C434E05D659013A');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '92862B999FDB4203BBFE99C3941E84FC');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '92AD9F80A8294F928620C367D46020E0');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '92E76691F741417085BBFE4C5CDDC965');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '968E4EE1BBED4FF1B4610F6313DF515B');
-INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '985467D6F83B4464BF7C25DBFFA7EE33');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '99B942AAE89741B6B10E870F046A74A7');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '9CD7F7E5288D4ACAACF8AC1B2543EE8E');
-INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', '9FC4E6642E304BC8B88D08851265AFBC');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'A3E5BF156DEC4F35AEACC4F5C8776940');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'A59E47DD8BE44358A1CC282789CBA4BD');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'A749EC72BFD84D5B90E8BEBA00631F81');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'A8E4CC9F321446319BE0D6CFC7FC853B');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'AE1E8A60C66A47AD97FB0F41D5BE7C99');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'B0D68986AECF45A9BD2120E08E49D319');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'B449D73EE97E4099A5FA43706CF93C1F');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'B4D4E35B4C224AFD8C93DD31AE75AA8C');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'B6B3FC84CA3249219BBB632456F24C07');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'B6ED4DE0D50D4B1ABC99AF45F5E3367A');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'BC425F9E5E7B46C488FC428FB17524E9');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'BC60FFEDE8AB4BB688A3BE78B023FD0F');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'BC768108A6FB470DBD3C823166DE9111');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'BDCFD9DFF8D9419A9BB9B74C02FB30EB');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'C0218B049B96443D88BE08027F60EC0D');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'C1709856F0D14CE9B7FA8F4135508433');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'C98C80EAF70146A39B4DCC85C8BA364B');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'DED6D98B806E4771845B8B219F020EFB');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'DF17C4509C86439B80AA718274AB62AF');
-INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'DFFF4DAACFF74986AC1FE1875E58F649');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'E0892C096D5A48B886368F6BDDB8D99D');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'E55D0E08074541DDA6D34DA739EFBB2B');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'E92A69454CE2435281BAD2DCE5A45EBE');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'E96E10D2D0BC45E29B78814B120D3A16');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'EBFDA4700A384E75B00DC06D95824EDB');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'EF357EE4D56D4AB8AC0DDB64A01289FF');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'F1F90BE1378547698F77762018194867');
+INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'F2D2DA4964D34C569DCF3D03F41296A7');
 INSERT INTO `sys_role_action` VALUES ('AAFDAF8B7B6F46D4AD18E7AFA578AA98', 'FC1D54FECE2441239E21FF4840077C93');
 INSERT INTO `sys_role_action` VALUES ('E1051E05E4024667931522F5E213F80D', '05E2CD60734F446B975610584B32CB94');
 INSERT INTO `sys_role_action` VALUES ('E1051E05E4024667931522F5E213F80D', '0DAAD456A16046B398705ED887B026CB');
@@ -3991,6 +4159,7 @@ INSERT INTO `sys_role_state` VALUES ('8C9DFF331AEC4F969F32E36EC6373B5A', '8DFEBE
 INSERT INTO `sys_role_state` VALUES ('8C9DFF331AEC4F969F32E36EC6373B5A', 'E1051E05E4024667931522F5E213F80D');
 INSERT INTO `sys_role_state` VALUES ('8C9DFF331AEC4F969F32E36EC6373B5A', 'FD526FA4908D4DF8B04FC4D9F258F9B3');
 INSERT INTO `sys_role_state` VALUES ('8D1C1D0070F24498AC2CFD3EA8C593A3', 'AAFDAF8B7B6F46D4AD18E7AFA578AA98');
+INSERT INTO `sys_role_state` VALUES ('93D1FD30D736442287248F1C91A55E2D', 'AAFDAF8B7B6F46D4AD18E7AFA578AA98');
 INSERT INTO `sys_role_state` VALUES ('95B813D327344E24BA680FAFFAE13BCE', 'AAFDAF8B7B6F46D4AD18E7AFA578AA98');
 INSERT INTO `sys_role_state` VALUES ('9D2B6E9DF05A4F5DAC5B9D10DFF3E57C', '8DFEBE814BDD475A9E455D34500333E0');
 INSERT INTO `sys_role_state` VALUES ('9D2B6E9DF05A4F5DAC5B9D10DFF3E57C', 'AAFDAF8B7B6F46D4AD18E7AFA578AA98');
@@ -4072,7 +4241,6 @@ INSERT INTO `sys_state` VALUES ('03A5F34C27414F00945153F863D00EFE', 'main.tax.ex
 INSERT INTO `sys_state` VALUES ('053743169C604BC4BE7D90FF00CFC940', 'main', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '主', '0', '0', 'E10EDE3EDE13496E838A2AD0060999A2', null);
 INSERT INTO `sys_state` VALUES ('059CFC0E38DB41A298E607E384DA9D91', 'main.history.final.result', '2017-09-13 15:17:02', '历史活动中终评评审结果', '2017-09-13 15:17:02', '评审结果', '1', '0', '78D5BB206AE549039CA892BBCE5B70DE', null);
 INSERT INTO `sys_state` VALUES ('05C01DAB8831477FA0835398E861C8AC', 'main.activity.recommend', '2017-09-12 11:06:55', '推荐单位推荐项目', '2017-09-13 13:37:16', '项目推荐', '4', '1', 'CE529F2B25D84F91AED9E1F8BE1B522C', 'fa-thumbs-up');
-INSERT INTO `sys_state` VALUES ('0602D9327C3544BD966592E63F7EDB45', 'main.manage.control.apModel', '2017-03-02 16:25:02', '6', '2017-03-02 16:25:02', '设备型号', '6', '0', '2DFB53293AEA4CCAA9A7A6DFFB1521FA', null);
 INSERT INTO `sys_state` VALUES ('069DD1B473524B0881586629A8F4C1F1', 'main.activity.internet.expert_select', '2017-09-12 14:18:18', '本届网评专家选择', '2017-09-12 15:40:13', '专家遴选', '1', '0', '3BB0EDB84BA9479F933D56D2C982EA30', null);
 INSERT INTO `sys_state` VALUES ('08F6DF520060436CB923C47039CCC16B', 'main.tax.statistics.xianju', '2017-05-11 15:24:21', '县局统计', '2017-05-26 15:04:27', '县局统计', '1', '0', '795301FD739342FDAEF6A02A47925164', null);
 INSERT INTO `sys_state` VALUES ('0AB0C2E566F24635B5089EE9B4FD4EC3', 'main.system.permission.user', '2017-03-02 16:25:02', '用户管理', '2017-03-02 16:25:02', '用户管理', '1', '0', 'B1AA5B3960294FA298AE3FF0EF93B20F', null);
@@ -4084,11 +4252,9 @@ INSERT INTO `sys_state` VALUES ('0E6E6B4BB8764E75A45D953D47C6F163', 'main.activi
 INSERT INTO `sys_state` VALUES ('10B41A4E6B344FD682A51BBCEEDC5506', 'main.history.apply.list', '2017-09-13 15:09:37', '历史活动中申报的项目', '2017-09-13 15:10:14', '项目申报', '1', '0', 'F139DEF152154DF6AEF940EF3F65234B', '');
 INSERT INTO `sys_state` VALUES ('11F467714F604CD0BF46C10ED8E1CA7C', 'main.activity.recommend.list', '2017-09-12 14:07:45', '推荐项目', '2017-09-12 14:24:13', '推荐项目', '1', '0', '05C01DAB8831477FA0835398E861C8AC', null);
 INSERT INTO `sys_state` VALUES ('1447582D07684B6198F85865024CE2D4', 'main.system.resources.menugroup', '2017-03-02 16:25:02', '目录组管理', '2017-03-02 16:25:02', '目录组管理', '2', '0', 'BAB5AECCA32849F6805DDDE637DFC459', null);
-INSERT INTO `sys_state` VALUES ('174F582DDEC741EEA5B6BAECA2012DAC', 'main.manage.update.terminalSchedule', '2017-03-02 16:25:02', '3', '2017-03-02 16:25:02', '终端采集', '3', '0', 'D132E8047D8E4A3E9B0CA0FA6A2365B7', null);
 INSERT INTO `sys_state` VALUES ('177B8179D4C64945B80237EE61DC0204', 'main.activity.user.org_addr', '2017-09-12 11:24:12', '单位涉及地址管理', '2017-09-12 15:39:46', '单位地址管理', '3', '0', 'BA6D42CC6428427F96C752C9F8DF0BBA', null);
 INSERT INTO `sys_state` VALUES ('179AFFA99D5740FF90C450D2BD275FB3', 'main.history.user.org', '2017-09-13 14:46:02', '历史活动单位', '2017-09-13 14:46:02', '单位管理', '1', '0', '315D17C837694A009FB80B19C782956B', null);
-INSERT INTO `sys_state` VALUES ('183325E63BA246FC9E7738ED6D7B3EAB', 'main.manage.config.terminalSchedule', '2017-03-02 16:25:02', '3', '2017-03-02 16:25:02', '终端采集', '3', '0', '6EFBB5BF8F364BEF97AAA3D458712D26', null);
-INSERT INTO `sys_state` VALUES ('1B883BA8F6B04DF79700583BD866BC73', 'main.activity.config.create', '2017-09-13 16:48:40', '新建活动', '2017-09-13 16:56:51', '创建活动', '0', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
+INSERT INTO `sys_state` VALUES ('1B883BA8F6B04DF79700583BD866BC73', 'main.activity.config.create', '2017-09-13 16:48:40', '新建活动', '2017-09-20 11:04:02', '创建活动', '1', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
 INSERT INTO `sys_state` VALUES ('1DF30F7E89F04C06B347ACF9A62C001B', 'main.activity.publicity.list', '2017-09-14 14:58:47', '获奖项目列表（用于记录公示情况）', '2017-09-14 14:58:47', '项目列表', '1', '0', '5F1FAA292AF9498FB08ADADECD801C3F', null);
 INSERT INTO `sys_state` VALUES ('1EAE8E41E946451E95F9D6723C71D618', 'main.activity.user.org_user', '2017-09-12 11:23:41', '单位涉及联系人管理', '2017-09-12 15:39:36', '单位联系人管理', '2', '0', 'BA6D42CC6428427F96C752C9F8DF0BBA', null);
 INSERT INTO `sys_state` VALUES ('2776B11CE2A048C89F1E72A670A585A0', 'main.authroization.advMana.advStrategy', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '广告策略管理', '2', '0', '280C7152A5ED48A5B9122B2C43045A2A', null);
@@ -4097,9 +4263,7 @@ INSERT INTO `sys_state` VALUES ('280C7152A5ED48A5B9122B2C43045A2A', 'main.authro
 INSERT INTO `sys_state` VALUES ('2B0453B693074A24B5AE8409D20A8E97', 'main.activity.session.progress', '2017-09-12 15:13:05', '评审进度', '2017-09-12 15:13:05', '评审进度', '6', '0', '2C1CA2C302564B268FB405EF619DDDD4', null);
 INSERT INTO `sys_state` VALUES ('2B281D9256944383A597ACEACD1DD3D6', 'main.account.user.expert_comment', '2017-09-13 16:24:58', '专家的评语（影响专家参与评审）', '2017-09-13 16:24:58', '专家备注', '3', '0', 'E009008C5E984D94A55D929E4B7BC479', null);
 INSERT INTO `sys_state` VALUES ('2C1CA2C302564B268FB405EF619DDDD4', 'main.activity.session', '2017-09-12 11:14:30', '专家分组初评', '2017-09-13 13:59:16', '分组初评', '7', '1', 'CE529F2B25D84F91AED9E1F8BE1B522C', 'fa-comments');
-INSERT INTO `sys_state` VALUES ('2DFB53293AEA4CCAA9A7A6DFFB1521FA', 'main.manage.control', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '集中管理', '1', '1', '66497C3F191A4F1B917D8CF424AA2D25', null);
 INSERT INTO `sys_state` VALUES ('2F53F0EC9CCC46E5970C3CFEF10CBEA3', 'main.tax.examine.third', '2017-05-22 21:27:49', '', '2017-05-26 20:23:55', '县局监控', '3', '0', '8C9DFF331AEC4F969F32E36EC6373B5A', null);
-INSERT INTO `sys_state` VALUES ('2F97212B6C21485E9E64576772101F45', 'main.manage.control.acCluster', '2017-03-02 16:25:02', '4', '2017-03-02 16:25:02', '管控中心', '4', '0', '2DFB53293AEA4CCAA9A7A6DFFB1521FA', null);
 INSERT INTO `sys_state` VALUES ('2FC90213279E421C8D09746F8B237427', 'main.xxx', '2017-04-07 17:49:01', null, '2017-04-07 17:49:01', '11112', '101', '3', '053743169C604BC4BE7D90FF00CFC940', null);
 INSERT INTO `sys_state` VALUES ('315D17C837694A009FB80B19C782956B', 'main.history.user', '2017-09-13 14:15:29', '历史评审活动用户（单位、专家）', '2017-09-13 14:17:55', '用户管理', '1', '1', 'FAD9D2C9612240D885ED4E05DFBB1933', 'fa-users');
 INSERT INTO `sys_state` VALUES ('31CEBC40CE4948E2BFA6D94EFD96FAD8', 'main.history.config', '2017-09-13 14:18:31', '历史活动设置查询', '2017-09-13 14:18:31', '活动设置', '2', '1', 'FAD9D2C9612240D885ED4E05DFBB1933', 'fa-cogs');
@@ -4107,20 +4271,17 @@ INSERT INTO `sys_state` VALUES ('35309B771CF24529B2A75BD04E4A0FE2', 'main.authro
 INSERT INTO `sys_state` VALUES ('3BB0EDB84BA9479F933D56D2C982EA30', 'main.activity.internet', '2017-09-12 11:12:42', '专家网络评审', '2017-09-13 13:41:46', '网络评审', '6', '1', 'CE529F2B25D84F91AED9E1F8BE1B522C', 'fa-globe');
 INSERT INTO `sys_state` VALUES ('3C25C1D522A9475196A887816B18E6FB', 'main.system.permission.role', '2017-03-02 16:25:02', '角色管理', '2017-03-02 16:25:02', '角色管理', '3', '0', 'B1AA5B3960294FA298AE3FF0EF93B20F', null);
 INSERT INTO `sys_state` VALUES ('3E305EFFFD0045A28412C4332B4F8B3D', 'main.history.publicity.list', '2017-09-14 15:01:00', '历史活动中项目公示结果', '2017-09-14 15:01:00', '项目列表', '1', '0', '7E3590763AA4444187492CC635E97B0D', null);
-INSERT INTO `sys_state` VALUES ('40B65CA1864C457FA6A54B1EBF24CE14', 'main.activity.config.expert_group', '2017-09-12 14:04:26', '专家分组管理', '2017-09-12 15:39:57', '专家分组', '3', '0', '64FBD95F6812460FB4A6CB92A305E51B', null);
+INSERT INTO `sys_state` VALUES ('40B65CA1864C457FA6A54B1EBF24CE14', 'main.activity.config.category_group', '2017-09-12 14:04:26', '专家分组管理', '2017-09-20 17:05:07', '专家分组', '5', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
 INSERT INTO `sys_state` VALUES ('43016A8CD0C54039AB905DC113AB76EC', 'main.account.user.org', '2017-09-13 16:23:16', '单位类型账户管理（所有活动中出现过的）', '2017-09-13 16:23:16', '单位库管理', '1', '0', 'E009008C5E984D94A55D929E4B7BC479', null);
 INSERT INTO `sys_state` VALUES ('44D3E8A9AF7A45A1AAC522621870DE81', 'main.history.config.stage', '2017-09-13 15:08:40', '历史活动中的阶段设置', '2017-09-13 15:08:40', '阶段设置', '4', '0', '31CEBC40CE4948E2BFA6D94EFD96FAD8', null);
 INSERT INTO `sys_state` VALUES ('45198E9490F046FFBA773FF0B476FEA7', 'main.system.permission.group', '2017-03-02 16:25:02', '组管理', '2017-03-02 16:25:02', '组管理', '2', '0', 'B1AA5B3960294FA298AE3FF0EF93B20F', null);
 INSERT INTO `sys_state` VALUES ('45FE5B6350BB4FE785AABC13DDED4133', 'main.tax.business.manage', '2017-05-09 14:07:26', '业务查询、添加、编辑等', '2017-05-26 20:22:48', '业务录入', '1', '0', 'EB873019092A4CF4BE766DF54223D1F7', null);
 INSERT INTO `sys_state` VALUES ('48CBB596B6A541F5A2B5E3F301E98093', 'main.history.config.expert_group', '2017-09-13 15:08:08', '历史活动中专家分组情况', '2017-09-13 15:08:08', '专家分组', '3', '0', '31CEBC40CE4948E2BFA6D94EFD96FAD8', null);
-INSERT INTO `sys_state` VALUES ('499FEF3D7E22421AAC8D9FDC26B43D07', 'main.manage.control.place', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '场所维护', '1', '0', '2DFB53293AEA4CCAA9A7A6DFFB1521FA', null);
 INSERT INTO `sys_state` VALUES ('4A605D88385F43E18B42C366CBD79541', 'main.account.info', '2017-09-13 16:21:47', '用户信息查看及修改（用户端行为）', '2017-09-13 16:21:47', '用户信息', '2', '1', 'D4571E02134149F98C6A9DAF2E062D73', 'fa-book');
 INSERT INTO `sys_state` VALUES ('4B49E30E71904E5ABE06539BD121CC77', 'main.authroization.authList', '2017-03-02 16:25:02', '5', '2017-03-02 16:25:02', '认证信息', '5', '1', '73EA15EFBCFA487B9F6DDD78A573B35E', null);
 INSERT INTO `sys_state` VALUES ('4E11C0EC2528448A8AD9FB5FDC3BC4ED', 'main.history.check', '2017-09-13 14:24:21', '历史活动中项目审查情况', '2017-09-13 14:24:21', '项目审查', '5', '1', 'FAD9D2C9612240D885ED4E05DFBB1933', 'fa-shield');
 INSERT INTO `sys_state` VALUES ('50A44ED2D95A4946B2E1BFD2955E6821', 'main.authroization.portalMana.portalCustom', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '门户定制', '1', '0', 'BB802BAC49114F13950C5578B886D156', null);
 INSERT INTO `sys_state` VALUES ('50D3929837A54418B5B4B098564FCFD0', 'main.account.info.mod_expert', '2017-09-13 16:29:40', '专家信息修改', '2017-09-13 16:29:40', '信息修改', '2', '0', '4A605D88385F43E18B42C366CBD79541', null);
-INSERT INTO `sys_state` VALUES ('574B5CAD5790443D947FCD157E8CAD77', 'main.manage.control.ap', '2017-03-02 16:25:02', '2', '2017-03-02 16:25:02', '无线接入', '2', '0', '2DFB53293AEA4CCAA9A7A6DFFB1521FA', null);
-INSERT INTO `sys_state` VALUES ('5794EB29EC284EFB88625AC0AF424AE8', 'main.manage.control.dataCenter', '2017-03-02 16:25:02', '5', '2017-03-02 16:25:02', '数据中心', '5', '0', '2DFB53293AEA4CCAA9A7A6DFFB1521FA', null);
 INSERT INTO `sys_state` VALUES ('5A6E2DFC64884E04AF66F094389531B3', 'main.tax.business.amendment', '2017-05-22 16:21:08', null, '2017-05-22 16:21:08', '业务整改', '3', '0', 'EB873019092A4CF4BE766DF54223D1F7', null);
 INSERT INTO `sys_state` VALUES ('5CFE401D62AE49D596F84834D71059F3', 'main.activity.internet.result', '2017-09-12 14:25:11', '网络评审的结果', '2017-09-12 14:50:40', '网评结果', '7', '0', '3BB0EDB84BA9479F933D56D2C982EA30', null);
 INSERT INTO `sys_state` VALUES ('5EB0E56DA697485090BCD9C4B1F11A04', 'main.activity.check.list', '2017-09-12 14:15:53', '管理员审查项目', '2017-09-12 14:24:24', '审查项目', '1', '0', 'E465C091FF4D4FCFB5D616422121AAD7', null);
@@ -4128,16 +4289,12 @@ INSERT INTO `sys_state` VALUES ('5ECF3EA69F274643A90901ECFC9787E7', 'main.accoun
 INSERT INTO `sys_state` VALUES ('5F1FAA292AF9498FB08ADADECD801C3F', 'main.activity.publicity', '2017-09-14 14:42:44', '奖项评选结束后进行公示', '2017-09-14 14:48:48', '活动公示', '9', '1', 'CE529F2B25D84F91AED9E1F8BE1B522C', 'fa-newspaper-o');
 INSERT INTO `sys_state` VALUES ('60E916740CC14CD78FB9F5A5AA4F4E9C', 'main.activity.session.expert_select', '2017-09-12 14:26:50', '本届分组评审专家选择', '2017-09-12 15:40:45', '专家遴选', '1', '0', '2C1CA2C302564B268FB405EF619DDDD4', null);
 INSERT INTO `sys_state` VALUES ('61057033523B4D909E61909442A636EF', 'main.system.resources.subsystem', '2017-03-02 16:25:02', '子系统管理', '2017-03-02 16:25:02', '子系统管理', '1', '0', 'BAB5AECCA32849F6805DDDE637DFC459', null);
-INSERT INTO `sys_state` VALUES ('641F71B461E943A6BA58B70C21E8111C', 'main.manage.control.securityVendor', '2017-03-02 16:25:02', '7', '2017-03-02 16:25:02', '安全厂商', '7', '0', '2DFB53293AEA4CCAA9A7A6DFFB1521FA', null);
 INSERT INTO `sys_state` VALUES ('64FBD95F6812460FB4A6CB92A305E51B', 'main.activity.config', '2017-09-12 10:46:29', '当前评审活动的设置', '2017-09-13 16:47:51', '活动设置', '1', '1', 'CE529F2B25D84F91AED9E1F8BE1B522C', 'fa-cogs');
 INSERT INTO `sys_state` VALUES ('66113F6532954D33BC9C503D94937B07', 'main.history.config.awards', '2017-09-13 15:07:21', '历史活动中的奖项管理', '2017-09-13 15:07:21', '奖项管理', '2', '0', '31CEBC40CE4948E2BFA6D94EFD96FAD8', null);
-INSERT INTO `sys_state` VALUES ('66497C3F191A4F1B917D8CF424AA2D25', 'main.manage', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '管理平台', '1', '2', '053743169C604BC4BE7D90FF00CFC940', null);
 INSERT INTO `sys_state` VALUES ('6D80E92D388B44DCB772D2AEEA78E777', 'main.activity.final.list', '2017-09-12 15:50:37', '专家评审项目', '2017-09-12 15:50:37', '评审项目', '5', '0', '8D1C1D0070F24498AC2CFD3EA8C593A3', null);
 INSERT INTO `sys_state` VALUES ('6DC8F954402541A1B6277946C36D6E56', 'main.system.resources.menu', '2017-03-02 16:25:02', '目录管理', '2017-03-02 16:25:02', '目录管理', '3', '0', 'BAB5AECCA32849F6805DDDE637DFC459', null);
 INSERT INTO `sys_state` VALUES ('6ED36440AEBA4C19A669ED73723ED9F0', 'main.activity.final.expert_setting', '2017-09-12 15:49:30', '设置项目的主审和副审', '2017-09-12 15:49:30', '主副审设定', '3', '0', '8D1C1D0070F24498AC2CFD3EA8C593A3', null);
-INSERT INTO `sys_state` VALUES ('6EFBB5BF8F364BEF97AAA3D458712D26', 'main.manage.config', '2017-03-02 16:25:02', '2', '2017-03-02 16:25:02', '配置管理', '2', '1', '66497C3F191A4F1B917D8CF424AA2D25', null);
 INSERT INTO `sys_state` VALUES ('7072C6A7DC3F4EF5978B6B74DC242707', 'main.history.recommend.list', '2017-09-13 15:10:06', '历史活动中推荐的项目', '2017-09-13 15:10:06', '项目推荐', '1', '0', 'A8756366D974415BA9A05920DCFE9E7C', null);
-INSERT INTO `sys_state` VALUES ('72F244E5144F44FFB15156B33B1D3452', 'main.ac.welcome', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '管理平台-欢迎页面', '1', '3', '66497C3F191A4F1B917D8CF424AA2D25', null);
 INSERT INTO `sys_state` VALUES ('73EA15EFBCFA487B9F6DDD78A573B35E', 'main.authroization', '2017-03-02 16:25:02', '2', '2017-03-02 16:25:02', '认证平台', '2', '2', '053743169C604BC4BE7D90FF00CFC940', null);
 INSERT INTO `sys_state` VALUES ('75673838FBFF42A29B19AE87B1006ED5', 'main.history.user.org_user', '2017-09-13 14:46:50', '历史活动中单位涉及联系人', '2017-09-13 14:48:18', '单位联系人管理', '2', '0', '315D17C837694A009FB80B19C782956B', '');
 INSERT INTO `sys_state` VALUES ('78D5BB206AE549039CA892BBCE5B70DE', 'main.history.final', '2017-09-13 14:29:18', '历史活动中评委会终评情况', '2017-09-13 14:29:18', '评委会终评', '8', '1', 'FAD9D2C9612240D885ED4E05DFBB1933', 'fa-legal');
@@ -4147,9 +4304,7 @@ INSERT INTO `sys_state` VALUES ('7E3590763AA4444187492CC635E97B0D', 'main.histor
 INSERT INTO `sys_state` VALUES ('8105D29844E742E5AF7578E8676F31F5', 'main.activity.internet.project_match', '2017-09-12 14:19:46', '专家与分配到项目', '2017-09-12 15:40:19', '项目匹配专家', '2', '0', '3BB0EDB84BA9479F933D56D2C982EA30', null);
 INSERT INTO `sys_state` VALUES ('82C7F7BEC2214CB6890A0A07D2A23041', 'main.account.info.mod_org', '2017-09-13 16:29:57', '单位信息修改', '2017-09-13 16:29:57', '信息修改', '3', '0', '4A605D88385F43E18B42C366CBD79541', null);
 INSERT INTO `sys_state` VALUES ('8439D8EB4C214D159CCE2E6B11682CF5', 'main.history.config.criterion', '2017-09-13 14:55:34', '历史活动中的形式审查标准查询', '2017-09-13 14:55:34', '形式审查标准', '1', '0', '31CEBC40CE4948E2BFA6D94EFD96FAD8', null);
-INSERT INTO `sys_state` VALUES ('85D58A033F864477A572BA9612197BD1', 'main.manage.control.apTerminal', '2017-03-02 16:25:02', '3', '2017-03-02 16:25:02', '终端采集', '3', '0', '2DFB53293AEA4CCAA9A7A6DFFB1521FA', null);
 INSERT INTO `sys_state` VALUES ('85D85C3210184D21B7B0949FE34756AB', 'main.tax.business.view', '2017-05-18 11:13:33', null, '2017-05-18 11:13:33', '业务查询', '2', '0', 'EB873019092A4CF4BE766DF54223D1F7', null);
-INSERT INTO `sys_state` VALUES ('8771F14BA5EA4644BBEDC14587F0F625', 'main.manage.config.schedule', '2017-03-02 16:25:02', '2', '2017-03-02 16:25:02', '无线接入', '2', '0', '6EFBB5BF8F364BEF97AAA3D458712D26', null);
 INSERT INTO `sys_state` VALUES ('89029B5E47C64973B9C37107831018B3', 'main.history.user.org_addr', '2017-09-13 14:47:34', '历史活动中单位涉及地址', '2017-09-13 14:48:12', '单位地址管理', '3', '0', '315D17C837694A009FB80B19C782956B', '');
 INSERT INTO `sys_state` VALUES ('8933D2744B57454E91A155989AD39255', 'main.tax', '2017-05-09 14:05:19', '税务业务子系统', '2017-05-09 14:09:33', '业务平台', '1', '2', '053743169C604BC4BE7D90FF00CFC940', null);
 INSERT INTO `sys_state` VALUES ('894B442BFC8A4C52A8BD64D410876014', 'main.activity.user.org', '2017-09-12 11:21:24', '评审活动关联单位管理', '2017-09-12 11:21:24', '单位管理', '1', '0', 'BA6D42CC6428427F96C752C9F8DF0BBA', null);
@@ -4157,16 +4312,16 @@ INSERT INTO `sys_state` VALUES ('8AC46E7D00864C2EA1C1D44025007FF5', 'main.activi
 INSERT INTO `sys_state` VALUES ('8C9DFF331AEC4F969F32E36EC6373B5A', 'main.tax.examine', '2017-05-17 18:01:22', null, '2017-05-17 18:01:22', '业务检查', '2', '1', '8933D2744B57454E91A155989AD39255', null);
 INSERT INTO `sys_state` VALUES ('8D1C1D0070F24498AC2CFD3EA8C593A3', 'main.activity.final', '2017-09-12 11:15:27', '评委会最终评审', '2017-09-13 13:44:53', '评委会终评', '8', '1', 'CE529F2B25D84F91AED9E1F8BE1B522C', 'fa-legal');
 INSERT INTO `sys_state` VALUES ('8F4C7D18E5744917BBB171AB91593F57', 'main.system.resources.access', '2017-03-02 16:25:02', '访问管理', '2017-03-02 16:25:02', '访问管理', '4', '0', 'BAB5AECCA32849F6805DDDE637DFC459', null);
+INSERT INTO `sys_state` VALUES ('93D1FD30D736442287248F1C91A55E2D', 'main.activity.config.level_limit', '2017-09-20 11:15:07', '设置此次活动的一二等奖名额限制', '2017-09-20 11:15:18', '奖励限额', '2', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
 INSERT INTO `sys_state` VALUES ('95B813D327344E24BA680FAFFAE13BCE', 'main.activity.final.expert_result', '2017-09-12 15:46:33', '专家匹配的项目结果', '2017-09-12 15:49:36', '专家匹配结果', '4', '0', '8D1C1D0070F24498AC2CFD3EA8C593A3', null);
 INSERT INTO `sys_state` VALUES ('9D2B6E9DF05A4F5DAC5B9D10DFF3E57C', 'main.system.permission.info', '2017-03-09 10:16:14', '用户信息', '2017-03-09 10:16:14', '用户信息', '4', '0', 'B1AA5B3960294FA298AE3FF0EF93B20F', null);
 INSERT INTO `sys_state` VALUES ('A0C1DF572D75473F92D115EC9A0E1991', 'main.activity.session.result', '2017-09-12 15:13:37', '评审结果', '2017-09-12 15:13:37', '评审结果', '7', '0', '2C1CA2C302564B268FB405EF619DDDD4', null);
 INSERT INTO `sys_state` VALUES ('A2542D2E7BAE44E3BFDE9E20E016F5D0', 'main.authroization.advMana.advMana', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '广告管理', '1', '0', '280C7152A5ED48A5B9122B2C43045A2A', null);
-INSERT INTO `sys_state` VALUES ('A37742C057E846BA94BFB58964177B98', 'main.manage.update.firmware', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '固件维护', '1', '0', 'D132E8047D8E4A3E9B0CA0FA6A2365B7', null);
 INSERT INTO `sys_state` VALUES ('A3F1CC20882B4D9E9E01F586FB32D472', 'main.authroization.authMana.aclDomain', '2017-03-02 16:25:02', '4', '2017-03-02 16:25:02', '白名单管理', '4', '0', 'F67D0588F0214F648D557ED0E349E728', null);
-INSERT INTO `sys_state` VALUES ('A62A4F880AB649FD9F5EF61D8EA60946', 'main.activity.config.award', '2017-09-12 13:52:23', '本次评审活动的奖项设置\n奖项限额设置', '2017-09-17 22:44:36', '奖项管理', '2', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
+INSERT INTO `sys_state` VALUES ('A62A4F880AB649FD9F5EF61D8EA60946', 'main.activity.config.award', '2017-09-12 13:52:23', '本次评审活动的奖项设置\n奖项限额设置', '2017-09-20 11:13:58', '奖项管理', '3', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
 INSERT INTO `sys_state` VALUES ('A8756366D974415BA9A05920DCFE9E7C', 'main.history.recommend', '2017-09-13 14:21:45', '历史活动中推荐的项目列表', '2017-09-13 14:21:45', '项目推荐', '4', '1', 'FAD9D2C9612240D885ED4E05DFBB1933', 'fa-thumbs-up');
 INSERT INTO `sys_state` VALUES ('A9183ADF73864791A1EA978B9A50B16A', 'main.activity.internet.expert_result', '2017-09-12 14:20:32', '专家匹配项目结果查询', '2017-09-12 15:40:24', '专家匹配结果', '3', '0', '3BB0EDB84BA9479F933D56D2C982EA30', null);
-INSERT INTO `sys_state` VALUES ('AB71EBB3EAB54F85B5CABB2D74B900D4', 'main.activity.config.check_criterion', '2017-09-12 13:48:30', '形式审查的标准说明', '2017-09-17 22:46:19', '形式审查标准', '1', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
+INSERT INTO `sys_state` VALUES ('AB71EBB3EAB54F85B5CABB2D74B900D4', 'main.activity.config.check_criterion', '2017-09-12 13:48:30', '形式审查的标准说明', '2017-09-20 11:13:53', '形式审查标准', '4', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
 INSERT INTO `sys_state` VALUES ('ABF911855CE8436DAC28CEC867765983', 'main.history.session.result', '2017-09-13 15:16:27', '历史活动中组平结果查询', '2017-09-13 15:16:27', '评审结果', '1', '0', 'C8F575DECA004BB7AA1FDC9E116BD85F', null);
 INSERT INTO `sys_state` VALUES ('AE922ED25A224E148DE34F229C1789F1', 'main.activity.session.list', '2017-09-12 15:10:46', '专家评审项目', '2017-09-12 15:10:59', '评审项目', '5', '0', '2C1CA2C302564B268FB405EF619DDDD4', null);
 INSERT INTO `sys_state` VALUES ('B14D085ECA774691990F7C137226EC96', 'main.aaaa', '2017-03-10 10:57:28', null, '2017-03-10 10:57:39', '1111', null, '3', '73EA15EFBCFA487B9F6DDD78A573B35E', null);
@@ -4176,27 +4331,22 @@ INSERT INTO `sys_state` VALUES ('BAB5AECCA32849F6805DDDE637DFC459', 'main.system
 INSERT INTO `sys_state` VALUES ('BB293ED529CE46138E992D852001DB0D', 'main.tax.statistics.person', '2017-05-26 16:13:00', '个人业务统计', '2017-05-26 16:13:00', '个人统计', '3', '0', '795301FD739342FDAEF6A02A47925164', null);
 INSERT INTO `sys_state` VALUES ('BB802BAC49114F13950C5578B886D156', 'main.authroization.portalMana', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '门户管理', '1', '1', '73EA15EFBCFA487B9F6DDD78A573B35E', null);
 INSERT INTO `sys_state` VALUES ('BC14D0D5E4E94B6093706C18CF8944BC', 'main.history.check.list', '2017-09-13 15:11:16', '历史活动中项目的审查情况', '2017-09-13 15:11:16', '项目审查', '1', '0', '4E11C0EC2528448A8AD9FB5FDC3BC4ED', null);
-INSERT INTO `sys_state` VALUES ('C0FB40EC116F4CDBA8C860FA0D32F25C', 'main.manage.update.schedule', '2017-03-02 16:25:02', '2', '2017-03-02 16:25:02', '无线接入', '2', '0', 'D132E8047D8E4A3E9B0CA0FA6A2365B7', null);
 INSERT INTO `sys_state` VALUES ('C17060F4A0364F7E98A34C85B54E3643', 'main.system.log', '2017-03-02 16:25:02', '日志管理', '2017-03-02 16:25:02', '日志管理', '3', '1', 'C4E55F4A96A743B985ED1B994BA4EBDC', null);
 INSERT INTO `sys_state` VALUES ('C2F3FDFC13A44DDDACC03FD0E06AF06A', 'main.activity.apply', '2017-09-12 10:56:55', '申报单位申报项目', '2017-09-13 13:34:22', '项目申报', '3', '1', 'CE529F2B25D84F91AED9E1F8BE1B522C', 'fa-fax');
 INSERT INTO `sys_state` VALUES ('C4E55F4A96A743B985ED1B994BA4EBDC', 'main.system', '2017-03-02 16:25:02', '9', '2017-03-02 16:25:02', '系统配置', '9', '2', '053743169C604BC4BE7D90FF00CFC940', null);
 INSERT INTO `sys_state` VALUES ('C8421BCFC01744109FF35C49CF4D65FA', 'main.activity.internet.expert_avoid', '2017-09-12 14:48:11', '在专家分配项目时被规避的专家', '2017-09-12 15:40:30', '专家规避', '4', '0', '3BB0EDB84BA9479F933D56D2C982EA30', null);
 INSERT INTO `sys_state` VALUES ('C8F575DECA004BB7AA1FDC9E116BD85F', 'main.history.session', '2017-09-13 14:27:10', '历史活动中分组初评情况', '2017-09-13 14:27:10', '分组初评', '7', '1', 'FAD9D2C9612240D885ED4E05DFBB1933', 'fa-comments');
-INSERT INTO `sys_state` VALUES ('CB33091086AF45ABA4CDFEEFE4E3C639', 'main.manage.status', '2017-03-02 16:25:02', '4', '2017-03-02 16:25:02', '状态管理', '4', '1', '66497C3F191A4F1B917D8CF424AA2D25', null);
 INSERT INTO `sys_state` VALUES ('CE529F2B25D84F91AED9E1F8BE1B522C', 'main.activity', '2017-09-11 15:24:44', '评审活动', '2017-09-11 15:24:44', '评审活动', '1', '2', '053743169C604BC4BE7D90FF00CFC940', null);
 INSERT INTO `sys_state` VALUES ('CFD9D96F8C3C4921B79A91180DF99BAC', 'main.index', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '系统首页', '100', '3', '053743169C604BC4BE7D90FF00CFC940', null);
 INSERT INTO `sys_state` VALUES ('D004D9011CA8449BB809DF666BDD751B', 'main.authroization.authMana.authStrategy', '2017-03-02 16:25:02', '3', '2017-03-02 16:25:02', '认证策略管理', '3', '0', 'F67D0588F0214F648D557ED0E349E728', null);
-INSERT INTO `sys_state` VALUES ('D132E8047D8E4A3E9B0CA0FA6A2365B7', 'main.manage.update', '2017-03-02 16:25:02', '3', '2017-03-02 16:25:02', '升级管理', '3', '1', '66497C3F191A4F1B917D8CF424AA2D25', null);
-INSERT INTO `sys_state` VALUES ('D4571E02134149F98C6A9DAF2E062D73', 'main.account', '2017-09-11 15:26:31', '活动参与用户信息相关内容', '2017-09-13 16:17:21', '用户信息', '3', '2', '053743169C604BC4BE7D90FF00CFC940', '');
+INSERT INTO `sys_state` VALUES ('D4571E02134149F98C6A9DAF2E062D73', 'main.user', '2017-09-11 15:26:31', '活动参与用户信息相关内容', '2017-09-20 17:03:54', '用户信息', '3', '2', '053743169C604BC4BE7D90FF00CFC940', '');
 INSERT INTO `sys_state` VALUES ('D7629E2B1E6D4827ADE0C21786AC5EF7', 'main.account.user.expert', '2017-09-13 16:23:49', '所有活动中出现过的专家', '2017-09-13 16:23:49', '专家库管理', '2', '0', 'E009008C5E984D94A55D929E4B7BC479', null);
-INSERT INTO `sys_state` VALUES ('D7BEDB1533AF42BAA6B8505441F258C5', 'main.manage.status.apalarm', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '设备状态', '1', '0', 'CB33091086AF45ABA4CDFEEFE4E3C639', null);
 INSERT INTO `sys_state` VALUES ('DAFBE4F0A7B649B5835AB99A8542B5C2', 'main.authroization.authMana.wxConfig', '2017-03-02 16:25:02', '2', '2017-03-02 16:25:02', '微信认证', '2', '0', 'F67D0588F0214F648D557ED0E349E728', null);
 INSERT INTO `sys_state` VALUES ('DF772504BFDB40DF99A90F7058BC1BAA', 'main.activity.user.expert', '2017-09-12 11:26:58', '活动专家管理', '2017-09-12 11:26:58', '专家管理', '4', '0', 'BA6D42CC6428427F96C752C9F8DF0BBA', null);
 INSERT INTO `sys_state` VALUES ('E009008C5E984D94A55D929E4B7BC479', 'main.account.user', '2017-09-13 16:18:48', '评审相关用户（单位、专家）', '2017-09-13 16:20:06', '评审用户管理', '1', '1', 'D4571E02134149F98C6A9DAF2E062D73', 'fa-users');
 INSERT INTO `sys_state` VALUES ('E0581E2C3F1D47C48D56A2AD60F15910', 'main.history.internet.expert_select', '2017-09-13 15:12:55', '历史活动中的专家遴选情况', '2017-09-13 15:12:55', '专家遴选', '1', '0', '01F02B6C6DAF431FA8B4CAF50623D075', null);
-INSERT INTO `sys_state` VALUES ('E0F375E3EB8246B8B0A45CC7BB4FAC89', 'main.manage.control.contacts', '2017-03-02 16:25:02', '8', '2017-03-02 16:25:02', '联系人', '8', '0', '2DFB53293AEA4CCAA9A7A6DFFB1521FA', null);
 INSERT INTO `sys_state` VALUES ('E10EDE3EDE13496E838A2AD0060999A2', 'root', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '根', '0', '0', null, null);
-INSERT INTO `sys_state` VALUES ('E138E724BFF24B4C99D68A75EA9A33B1', 'main.activity.config.stage', '2017-09-12 14:02:35', '活动的当前阶段', '2017-09-12 15:58:17', '阶段设置', '4', '0', '64FBD95F6812460FB4A6CB92A305E51B', null);
+INSERT INTO `sys_state` VALUES ('E138E724BFF24B4C99D68A75EA9A33B1', 'main.activity.config.stage', '2017-09-12 14:02:35', '活动的当前阶段', '2017-09-20 11:13:45', '阶段设置', '6', '0', '64FBD95F6812460FB4A6CB92A305E51B', '');
 INSERT INTO `sys_state` VALUES ('E2AE8DD34E57462680161B5BB0DB4FFF', 'main.activity.internet.progress', '2017-09-12 14:22:54', '专家评审项目情况', '2017-09-12 14:50:45', '网评进度', '6', '0', '3BB0EDB84BA9479F933D56D2C982EA30', null);
 INSERT INTO `sys_state` VALUES ('E465C091FF4D4FCFB5D616422121AAD7', 'main.activity.check', '2017-09-12 11:08:27', '项目形式审查、专利号查重', '2017-09-13 13:39:20', '项目审查', '5', '1', 'CE529F2B25D84F91AED9E1F8BE1B522C', 'fa-shield');
 INSERT INTO `sys_state` VALUES ('E499B5D0868A452CA6A52D0F2C9205FB', 'error.404', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '404错误', '0', '0', 'F4B9BA1B85D64106BE22ECF8F1EDB1B6', null);
@@ -4204,7 +4354,6 @@ INSERT INTO `sys_state` VALUES ('EB873019092A4CF4BE766DF54223D1F7', 'main.tax.bu
 INSERT INTO `sys_state` VALUES ('ED0720579B0E425F9B2109A0C35388A9', 'main.tax.examine.first', '2017-05-17 18:01:55', '', '2017-05-26 20:23:32', '岗位自控', '1', '0', '8C9DFF331AEC4F969F32E36EC6373B5A', null);
 INSERT INTO `sys_state` VALUES ('F139DEF152154DF6AEF940EF3F65234B', 'main.history.apply', '2017-09-13 14:20:12', '历史活动中项目申报列表', '2017-09-13 14:20:12', '项目申报', '3', '1', 'FAD9D2C9612240D885ED4E05DFBB1933', 'fa-fax');
 INSERT INTO `sys_state` VALUES ('F1B958A6277745468BAD53F5B360D084', 'init', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '系统初始化', '0', '0', 'E10EDE3EDE13496E838A2AD0060999A2', null);
-INSERT INTO `sys_state` VALUES ('F3ED12419EA3448EA86BFADD35862113', 'main.manage.config.tpl', '2017-03-02 16:25:02', '1', '2017-03-02 16:25:02', '配置模板', '1', '0', '6EFBB5BF8F364BEF97AAA3D458712D26', null);
 INSERT INTO `sys_state` VALUES ('F4B9BA1B85D64106BE22ECF8F1EDB1B6', 'error', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '系统错误', '0', '0', 'E10EDE3EDE13496E838A2AD0060999A2', null);
 INSERT INTO `sys_state` VALUES ('F67D0588F0214F648D557ED0E349E728', 'main.authroization.authMana', '2017-03-02 16:25:02', '', '2017-03-02 16:25:02', '认证管理', '4', '1', '73EA15EFBCFA487B9F6DDD78A573B35E', null);
 INSERT INTO `sys_state` VALUES ('F746C7B7F4154C3DA16A5F9A0EEA12AF', 'main.tax.statistics.fenju', '2017-05-26 15:06:32', '分局统计', '2017-05-26 15:06:32', '分局统计', '2', '0', '795301FD739342FDAEF6A02A47925164', null);
