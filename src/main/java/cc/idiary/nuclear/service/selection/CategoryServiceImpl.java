@@ -45,4 +45,28 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryEntity> impleme
         }
         return cms;
     }
+
+    @Transactional
+    @Override
+    public List<CategoryModel> getByCategoryGroup(String cGroupId) throws ServiceException {
+        List<CategoryModel> cms = new ArrayList<>();
+        try {
+            List<CategoryEntity> ces = categoryDao.getByCategoryGroup(cGroupId);
+            for (CategoryEntity ce : ces) {
+                CategoryModel cm = new CategoryModel();
+                cm.setId(ce.getId());
+                cm.setCode(ce.getCode());
+                cm.setName(ce.getName());
+                CategoryEntity parent = ce.getParent();
+                if (parent != null) {
+                    cm.setParentId(parent.getId());
+                }
+                cms.add(cm);
+            }
+        } catch (Exception e) {
+            logger.error("", e);
+            throw new ServiceException();
+        }
+        return cms;
+    }
 }

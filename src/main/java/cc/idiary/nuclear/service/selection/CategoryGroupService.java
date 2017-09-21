@@ -10,8 +10,16 @@ import cc.idiary.nuclear.service.ServiceException;
 public interface CategoryGroupService extends BaseService<CategoryGroupEntity> {
 
     PagingModel paging(CategoryGroupQuery query) throws ServiceException;
+
     void add(CategoryGroupModel categoryGroup) throws ServiceException;
+
     void edit(CategoryGroupModel categoryGroup) throws ServiceException;
+
     void del(String[] ids) throws ServiceException;
+
     boolean existByName(String name) throws ServiceException;
+
+    void addCategory(String categoryGroupId, String categoryId) throws ServiceException;
+
+    void removeCategory(String categoryGroupId, String categoryId) throws ServiceException;
 }

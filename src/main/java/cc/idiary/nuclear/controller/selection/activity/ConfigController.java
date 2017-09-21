@@ -191,7 +191,7 @@ public class ConfigController extends BaseController {
         try {
             return success(awardService.existByName(name));
         } catch (ServiceException e) {
-            return fail();
+            return fail(e);
         }
     }
 
@@ -201,7 +201,7 @@ public class ConfigController extends BaseController {
         try {
             return success(awardTypeService.list());
         } catch (ServiceException e) {
-            return fail();
+            return fail(e);
         }
     }
 
@@ -309,7 +309,29 @@ public class ConfigController extends BaseController {
         try {
             return success(categoryGroupService.existByName(name));
         } catch (ServiceException e) {
-            return fail();
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("category/group/add/category")
+    @ResponseBody
+    public Json addCategoryToGroup(@RequestParam("categoryGroupId") String categoryGroupId, @RequestParam("categoryId") String categoryId) {
+        try {
+            categoryGroupService.addCategory(categoryGroupId, categoryId);
+            return success("添加成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("category/group/remove/category")
+    @ResponseBody
+    public Json removeCategoryToGroup(@RequestParam("categoryGroupId") String categoryGroupId, @RequestParam("categoryId") String categoryId) {
+        try {
+            categoryGroupService.removeCategory(categoryGroupId, categoryId);
+            return success("添加成功");
+        } catch (ServiceException e) {
+            return fail(e);
         }
     }
 
@@ -319,7 +341,22 @@ public class ConfigController extends BaseController {
         try {
             return success(categoryService.list());
         } catch (ServiceException e) {
-            return fail();
+            return fail(e);
+        }
+    }
+
+    /**
+     *
+     * @param cGroupId  专家专业组ID
+     * @return
+     */
+    @RequestMapping("category/list/categorygroup")
+    @ResponseBody
+    public Json getCategoryByGroup(@RequestParam("categoryGroupId") String cGroupId) {
+        try {
+            return success(categoryService.getByCategoryGroup(cGroupId));
+        } catch (ServiceException e) {
+            return fail(e);
         }
     }
 }

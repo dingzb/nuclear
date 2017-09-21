@@ -18,6 +18,7 @@ public class CategoryEntity extends BaseEntity {
     private Set<CategoryEntity> children;
 
     private Set<ExpertEntity> experts;
+    private Set<CategoryGroupEntity> categoryGroups;
 
     @Column(name = "code", length = 32)
     public String getCode() {
@@ -64,5 +65,15 @@ public class CategoryEntity extends BaseEntity {
 
     public void setExperts(Set<ExpertEntity> experts) {
         this.experts = experts;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "sel_category_group_category", joinColumns = {@JoinColumn(name = "category_id")}, inverseJoinColumns = {@JoinColumn(name = "category_group_id")})
+    public Set<CategoryGroupEntity> getCategoryGroups() {
+        return categoryGroups;
+    }
+
+    public void setCategoryGroups(Set<CategoryGroupEntity> categoryGroups) {
+        this.categoryGroups = categoryGroups;
     }
 }

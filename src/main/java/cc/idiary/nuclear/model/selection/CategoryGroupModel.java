@@ -2,6 +2,8 @@ package cc.idiary.nuclear.model.selection;
 
 import cc.idiary.nuclear.model.BaseModel;
 
+import java.util.List;
+
 public class CategoryGroupModel extends BaseModel {
     private String name;
     private String description;
@@ -11,7 +13,7 @@ public class CategoryGroupModel extends BaseModel {
     private String activityId;
 
     private Integer expertCount;
-    private String[] categoryNames;
+    private List<String> categoryCodes;
     private String[] categoryIds;
     private String categoryIdsStr;
 
@@ -71,12 +73,12 @@ public class CategoryGroupModel extends BaseModel {
         this.expertCount = expertCount;
     }
 
-    public String[] getCategoryNames() {
-        return categoryNames;
+    public List<String> getCategoryCodes() {
+        return categoryCodes;
     }
 
-    public void setCategoryNames(String[] categoryNames) {
-        this.categoryNames = categoryNames;
+    public void setCategoryCodes(List<String> categoryCodes) {
+        this.categoryCodes = categoryCodes;
     }
 
     public String[] getCategoryIds() {

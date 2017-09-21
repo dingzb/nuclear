@@ -67,7 +67,8 @@ public class CategoryGroupEntity extends BaseEntity{
         this.limitThird = limitThird;
     }
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "sel_category_group_category", joinColumns = {@JoinColumn(name = "category_group_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
     public Set<CategoryEntity> getCategories() {
         return categories;
     }

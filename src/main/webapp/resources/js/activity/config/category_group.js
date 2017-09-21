@@ -51,9 +51,17 @@ angular.module('ws.app').controller('actCategoryGroupCtrl', ['$rootScope', '$sco
             title: '专家数',
             width: 8
         }, {
-            field: 'categoryNames',
+            field: 'categoryCodes',
             title: '专业',
-            width: 38
+            width: 38,
+            // formatter: function(row) {
+            //     var str = '';
+            //     for (cc in row['categoryCodes']) {
+            //         str += cc;
+            //         str += ','
+            //     }
+            //     return str.split(0, str.length - 1);
+            // }
         }],
         checkbox: true,
         sizes: [10, 20, 50, 80],
@@ -159,34 +167,24 @@ angular.module('ws.app').controller('actCategoryGroupCtrl', ['$rootScope', '$sco
                 if (data.success) {
                     $scope.search();
                     $scope.alert(data.message);
-                } else
+                } else{
                     $scope.alert(data.message, 'error');
+                }
+            }).error(function (data) {
+                $scop.alert(data, 'error');
             });
         });
     };
 
-    $scope.showGroupCategories = function () {
-        // var checked = $scope.innerCtrl.getChecked();
-        // if (checked.length === 1) {
-        //     $scope.award = {
-        //         id: checked[0].id,
-        //         first: checked[0].first,
-        //         second: checked[0].second,
-        //         third: checked[0].third,
-        //         deny: checked[0].deny
-        //     };
-            $("#categoriesModal").modal('show');
-        // } else {
-        //     $scope.alert("只能选择一个进行编辑", 'error');
-        // }
-    };
-
-    $scope.updateGroupCategories = function(){
-        $http.post("app/activity/config/award/level/edit", $scope.award).success(function (data) {
+    $scope.refreshGroupCategories = function (fn){
+        $http.post('app/activity/config/category/list/categorygroup', {
+            categoryGroupId: $scope.groupCategoriesId
+        }).success(function (data) {
             if (data.success) {
-                $scope.innerCtrl.load($scope.datagrid.params);
-                $scope.alert(data.message);
-                $("#levelModal").modal('hide');
+                $scope.groupCategories = data.data;
+                if (typeof fn === 'function') {
+                    fn(data.data);
+                }
             } else {
                 $scope.alert(data.message, 'error');
             }
@@ -194,6 +192,21 @@ angular.module('ws.app').controller('actCategoryGroupCtrl', ['$rootScope', '$sco
             $scope.alert(data, 'error');
         });
     };
+
+    $scope.showGroupCategories = function () {
+
+        var checked = $scope.innerCtrl.getChecked();
+        $scope.groupCategoriesId = checked[0].id;
+        if (checked.length === 1) {
+            $scope.refreshGroupCategories(function(){
+                $("#categoriesModal").modal('show');
+            });
+        } else {
+            $scope.alert("只能选择一个进行编辑", 'error');
+        }
+    };
+
+    $scope.keyWord = '';
 
     $scope.searchCategory = function () {
         $scope.keyWord = $scope.keyWord.replace(/\s+/g, '');
@@ -211,7 +224,33 @@ angular.module('ws.app').controller('actCategoryGroupCtrl', ['$rootScope', '$sco
     };
 
     $scope.addCategoryToGroup = function (c) {
-        console.info(c)
+        $http.post('app/activity/config/category/group/add/category',{
+            categoryGroupId: $scope.groupCategoriesId,
+            categoryId: c
+        }).success(function (data) {
+            if (data.success) {
+                $scope.refreshGroupCategories();
+            } else {
+                $scope.alert(data.message, 'error');
+            }
+        }).error(function (data) {
+            $scope.alert(data, 'error');
+        })
+    };
+
+    $scope.removeCategoryFromGroup = function (c) {
+        $http.post('app/activity/config/category/group/remove/category',{
+            categoryGroupId: $scope.groupCategoriesId,
+            categoryId: c
+        }).success(function (data) {
+            if (data.success) {
+                $scope.refreshGroupCategories();
+            } else {
+                $scope.alert(data.message, 'error');
+            }
+        }).error(function (data) {
+            $scope.alert(data, 'error');
+        })
     }
 
 }]);

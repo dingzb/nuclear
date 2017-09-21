@@ -191,17 +191,10 @@
                 <div class="modal-body" style="padding-top: 0;">
                     <fieldset style="padding: .35em .625em .75em; margin: 0 2px; border: 1px solid silver; margin-bottom: 20px;">
                         <legend style="padding: .5em; border: 0; width: auto; font-size: small; margin-bottom: 0;">已选专业代码</legend>
-                        <div class="ws-label">
-                            <span class="fa fa-minus-circle ws-label-remove"></span>
-                            <span>Default</span>
+                        <div ng-repeat="groupCategory in groupCategories" class="ws-label">
+                            <span ng-click="removeCategoryFromGroup(groupCategory.id)" class="fa fa-minus-circle ws-label-remove"></span>
+                            <span ng-bind="groupCategory.code"></span>
                         </div>
-
-                        <span class="label label-default">Default</span>
-                        <span class="label label-primary">Primary</span>
-                        <span class="label label-success">Success</span>
-                        <span class="label label-info">Info</span>
-                        <span class="label label-warning">Warning</span>
-                        <span class="label label-danger">Danger</span>
                     </fieldset>
                     <div>
                         <div style="margin-bottom: 10px;">

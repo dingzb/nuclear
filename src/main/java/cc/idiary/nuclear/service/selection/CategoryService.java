@@ -10,4 +10,6 @@ import java.util.List;
 public interface CategoryService extends BaseService<CategoryEntity> {
 
     List<CategoryModel> list() throws ServiceException;
+
+    List<CategoryModel> getByCategoryGroup(String cGroupId) throws ServiceException;
 }
