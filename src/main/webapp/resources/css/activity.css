@@ -1,9 +1,11 @@
 .time-line {
     margin-top: 20px;
 }
-.time-line ul{
+
+.time-line ul {
     padding-left: 0;
 }
+
 .time-line .time-line-item {
     list-style: none;
     position: relative;
@@ -45,4 +47,32 @@
     margin-left: 8px;
     min-width: 450px;
     min-height: 60px;
+}
+
+.ws-label {
+    display: inline-block;
+    background-color: #337ab7;
+    position: relative;
+    padding: .28em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1.5;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    margin-right: 0.3em;
+}
+
+.ws-label-remove {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    cursor: pointer;
+    color: #ff543e;
+    display: none;
+}
+.ws-label:hover .ws-label-remove{
+    display: block;
 }

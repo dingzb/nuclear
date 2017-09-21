@@ -27,6 +27,13 @@ angular.module('ws.stateConfig').config(['$stateProvider', function ($stateProvi
                 templateUrl: 'tpls/activity/config/create.html'
             }
         }
+    }).state('main.activity.config.level_limit', {
+        url: '/level/limit',
+        views: {
+            'right@main.activity': {
+                templateUrl: 'tpls/activity/config/level_limit.html'
+            }
+        }
     }).state('main.activity.config.check_criterion', {
         url: '/check/criterion',
         views: {
@@ -39,6 +46,13 @@ angular.module('ws.stateConfig').config(['$stateProvider', function ($stateProvi
         views: {
             'right@main.activity': {
                 templateUrl: 'tpls/activity/config/award.html'
+            }
+        }
+    }).state('main.activity.config.category_group', {
+        url: '/category/group',
+        views: {
+            'right@main.activity': {
+                templateUrl: 'tpls/activity/config/category_group.html'
             }
         }
     });

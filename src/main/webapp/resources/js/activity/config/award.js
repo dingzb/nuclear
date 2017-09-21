@@ -6,7 +6,7 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
         $scope.innerCtrl.load($.extend({}, $scope.datagrid.params, $scope.searchParams));
     };
 
-    $scope.searchRest = function () {
+    $scope.searchReset = function () {
         $scope.searchParams = {};
     };
 
@@ -29,13 +29,13 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
             title: '名称',
             width: 25
         }, {
-            field: 'typeName',
-            title: '类型',
-            width: 25
-        }, {
             field: 'description',
             title: '描述',
             width: 30
+        }, {
+            field: 'typeName',
+            title: '类型',
+            width: 25
         }, {
             field: 'createTime',
             title: '创建时间',
@@ -47,7 +47,7 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
                 var str = JSON.stringify(row);
                 str = str.replace(/"/g, "'");
                 return '<button type="button" class="btn btn-link btn-sm" title="等级" onClick="angular.custom.award.levelDetail(' + str + ')"><span class="fa fa-trophy"></span></button>'
-                    +'<button type="button" class="btn btn-link btn-sm" title="指标" onClick="angular.custom.award.levelDetail(' + str + ')"><span class="fa fa-navicon"></span></button>';
+                    +'<button type="button" class="btn btn-link btn-sm" title="指标" onClick="angular.custom.award.criterionDetail(' + str + ')"><span class="fa fa-navicon"></span></button>';
             }
         }],
         checkbox: true,
@@ -61,7 +61,7 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
         typeId: ''
     };
 
-    $scope.rest = function () {
+    $scope.reset = function () {
         $scope.award = {
             name: '',
             description: '',
@@ -71,7 +71,7 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
     };
 
     $scope.showAdd = function () {
-        $scope.rest();
+        $scope.reset();
         $("#addModal").modal('show');
     };
 
@@ -310,6 +310,10 @@ angular.module('ws.app').controller('actAwardsCtrl', ['$rootScope', '$scope', '$
                 };
             });
             $("#levelDetailModal").modal('show');
+        },
+        criterionDetail: function (row) {
+            refreshAwardCriterion(row.id);
+            $('#criterionDetailModal').modal('show')
         }
     };
 

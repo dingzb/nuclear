@@ -3,6 +3,7 @@ package cc.idiary.nuclear.entity.system;
 import cc.idiary.nuclear.config.UserType;
 import cc.idiary.nuclear.entity.BaseEntity;
 import cc.idiary.nuclear.entity.selection.ActivityEntity;
+import cc.idiary.nuclear.entity.selection.ExpertEntity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -35,6 +36,7 @@ public class UserEntity extends BaseEntity implements java.io.Serializable {
 
     //for selection
     private Set<ActivityEntity> activities;
+    private ExpertEntity expert;
 
     public UserEntity() {
     }
@@ -181,6 +183,15 @@ public class UserEntity extends BaseEntity implements java.io.Serializable {
 
     public void setActivities(Set<ActivityEntity> activities) {
         this.activities = activities;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "account")
+    public ExpertEntity getExpert() {
+        return expert;
+    }
+
+    public void setExpert(ExpertEntity expert) {
+        this.expert = expert;
     }
 
     @Override

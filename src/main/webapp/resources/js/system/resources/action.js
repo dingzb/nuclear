@@ -321,9 +321,6 @@ angular.module('ws.app').controller('systemActionCtrl', ['$scope', '$http', 'sta
         }, {
             field: 'modifyTime',
             title: '修改时间'
-        }, {
-            field: 'description',
-            title: '描述'
         }],
         checkbox: true,
         sizes: [10, 20, 50, 80],

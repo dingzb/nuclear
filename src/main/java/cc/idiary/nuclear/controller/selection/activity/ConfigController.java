@@ -1,12 +1,10 @@
-package cc.idiary.nuclear.controller.selection;
+package cc.idiary.nuclear.controller.selection.activity;
 
 import cc.idiary.nuclear.controller.BaseController;
 import cc.idiary.nuclear.model.Json;
-import cc.idiary.nuclear.model.selection.ActivityModel;
-import cc.idiary.nuclear.model.selection.AwardCriterionModel;
-import cc.idiary.nuclear.model.selection.AwardModel;
-import cc.idiary.nuclear.model.selection.CheckCriterionModel;
+import cc.idiary.nuclear.model.selection.*;
 import cc.idiary.nuclear.query.selection.AwardQuery;
+import cc.idiary.nuclear.query.selection.CategoryGroupQuery;
 import cc.idiary.nuclear.query.selection.CheckCriterionQuery;
 import cc.idiary.nuclear.service.ServiceException;
 import cc.idiary.nuclear.service.selection.*;
@@ -18,20 +16,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller("ActConfigController")
 @RequestMapping("activity/config")
-public class ActConfigController extends BaseController {
+public class ConfigController extends BaseController {
     private final ActivityService activityService;
     private final CheckCriterionService checkCriterionService;
     private final AwardService awardService;
     private final AwardTypeService awardTypeService;
     private final AwardCriterionService awardCriterionService;
+    private final CategoryGroupService categoryGroupService;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ActConfigController(ActivityService activityService, CheckCriterionService checkCriterionService, AwardService awardService, AwardTypeService awardTypeService, AwardCriterionService awardCriterionService) {
+    public ConfigController(ActivityService activityService, CheckCriterionService checkCriterionService, AwardService awardService, AwardTypeService awardTypeService, AwardCriterionService awardCriterionService, CategoryGroupService categoryGroupService, CategoryService categoryService) {
         this.activityService = activityService;
         this.checkCriterionService = checkCriterionService;
         this.awardService = awardService;
         this.awardTypeService = awardTypeService;
         this.awardCriterionService = awardCriterionService;
+        this.categoryGroupService = categoryGroupService;
+        this.categoryService = categoryService;
     }
 
     //////// create activity
@@ -254,6 +256,70 @@ public class ActConfigController extends BaseController {
             return success("删除成功");
         } catch (ServiceException e) {
             return fail(e);
+        }
+    }
+
+    ///专家 专业组配置
+    @RequestMapping("category/group/paging")
+    @ResponseBody
+    public Json pagingCategoryGroup(CategoryGroupQuery query) {
+        try {
+           return success(categoryGroupService.paging(query));
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("category/group/add")
+    @ResponseBody
+    public Json addCategoryGroup(CategoryGroupModel categoryGroup) {
+        try {
+            categoryGroupService.add(categoryGroup);
+            return success("添加成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("category/group/edit")
+    @ResponseBody
+    public Json editCategoryGroup(CategoryGroupModel categoryGroup) {
+        try {
+            categoryGroupService.edit(categoryGroup);
+            return success("编辑成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("category/group/del")
+    @ResponseBody
+    public Json delCategoryGroup(@RequestParam("ids[]") String[] ids) {
+        try {
+            categoryGroupService.del(ids);
+            return success("删除成功");
+        } catch (ServiceException e) {
+            return fail(e);
+        }
+    }
+
+    @RequestMapping("category/group/exist")
+    @ResponseBody
+    public Json existByNameCategoryGroup(String name) {
+        try {
+            return success(categoryGroupService.existByName(name));
+        } catch (ServiceException e) {
+            return fail();
+        }
+    }
+
+    @RequestMapping("category/list")
+    @ResponseBody
+    public Json listCategory() {
+        try {
+            return success(categoryService.list());
+        } catch (ServiceException e) {
+            return fail();
         }
     }
 }

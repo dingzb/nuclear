@@ -14,11 +14,11 @@ angular.module('ws.app').controller('systemRoleCtrl', ['$rootScope', '$scope', '
         columns: [{
             field: 'name',
             title: '角色名称',
-            width: 10
+            width: 20
         }, {
             field: 'description',
             title: '描述',
-            width: 70
+            width: 50
         }, {
             field: 'createTime',
             title: '创建时间',
@@ -315,19 +315,15 @@ angular.module('ws.app').controller('systemRoleCtrl', ['$rootScope', '$scope', '
         columns: [{
             field: 'name',
             title: '访问名称',
-            width: 25
+            width: 30
         }, {
             field: 'code',
             title: '编码',
-            width: 25
+            width: 35
         }, {
             field: 'url',
             title: '地址',
-            width: 25
-        }, {
-            field: 'description',
-            title: '描述',
-            width: 25
+            width: 35
         }],
         checkbox: {
             field: 'selected'

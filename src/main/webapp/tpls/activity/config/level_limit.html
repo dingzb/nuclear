@@ -1,0 +1,31 @@
+<div ng-controller="actLevelLimitCtrl" style="padding: 20px 10px;">
+    <div ng-show="!isEditing" class="alert alert-info" role="alert">
+        <span style="padding-right: 10px;">
+            <span>一等奖上限</span>
+            <span ng-bind="levelLimit.limitFirst" style="font-weight: bold; padding: 0 3px;"></span>
+            <span>名</span>
+        </span>
+        <span style="padding-right: 10px;">
+            <span>二等奖上限</span>
+            <span ng-bind="levelLimit.limitSecond" style="font-weight: bold; padding: 0 3px;"></span>
+            <span>名</span>
+        </span>
+        <button ng-click="showEditLevelLimit()" type="button" class="btn btn-link btn-sm" title="编辑" style="padding: 0 3px">
+            <span class="glyphicon glyphicon-pencil" style="color: yellowgreen;"></span>
+        </button>
+    </div>
+    <div ng-show="isEditing">
+        <form style="width: 200px;">
+            <div class="form-group">
+                <label for="level_first">一等奖上限</label>
+                <input type="number" ng-model="eLevelLimit.limitFirst" class="form-control input-sm" id="level_first">
+            </div>
+            <div class="form-group">
+                <label for="level_second">二等奖上限</label>
+                <input type="number" ng-model="eLevelLimit.limitSecond" class="form-control input-sm" id="level_second">
+            </div>
+            <button type="submit" ng-click="editLevelLimit()" class="btn btn-info btn-sm">保存</button>
+            <button type="submit" ng-click="cancelEditLevelLimit()" class="btn btn-info btn-sm">取消</button>
+        </form>
+    </div>
+</div>

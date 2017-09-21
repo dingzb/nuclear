@@ -1,4 +1,4 @@
-package cc.idiary.nuclear.controller.selection;
+package cc.idiary.nuclear.controller.selection.activity;
 
 import cc.idiary.nuclear.controller.BaseController;
 import cc.idiary.nuclear.model.Json;

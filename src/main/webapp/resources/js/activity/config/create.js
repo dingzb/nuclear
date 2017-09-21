@@ -9,7 +9,7 @@ angular.module('ws.app').controller('actCreateCtrl', ['$rootScope', '$scope', '$
     $scope.activity = {
         name: new Date().getFullYear() + '年度中国核能行业协会科学技术奖专业评审会'
     };
-
+    console.info('create running...');
     $scope.refreshCurAct();
 
     $http.post('app/activity/config/create/list', {}).success(function (data) {

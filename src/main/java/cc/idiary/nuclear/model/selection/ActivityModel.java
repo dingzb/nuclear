@@ -10,6 +10,8 @@ public class ActivityModel extends BaseModel {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
     private Date createTime;
     private String createUserName;
+    private Integer limitFirst;
+    private Integer limitSecond;
     private Integer stage;  //当前活动阶段
 
     public String getName() {
@@ -34,6 +36,22 @@ public class ActivityModel extends BaseModel {
 
     public void setCreateUserName(String createUserName) {
         this.createUserName = createUserName;
+    }
+
+    public Integer getLimitFirst() {
+        return limitFirst;
+    }
+
+    public void setLimitFirst(Integer limitFirst) {
+        this.limitFirst = limitFirst;
+    }
+
+    public Integer getLimitSecond() {
+        return limitSecond;
+    }
+
+    public void setLimitSecond(Integer limitSecond) {
+        this.limitSecond = limitSecond;
     }
 
     public Integer getStage() {

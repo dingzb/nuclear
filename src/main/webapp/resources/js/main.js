@@ -8,7 +8,7 @@ angular.module('ws.app').controller('mainCtrl', ['$scope', '$http', function ($s
     $scope.refreshCurAct = function (fn) {
         $http.post('app/activity/current',{}).success(function (data) {
             if (data.success){
-                $.extend($scope.curAct,data.data);
+                $scope.curAct = data.data;
                 if (typeof fn === 'function') {
                     fn();
                 }
