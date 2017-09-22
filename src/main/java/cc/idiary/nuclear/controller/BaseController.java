@@ -2,7 +2,7 @@ package cc.idiary.nuclear.controller;
 
 import cc.idiary.nuclear.model.Json;
 
-public class BaseController {
+public abstract class BaseController {
 
 	private Json json;
 

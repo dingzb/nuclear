@@ -1,4 +1,4 @@
-<div ng-controller="actCategoryGroupCtrl">
+<div ng-controller="actExpertCtrl">
     <ws-datagrid configuration="datagrid" inner-ctrl="innerCtrl">
         <div class="form-inline" id="showOrHide">
             <div class="ws-search-input-group">
@@ -21,8 +21,11 @@
                             ws-permcode="system.permission.group.del">删除
                     </button>
                     <span class="ws-split2"></span>
-                    <button class="btn btn-info btn-sm" type="button" ng-click="showGroupCategories()"
-                            ws-permcode="system.permission.group.add">配置专业
+                    <button class="btn btn-info btn-sm" type="button" ng-click="showLevel()"
+                            ws-permcode="system.permission.group.add">配置等级
+                    </button>
+                    <button class="btn btn-info btn-sm" type="button" ng-click="showCriterion()"
+                            ws-permcode="system.permission.group.add">配置标准
                     </button>
                 </div>
             </div>
@@ -35,17 +38,17 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title">添加专家专业组</h4>
+                    <h4 class="modal-title">添加奖项</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" id="addCategoryGroup" name="addForm" novalidate>
+                    <form class="form-horizontal" id="addAward" name="addForm" novalidate>
                         <div class="form-group"
                              ng-class="{'has-error has-feedback' : addForm.name.$dirty && addForm.name.$invalid}">
                             <label class="col-sm-2 control-label" for="add-name">名称</label>
                             <div class="col-sm-7">
                                 <input id="add-name" name="name" type="text" class="form-control input-sm"
-                                       ng-model="categoryGroup.name"
-                                       placeholder="必填，不可重复" ws-unique="app/activity/config/category/group/exist?name"
+                                       ng-model="award.name"
+                                       placeholder="必填，不可重复" ws-unique="app/activity/config/award/exist?name"
                                        required
                                        maxlength="64"><span class="glyphicon glyphicon-remove form-control-feedback"
                                                             aria-hidden="true"
@@ -67,31 +70,23 @@
                             <div class="col-sm-7">
                                 <input id="add-description" name="description" type="text"
                                        class="form-control  input-sm"
-                                       ng-model="categoryGroup.description" placeholder="简要说明" maxlength="50">
+                                       ng-model="award.description" placeholder="简要说明" maxlength="50">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="add-limit-first">一等奖</label>
+                        <div class="form-group" ng-class="{'has-error has-feedback' : addForm.type.$dirty && addForm.type.$invalid}">
+                            <label class="col-sm-2 control-label" for="add-type">类型</label>
                             <div class="col-sm-7">
-                                <input id="add-limit-first" name="limitFirst" type="number"
-                                       class="form-control  input-sm"
-                                       ng-model="categoryGroup.limitFirst" placeholder="一等奖奖项限额" maxlength="50">
+                                <select id="add-type" class="form-control input-sm" ng-model="award.typeId" name="type" required="required">
+                                    <option value="">---请选择---</option>
+                                    <option ng-repeat="type in types" value="{{type.id}}" ng-bind="type.name"></option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="add-limit-second">二等奖</label>
-                            <div class="col-sm-7">
-                                <input id="add-limit-second" name="limitSecond" type="number"
-                                       class="form-control  input-sm"
-                                       ng-model="categoryGroup.limitSecond" placeholder="二等奖奖项限额" maxlength="50">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="add-description">三等奖</label>
-                            <div class="col-sm-7">
-                                <input id="add-limit-third" name="limitThird" type="number"
-                                       class="form-control  input-sm"
-                                       ng-model="categoryGroup.limitThird" placeholder="三等奖奖项限额" maxlength="50">
+                            <div class="col-md-3">
+                                <p ng-show="addForm.type.$dirty && addForm.type.$invalid" class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;
+                                    <span ng-show="addForm.type.$error.required">不能为空</span>
+                                </p>
                             </div>
                         </div>
                     </form>
@@ -112,7 +107,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title">编辑专家专业组</h4>
+                    <h4 class="modal-title">编辑奖项</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" id="editAward" name="editForm" novalidate>
@@ -121,8 +116,8 @@
                             <label class="col-sm-2 control-label" for="add-name">名称</label>
                             <div class="col-sm-7">
                                 <input id="edit-name" name="name" type="text" class="form-control input-sm"
-                                       ng-model="categoryGroup.name" placeholder="必填，不可重复"
-                                       ws-unique="app/activity/config/category/group/exist?name" required maxlength="64">
+                                       ng-model="award.name" placeholder="必填，不可重复"
+                                       ws-unique="app/activity/config/award/exist?name" required maxlength="64">
                                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"
                                       ng-show="editForm.name.$dirty && editForm.name.$invalid"></span>
                             </div>
@@ -140,31 +135,23 @@
                             <div class="col-sm-7">
                                 <input id="edit-description" name="description" type="text"
                                        class="form-control input-sm"
-                                       ng-model="categoryGroup.description" placeholder="简要说明" maxlength="50">
+                                       ng-model="award.description" placeholder="简要说明" maxlength="50">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="add-limit-first">一等奖</label>
+                        <div class="form-group" ng-class="{'has-error has-feedback' : editForm.type.$dirty && editForm.type.$invalid}">
+                            <label class="col-sm-2 control-label" for="edit-type">类型</label>
                             <div class="col-sm-7">
-                                <input id="edit-limit-first" name="limitFirst" type="number"
-                                       class="form-control  input-sm"
-                                       ng-model="categoryGroup.limitFirst" placeholder="一等奖奖项限额" maxlength="50">
+                                <select id="edit-type" class="form-control input-sm" ng-model="award.typeId" required="required" name="type">
+                                    <option value="">---请选择---</option>
+                                    <option ng-repeat="type in types" value="{{type.id}}" ng-bind="type.name"></option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="add-limit-second">二等奖</label>
-                            <div class="col-sm-7">
-                                <input id="edit-limit-second" name="limitSecond" type="number"
-                                       class="form-control  input-sm"
-                                       ng-model="categoryGroup.limitSecond" placeholder="二等奖奖项限额" maxlength="50">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="add-description">三等奖</label>
-                            <div class="col-sm-7">
-                                <input id="edit-limit-third" name="limitThird" type="number"
-                                       class="form-control  input-sm"
-                                       ng-model="categoryGroup.limitThird" placeholder="三等奖奖项限额" maxlength="50">
+                            <div class="col-md-3">
+                                <p ng-show="editForm.type.$dirty && editForm.type.$invalid" class="form-control-static"
+                                   style="font-size: small; color: #A94442">
+                                    <span class="glyphicon glyphicon-info-sign"></span>&nbsp;
+                                    <span ng-show="editForm.type.$error.required">不能为空</span>
+                                </p>
                             </div>
                         </div>
                     </form>
@@ -179,8 +166,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="categoriesModal" role="dialog" data-backdrop="static">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="levelModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -188,40 +175,38 @@
                     </button>
                     <h4 class="modal-title">配置奖项等级</h4>
                 </div>
-                <div class="modal-body" style="padding-top: 0;">
-                    <fieldset style="padding: .35em .625em .75em; margin: 0 2px; border: 1px solid silver; margin-bottom: 20px;">
-                        <legend style="padding: .5em; border: 0; width: auto; font-size: small; margin-bottom: 0;">已选专业代码</legend>
-                        <div ng-repeat="groupCategory in groupCategories" class="ws-label">
-                            <span ng-click="removeCategoryFromGroup(groupCategory.id)" class="fa fa-minus-circle ws-label-remove"></span>
-                            <span ng-bind="groupCategory.code"></span>
-                        </div>
-                    </fieldset>
-                    <div>
-                        <div style="margin-bottom: 10px;">
-                            <label class="sr-only" for="search_text"></label>
-                            <input ng-keyup="searchCategory()" ng-model="keyWord" placeholder="输入专业代码查询" id="search_text" type="text" class="form-control input-sm"/>
-                        </div>
-
-                        <div style="padding: 5px 5px 10px 5px;">
-                            <div style="padding: 3px 0; font-weight: bold;">
-                                <div style="display: inline-block; width: 150px;">代码</div>
-                                <div style="display: inline-block; width: 350px;">名称</div>
-                                <div style="display: inline-block;">添加</div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="editLevel" name="editLevelForm" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="first-level">一等奖</label>
+                            <div class="col-sm-9">
+                                <textarea id="first-level" name="name" class="form-control" maxlength="1024" ng-model="award.first" style="height: 110px; resize: none;"></textarea>
                             </div>
                         </div>
-                        <div style="padding: 5px;">
-                            <div ng-repeat="sCategory in sCategories" style="padding: 3px 0;">
-                                <div style="display: inline-block; width: 150px;">{{sCategory.code}}</div>
-                                <div style="display: inline-block; width: 350px;">{{sCategory.name}}</div>
-                                <button ng-click="addCategoryToGroup(sCategory.id)" type="button" class="btn btn-link btn-sm" title="添加" style="padding: 0 3px">
-                                    <span class="fa fa-plus-circle"></span>
-                                </button>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="second-level">二等奖</label>
+                            <div class="col-sm-9">
+                                <textarea id="second-level" name="name" class="form-control" maxlength="1024" ng-model="award.second" style="height: 110px; resize: none;"></textarea>
                             </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="third-level">三等奖</label>
+                            <div class="col-sm-9">
+                                <textarea id="third-level" name="name" class="form-control" maxlength="1024" ng-model="award.third" style="height: 110px; resize: none;"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="deny-level">不授</label>
+                            <div class="col-sm-9">
+                                <textarea id="deny-level" name="name" class="form-control" maxlength="1024" ng-model="award.deny" style="height: 110px; resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal" ng-click="search()">关闭</button>
+                    <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="updateLevel()">保存</button>
                 </div>
             </div>
         </div>

@@ -55,5 +55,14 @@ angular.module('ws.stateConfig').config(['$stateProvider', function ($stateProvi
                 templateUrl: 'tpls/activity/config/category_group.html'
             }
         }
+    }).state('main.activity.user', {
+        url: '/user'
+    }).state('main.activity.user.expert', {
+        url: '/expert',
+        views: {
+            'right@main.activity': {
+                templateUrl: 'tpls/activity/user/expert.html'
+            }
+        }
     });
 }]);
